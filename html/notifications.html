@@ -33,7 +33,7 @@
 						<div class="col-lg-8 col-md-offset-2">
 							
 						    <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>
-						    	<div ng-repeat='item in reddit.items'>
+						    	<div id="notifications" ng-repeat='item in reddit.items'>
 						    		<span class='score'>{{item.score}}</span>
 						    		<span class='title'>
 						    			<a ng-href='{{item.url}}' target='_blank'>{{item.title}}</a>
