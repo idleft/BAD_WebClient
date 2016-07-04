@@ -8,8 +8,27 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="../js/ng-infinite-scroll.min.js"></script>
 	</head>
-	<body>
-		<p>There is no fate but what we make for ourselves!</p>
+	<body ng-app="myApp">
+		<div class="container-fluid">
+			<div ng-controller="preferenceController">
+				<div class="row">
+					<div id="banner">
+					    <div id="banner-content">
+							<div class="col-md-2 col-md-offset-10">
+						    	<div class="dropdown">
+									<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Settings <span class="caret"></span></button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li><a href="./preferences.html">Preferences</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a href="#">Log Out</a></li>
+									</ul>
+								</div>
+							</div>
+					    </div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script type="text/javascript" src="../js/app.js"></script>
 		<script type="text/javascript" src="../js/MainController.js"></script>
 		<script type="text/javascript" src="../js/HttpGetter.js"></script>	
