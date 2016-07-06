@@ -1,8 +1,10 @@
-app.controller('IndexController', ['$scope', 'IndexGetter', 'SessionStorage', function($scope, IndexGetter, SessionStorage) { 
+app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionStorage', function($scope, $window, 
+	IndexGetter, SessionStorage) { 
 	var successFunction = function(data) {
 		console.log("SAFIR-->All is well!");
 		console.log(data['data']['accessToken']);
-		SessionStorage.set(data['data']['accessToken'])
+		SessionStorage.set(data['data']['accessToken']);
+		$window.location.href = '/notifications';
 	}
 
 	var errorFunction = function(data) {
