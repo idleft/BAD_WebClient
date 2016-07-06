@@ -1,7 +1,8 @@
-app.controller('IndexController', ['$scope', 'IndexGetter', function($scope, IndexGetter) { 
+app.controller('IndexController', ['$scope', 'IndexGetter', 'SessionStorage', function($scope, IndexGetter, SessionStorage) { 
 	var successFunction = function(data) {
 		console.log("SAFIR-->All is well!");
 		console.log(data['data']['accessToken']);
+		SessionStorage.set(data['data']['accessToken'])
 	}
 
 	var errorFunction = function(data) {
