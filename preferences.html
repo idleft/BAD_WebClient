@@ -1,44 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-	<title>Preferences</title>
-	<head>
-		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="../js/ng-infinite-scroll.min.js"></script>
-	</head>
-	<body ng-app="myApp">
-		<div class="container-fluid">
-			<div ng-controller="preferenceController">
-				<div class="row">
-					<div id="banner">
-					    <div id="banner-content">
-							<div class="col-md-2 col-md-offset-10">
-						    	<div class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Settings <span class="caret"></span></button>
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-										<li><a href="./preferences.html">Preferences</a></li>
-										<li role="separator" class="divider"></li>
-										<li><a href="#">Log Out</a></li>
-									</ul>
+			<!DOCTYPE html>
+			<html lang="en">
+			<title>Preferences</title>
+			<head>
+				<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+				<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>>
+				<script type="text/javascript" src="../js/ng-infinite-scroll.min.js"></script>
+				<!-- My Scripts -->
+				<!-- Latest compiled and minified CSS -->
+				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+				<!-- Optional theme -->
+				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+				<!-- Latest compiled and minified JavaScript -->
+				<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap2/bootstrap-switch.min.css">
+
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
+
+				<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+				<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
+			</head>
+			<body ng-app="myApp">
+				<div class="container-fluid">
+					<div ng-controller="preferenceController">
+						<div class="row">
+							<div id="navbar">
+								<div id="navbar-inner">
+									<div id="container">
+									<div class="col-md-2 col-md-offset-10">
+										<div class="dropdown">
+											<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Settings <span class="caret"></span></button>
+											<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+												<li><a href="./preferences.html">Preferences</a></li>
+												<li role="separator" class="divider"></li>
+												<li><a href="#">Log Out</a></li>
+											</ul>
+										</div>
+									</div>
+									</div>
 								</div>
 							</div>
-					    </div>
-					</div>
-				</div>
-				<div class="row">
-					<div id="main-content">
-						<div class="col-lg-8 col-md-offset-2">
-						    <p>Content goes here</p>
+						</div>
+						<div class="row">
+							<div id="main-content">
+								<div class="col-lg-8 col-md-offset-2">
+									<form class="form-horizontal" role="form">
+										<h1>Preferences</h1>
+										<div class="form-group">
+											<label class="control-label col-sm-2" for="Emergencies">Emergencies:</label>
+											<div class="col-sm-10">
+											<input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="default" data-size="small">
+											</div>
+										</div>
+										<div class="container" style="padding:150px;">
+											Checkbox Example : 
+											<br>
+											<div class="btn-group" data-toggle="buttons">
+												<label class="btn btn-primary active">
+													<input type="checkbox" checked> Option 1
+												</label>
+												<label class="btn btn-primary">
+													<input type="checkbox"> Option 2
+												</label>
+												<label class="btn btn-primary">
+													<input type="checkbox"> Option 3
+												</label>
+											</div>
+											<br><br><br>
+											Radio Button Example :
+											<div class="btn-group" data-toggle="buttons">
+												<label class="btn btn-primary active">
+													<input type="radio" name="options" id="option1" checked> On
+												</label>
+												<label class="btn btn-primary">
+													<input type="radio" name="options" id="option2"> Off
+												</label>
+											</div>
+											<input type="checkbox" checked data-toggle="toggle">
+											<input type="checkbox" checked data-toggle="toggle" data-on="Subscribed" data-off="Not Subscribed" data-onstyle="success" data-offstyle="default">
+
+										</div>
+								<!-- 		<div class="form-group">
+											<label class="control-label col-sm-2" for="pwd">Password:</label>
+											<div class="col-sm-10"> 
+												<input type="password" class="form-control" id="pwd" placeholder="Enter password">
+											</div>
+										</div>
+										<div class="form-group"> 
+											<div class="col-sm-offset-2 col-sm-10">
+												<div class="checkbox">
+													<label><input type="checkbox"> Remember me</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group"> 
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="submit" class="btn btn-default">Submit</button>
+											</div>
+										</div> -->
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<script type="text/javascript" src="../js/app.js"></script>
-		<script type="text/javascript" src="../js/MainController.js"></script>
-		<script type="text/javascript" src="../js/HttpGetter.js"></script>	
-		<link rel="stylesheet" type="text/css" href="../css/style.css">
-	</body>
-</html>
+				<script type="text/javascript" src="../js/app.js"></script>
+				<script type="text/javascript" src="../js/MainController.js"></script>
+				<script type="text/javascript" src="../js/HttpGetter.js"></script>	
+				<link rel="stylesheet" type="text/css" href="../css/style.css">
+			</body>
+			</html>
