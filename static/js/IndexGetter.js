@@ -13,6 +13,21 @@ app.factory('IndexGetter', ['$http', function($http){
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
+      },
+      postRegisterUser: function(newUserName, newUserPassword, newUserEmail, successFunction, errorFunction) {
+        console.log('Registering a new user');
+
+        var message = {
+          'dataverseName' : "channels",
+          'userName' : newUserName,
+          'password' : newUserPassword,
+          'email'    : newUserEmail
+        };
+        $http({
+          url: 'http://127.0.0.1:8989/register',
+          method: "POST",
+          data: message,
+        }).then(successFunction, errorFunction);
       }
     };
   }]);
