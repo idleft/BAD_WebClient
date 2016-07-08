@@ -1,16 +1,15 @@
-app.factory('SessionStorage', function() {
- var savedData = {}
- function set(data) {
-   savedData = data;
-   console.log(savedData);
- }
- function get() {
-  return savedData;
- }
+app.factory('SessionStorage', function($window) {
+	function set(key, data) {
+		$window.sessionStorage.setItem(key, data)
+		console.log($window.sessionStorage.getItem(key));
+	}
+	function get(key) {
+		return $window.sessionStorage.getItem(key);
+	}
 
- return {
-  set: set,
-  get: get
- }
+	return {
+		set: set,
+		get: get
+	}
 
 });
