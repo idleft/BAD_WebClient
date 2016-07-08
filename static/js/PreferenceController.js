@@ -5,7 +5,7 @@ app.controller('PreferenceController', ['$scope', '$window', '$filter', 'Prefere
 
 		SessionStorage.set('subscriptionId', data['data']['userSubscriptionId']);
 		SessionStorage.set('timestamp', data['data']['timestamp']);
-		
+
 		//SessionStorage.set('accessToken', data['data']['accessToken']);
 		$window.location.href = '/notifications';
 	}
@@ -20,7 +20,7 @@ app.controller('PreferenceController', ['$scope', '$window', '$filter', 'Prefere
 		$scope.isActive = true;
 		var subscriptionList = $filter("filter")( $scope.chkbxs , {val:true} );
 		for (var i = 0; i < subscriptionList.length; i++) {
-			subscriptionList[i] = subscriptionList[i].label
+			subscriptionList[i] = subscriptionList[i].label;
 		}
 		console.log(subscriptionList);
 		$scope.accessToken = SessionStorage.get('accessToken');

@@ -1,38 +1,21 @@
-app.controller('MainController', ['$scope', '$interval', 'HttpGetter', 'SessionStorage', function($scope, 
-	$interval, HttpGetter, SessionStorage) {
+app.controller('MainController', ['$scope', '$interval', '$websocket', 'HttpGetter', 'SessionStorage', 
+	function($scope, $interval, $websocket, HttpGetter, SessionStorage) {
 
-	var newResultSuccessFunction = function(data) {
-		$scope.newContent = data;
-		console.log($scope.newContent);
-	}
-
-	var newResultErrorFunction = function(data) {
-		console.log("Something went wrong while fetching new results: " + data);
-	}
-
-	var successFunction = function(data) {
-		$scope.data = data;
-		console.log($scope.data)
-		if($scope.data['status'] == 'success' && $scope.data['fire'] == 'true') {
-			HttpGetter.getNewResults(newResultSuccessFunction, newResultErrorFunction);
-		}
-	}
-
-	var errorFunction = function(data) {
-		console.log("Something went wrong: " + data);
-	}
-
-	//755848c9-8b02-fe51-4cee-9010c8df6414
-
-	var timeVariable;
-
-	$scope.pollFunction = function() {
-		HttpGetter.pollBroker(successFunction, errorFunction);
+	$scope.parseMessage = function(message) {
+		console.log('Received websocket message from the server');
+		var data = JSON.parse(message.data);
+		console.log(data);
 	}
 
 	$scope.init = function() {
-		console.log('SAFIR-->Starting timer');
-		timeVariable = $interval(function(){ $scope.pollFunction(); }, 5000);
+		$scope.userId = SessionStorage.get('userId');
+		$scope.accessToken = SessionStorage.get('accessToken');
+		$scope.subscriptionId = SessionStorage.get('subscriptionId');
+		$scope.latestTimeStamp = SessionStorage.get('timestamp');
+
+		console.log('SAFIR-->Creating Web Socket');
+		$scope.dataStream = $websocket('ws://127.0.0.1:8989/websocketlistener');
+		$scope.dataStream.onMessage($scope.parseMessage);
 	}
 
 }]);
