@@ -1,10 +1,41 @@
 app.controller('MainController', ['$scope', '$interval', '$websocket', 'HttpGetter', 'SessionStorage', 
 	function($scope, $interval, $websocket, HttpGetter, SessionStorage) {
 
+	$scope.messages = [];
+	$scope.msgChannelName = '';
+
+	var successFunction = function(data) {
+		console.log("SAFIR-->All is well with new results!");
+
+		console.log(data);
+
+		for(i = 0; i < data['data']['results'].length; i++) {
+			var message = {
+				'message' : data['data']['results'][i]['message'],
+				'timestamp' : data['data']['results'][i]['timestamp'],
+				'msgChannelName' : data['data']['channelName']
+			}
+			$scope.messages.push(message);
+		}
+	}
+
+	var errorFunction = function(data) {
+		console.log("Something went wrong: " + data);
+	}
+
 	$scope.parseMessage = function(message) {
 		console.log('Received websocket message from the server');
 		var data = JSON.parse(message.data);
 		console.log(data);
+		console.log($scope.userId);
+		console.log(data['userId']);
+
+		if($scope.userId == data['userId']) {
+			$scope.latestTimeStamp = data['timestamp'];
+			SessionStorage.set('timestamp', $scope.latestTimeStamp);
+			HttpGetter.getNewResults($scope.userId, $scope.accessToken, $scope.subscriptionId, 
+				$scope.latestTimeStamp, data['channelName'], successFunction, errorFunction);
+		}
 	}
 
 	$scope.init = function() {

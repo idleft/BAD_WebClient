@@ -6,7 +6,8 @@ app.factory('IndexGetter', ['$http', function($http){
         var message = {
           'dataverseName' : "channels",
           'userName' : userId,
-          'password' : userPassword
+          'password' : userPassword,
+          'platform' : 'web'
         };
         $http({
           url: 'http://127.0.0.1:8989/login',
@@ -21,7 +22,8 @@ app.factory('IndexGetter', ['$http', function($http){
           'dataverseName' : "channels",
           'userName' : newUserName,
           'password' : newUserPassword,
-          'email'    : newUserEmail
+          'email'    : newUserEmail,
+          'platform' : 'web'
         };
         $http({
           url: 'http://127.0.0.1:8989/register',

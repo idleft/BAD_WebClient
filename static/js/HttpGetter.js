@@ -12,18 +12,24 @@ app.factory('HttpGetter', ['$http', function($http){
           data: message,
         }).then(successFunction, errorFunction);
       },
-      getNewResults: function(successFunction, errorFunction) {
+      getNewResults: function(userId, accessToken, subscriptionId, deliveryTime, channelName, 
+        successFunction, errorFunction) {
         console.log('In Get new results');
-        /*var message = {
+
+        var message = {
           'dataverseName' : "channels",
-          'userName' : userId,
-          'password' : userPassword
+          'userId' : userId,
+          'accessToken' : accessToken,
+          'channelName' : channelName,
+          'userSubscriptionId' : subscriptionId,
+          'deliveryTime' : deliveryTime
         };
+
         $http({
           url: 'http://127.0.0.1:8989/getresults',
           method: "POST",
           data: message,
-        }).then(successFunction, errorFunction);*/
+        }).then(successFunction, errorFunction);
       }
     };
 }]);
