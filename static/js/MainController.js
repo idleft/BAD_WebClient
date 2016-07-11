@@ -9,6 +9,8 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', 'HttpGett
 
 		console.log(data);
 
+		$scope.messages.reverse();
+
 		for(i = 0; i < data['data']['results'].length; i++) {
 			var message = {
 				'message' : data['data']['results'][i]['message'],
@@ -17,6 +19,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', 'HttpGett
 			}
 			$scope.messages.push(message);
 		}
+		$scope.messages.reverse();
 	}
 
 	var errorFunction = function(data) {
