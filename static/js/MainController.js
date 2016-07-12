@@ -1,5 +1,5 @@
-app.controller('MainController', ['$scope', '$interval', '$websocket', 'HttpGetter', 'SessionStorage', 
-	function($scope, $interval, $websocket, HttpGetter, SessionStorage) {
+app.controller('MainController', ['$scope', '$interval', '$websocket', '$window', 'HttpGetter', 
+	'SessionStorage', function($scope, $interval, $websocket, $window, HttpGetter, SessionStorage) {
 
 	$scope.messages = [];
 	$scope.msgChannelName = '';
@@ -39,6 +39,11 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', 'HttpGett
 			HttpGetter.getNewResults($scope.userId, $scope.accessToken, $scope.subscriptionId, 
 				$scope.latestTimeStamp, data['channelName'], successFunction, errorFunction);
 		}
+	}
+
+	$scope.logoutUser = function() {
+		$scope.dataStream.close();
+		$window.location.href = '/';
 	}
 
 	$scope.init = function() {
