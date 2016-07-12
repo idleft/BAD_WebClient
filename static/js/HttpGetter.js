@@ -7,7 +7,7 @@ app.factory('HttpGetter', ['$http', function($http){
           'userId' : 'abcd',
         };
         $http({
-          url: 'http://127.0.0.1:8989/events',
+          url: '/events',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
@@ -26,7 +26,7 @@ app.factory('HttpGetter', ['$http', function($http){
         };
 
         $http({
-          url: 'http://127.0.0.1:8989/getresults',
+          url: '/getresults',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);

@@ -10,7 +10,7 @@ app.factory('IndexGetter', ['$http', function($http){
           'platform' : 'web'
         };
         $http({
-          url: 'http://127.0.0.1:8989/login',
+          url: '/login',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
@@ -26,7 +26,7 @@ app.factory('IndexGetter', ['$http', function($http){
           'platform' : 'web'
         };
         $http({
-          url: 'http://127.0.0.1:8989/register',
+          url: '/register',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
