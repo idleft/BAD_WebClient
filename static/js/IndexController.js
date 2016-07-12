@@ -4,6 +4,7 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
 		console.log("SAFIR-->All is well!");
 		console.log(data['data']['accessToken']);
 		SessionStorage.set('accessToken', data['data']['accessToken']);
+		SessionStorage.set('userId', data['data']['userId']);
 		$window.location.href = '/notifications';
 	}
 
@@ -12,6 +13,7 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
 		console.log(data['data']['accessToken']);
 		SessionStorage.set('accessToken', data['data']['accessToken']);
 		$window.location.href = '/preferences';
+
 	}
 
 	var registerSuccessFunction = function(data) {
