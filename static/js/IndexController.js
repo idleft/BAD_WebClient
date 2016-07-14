@@ -13,6 +13,7 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
 		console.log(data['data']['accessToken']);
 		SessionStorage.set('accessToken', data['data']['accessToken']);
 		$window.location.href = '/preferences';
+
 	}
 
 	var registerSuccessFunction = function(data) {
