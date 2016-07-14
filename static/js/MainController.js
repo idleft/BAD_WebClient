@@ -46,6 +46,11 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 		$window.location.href = '/';
 	}
 
+	$scope.switchToSubscriptionsPage = function() {
+		$scope.dataStream.close();
+		$window.location.href = '/preferences';	
+	}
+
 	$scope.init = function() {
 		$scope.userId = SessionStorage.get('userId');
 		$scope.accessToken = SessionStorage.get('accessToken');

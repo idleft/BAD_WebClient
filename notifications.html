@@ -21,9 +21,9 @@
                         <li class="dropdown">
                             <button class="btn btn-primary dropdown-toggle navbar-btn" role="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="preferences.html">Preferences</a></li>
+                                <li><a href="#" ng-model="subscriptionClicked" ng-init="subscriptionClicked=false" ng-click="switchToSubscriptionsPage(); subscriptionClicked=true">Subscriptions</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#">Log Out</a></li>
+                                <li><a href="#" ng-model="logoutClicked" ng-init="logoutClicked=false" ng-click="logoutUser(); logoutClicked=true">Log Out</a></li>
                             </ul>
                         </li>
                     </ul>
