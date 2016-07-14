@@ -25,7 +25,7 @@ app.controller('PreferenceController', ['$scope', '$window', '$filter', 'Prefere
 		for(obj in data['data']["channels"])
 		{
 			console.log("The "+ i +"data "+data['data']["channels"][i]["ChannelName"]);
-			$scope.chkbxs.push({channel:data['data']["channels"][i]["ChannelName"],val:false,label:'Dead'});
+			$scope.chkbxs.push({channel:data['data']["channels"][i]["ChannelName"],val:false,label:''});
 			i++;
 		}
 	
