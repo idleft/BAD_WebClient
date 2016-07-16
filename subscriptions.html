@@ -22,7 +22,7 @@
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
 <body ng-app="myApp">
-	<div ng-contoller="SubscriptionCtrl">
+	<div ng-controller="SubscriptionCtrl">
 		<nav class="navbar navbar-light navbar-static-top"  style="background-color: #424242;">
 			<div class="container">
 				<a class="navbar-brand" href="#">BAD_WebClient</a>
@@ -71,7 +71,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" >My Location</label>
 								<div class="col-sm-10">
-									<input type="textbox" ng-model=location>
+									<input type="textbox" ng-model="mylocation.latitude">
 								</div>
 							</div>
 

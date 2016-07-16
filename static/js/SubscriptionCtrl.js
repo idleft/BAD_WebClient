@@ -1,9 +1,16 @@
-app.controller('SubscriptionCtrl',['$scope','geolocationService','SessionStorage',function($scope,geolocationService,SessionStorage){
+app.controller('SubscriptionCtrl',['$scope','geolocationService',function($scope,geolocationService){
 
 	console.log("In SubscriptionCtrl");
 
-	$scope.mylocation = geolocationService.getCurrentLocation();
-	console.log("latitude:"+$scope.mylocation.chords.latitude);
-	console.log("longitude:"+$scope.mylocation.chords.longitude);
+	geolocationService.getCurrentPosition().then(UserPosition);
+
+	function UserPosition(position)
+	{
+		console.log("in UserPosition");
+		var lat = position.coords.latitude;
+		var lng = position.coords.longitude;
+		$scope.mylocation={latitude:lat,longitude:lng};
+		console.log("latitude"+lat);
+	}
 
 }]);
