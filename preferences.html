@@ -32,27 +32,27 @@
 					</div>	
 				</nav>
 				<div class="container">
-				<div class="row">
-					<div id="main-content">
-						<div class="col-lg-8 col-md-offset-4">
-						    <form class="form-horizontal" role="form">
-								<h1>Preferences</h1>
-								<div ng-repeat="chk in chkbxs" >
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" ng-model="chk.val">{{!chk.channel}}
-										</label>
-										<label>
-											<input type="textbox" ng-model="chk.label">
-										</label>
+					<div class="row">
+						<div id="main-content">
+							<div class="col-lg-8 col-md-offset-4">
+							    <form class="form-horizontal" role="form">
+									<h1>Preferences</h1>
+									<div ng-repeat="chk in chkbxs" >
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" ng-model="chk.val">{{!chk.channel}}
+											</label>
+											<label>
+												<input type="textbox" ng-model="chk.label">
+											</label>
+										</div>
 									</div>
-								</div>
-								<button type="submit" class="btn btn-default" ng-model="preferenceClicked" ng-init="preferenceClicked=false" ng-click="subscribeToNotifications(); preferenceClicked=true">Save Changes</button>
-							</form>
+									<button type="submit" class="btn btn-default" ng-model="preferenceClicked" ng-init="preferenceClicked=false" ng-click="subscribeToNotifications(); preferenceClicked=true">Save Changes</button>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 		</div>
 		<script type="text/javascript" src="/static/js/app.js"></script>
