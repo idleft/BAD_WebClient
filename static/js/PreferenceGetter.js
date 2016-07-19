@@ -2,7 +2,6 @@ app.factory('PreferenceGetter', ['$http', function($http){
 	return {
         getChannelList: function (userId, accessToken, successFunction, errorFunction) {
             console.log("getChannelList");
-
             var message = {
                 'dataverseName': "channels",
                 'userId': userId,
