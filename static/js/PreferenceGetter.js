@@ -9,7 +9,7 @@ app.factory('PreferenceGetter', ['$http', function($http){
           'accessToken' : accessToken,
         };
         $http({
-           url: 'http://127.0.0.1:8989/listchannels',
+           url: '/listchannels',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
