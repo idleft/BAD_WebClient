@@ -52,28 +52,36 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="Emergencies">Emergencies:</label>
 								<div class="col-sm-10">
-									<input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="default" data-size="small">
+                                    <input type="checkbox" ng-checked ng-model="isChecked"/> <b>Select All</b><br/>
+                                    <div ng-repeat="chk in chkbxs">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="chk.val" ng-checked="isChecked">{{chk.label}}
+                                            </label>
+                                        </div>
+                                    </div>
 								</div>
-							</div>	
+                            </div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Near me:</label>
 								<div class="col-sm-10">
-									<input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="default" data-size="small">
+                                    <input type="checkbox" ng-model="nearMe" ng-click="onClickNearMe()">
 								</div>
-							</div>	
+                            </div>
 
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Add New Location:</label>
 								<div class="col-sm-10">
 									<input type="textbox">
 								</div>
-							</div>	
+                            </div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" >My Location</label>
 								<div class="col-sm-10">
-									<input type="textbox" ng-model="mylocation.latitude">
+                                    <input type="text" ng-model="mylocation.latitude">
 								</div>
 							</div>
+                            <toggle ng-model="toggleValue" ng-change="onClickNearMe()" onstyle="btn-success"></toggle>
 
 						</form>
 					</div>
