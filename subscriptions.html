@@ -51,7 +51,7 @@
 							<h1>Subscriptions</h1>
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="Emergencies">Emergencies:</label>
-								<div class="col-sm-10">
+                                <div class="col-sm-10">
                                     <input type="checkbox" ng-checked ng-model="isChecked"/> <b>Select All</b><br/>
                                     <div ng-repeat="chk in chkbxs">
                                         <div class="checkbox">
@@ -61,6 +61,11 @@
                                         </div>
                                     </div>
 								</div>
+                                <button class="btn btn-default" ng-model="preferenceClicked"
+                                        ng-init="preferenceClicked=false"
+                                        ng-click="subscribeToEmergenciesNotifications(); preferenceClicked=true">Save
+                                    Changes
+                                </button>
                             </div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Near me:</label>
@@ -78,10 +83,9 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" >My Location</label>
 								<div class="col-sm-10">
-                                    <input type="text" ng-model="mylocation.latitude">
+                                    <input type="text" ng-model="mylocation.x">
 								</div>
 							</div>
-                            <toggle ng-model="toggleValue" ng-change="onClickNearMe()" onstyle="btn-success"></toggle>
 
 						</form>
 					</div>
@@ -91,6 +95,7 @@
 	</div>
 	<script type="text/javascript" src="/static/js/app.js"></script>
 	<script type="text/javascript" src="/static/js/SubscriptionCtrl.js"></script>
+    <script type="text/javascript" src="static/js/SubscriptionGetter.js"></script>
 	<script type="text/javascript" src="/static/js/geolocationService.js"></script>
 	<script type="text/javascript" src="/static/js/MainController.js"></script>
 	<script type="text/javascript" src="/static/js/HttpGetter.js"></script>	

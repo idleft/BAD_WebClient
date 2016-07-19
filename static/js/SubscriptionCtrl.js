@@ -1,5 +1,5 @@
 app.controller('SubscriptionCtrl', ['$scope', '$filter', 'SessionStorage', 'SubscriptionGetter', 'geolocationService',
-    function ($scope, $filter, SessionStorage, geolocationService) {
+    function ($scope, $filter, SessionStorage, SubscriptionGetter, geolocationService) {
 
         console.log("In SubscriptionCtrl");
 
@@ -29,7 +29,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$filter', 'SessionStorage', 'Subs
             console.log("in UserPosition");
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
-            $scope.mylocation = {latitude: lat, longitude: lng};
+            $scope.mylocation = {x: lat, y: lng};
             console.log("latitude" + lat);
         }
 
@@ -37,18 +37,25 @@ app.controller('SubscriptionCtrl', ['$scope', '$filter', 'SessionStorage', 'Subs
             console.log("In onClickNearMe");
             if ($scope.nearMe) {
                 geolocationService.getCurrentPosition().then(UserPosition);
-
+                getSubscriptionList();
+                SubscriptionGetter.postEmergenciesNearMeSubscription($scope.userId, $scope.mylocation, $scope.accessToken, subscriptionList,
+                    successFunction, errorFunction)
             }
 
 
         };
 
-        $scope.subscribeToEmergencies = function () {
-            $scope.isActive = true;
+        function getSubscriptionList() {
             var subscriptionList = $filter("filter")($scope.chkbxs, {val: true});
             for (var i = 0; i < subscriptionList.length; i++) {
                 subscriptionList[i] = angular.toLowerCase(subscriptionList[i].label);
             }
+
+        }
+
+        $scope.subscribeToEmergencies = function () {
+            $scope.isActive = true;
+            getSubscriptionList();
             console.log(subscriptionList);
             $scope.accessToken = SessionStorage.get('accessToken');
             $scope.userId = SessionStorage.get('userId');
