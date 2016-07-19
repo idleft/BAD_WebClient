@@ -1,5 +1,5 @@
-app.controller('MainController', ['$scope', '$interval', '$websocket', '$window', 'HttpGetter', 
-	'SessionStorage', function($scope, $interval, $websocket, $window, HttpGetter, SessionStorage) {
+app.controller('MainController', ['$scope', '$interval', '$websocket', '$window', '$location', 'HttpGetter', 
+	'SessionStorage', function($scope, $interval, $websocket, $window, $location, HttpGetter, SessionStorage) {
 
 	$scope.messages = [];
 	$scope.msgChannelName = '';
@@ -58,7 +58,9 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 		$scope.latestTimeStamp = SessionStorage.get('timestamp');
 
 		console.log('SAFIR-->Creating Web Socket');
-		$scope.dataStream = $websocket('ws://127.0.0.1:8989/websocketlistener');
+		socketAddress = "ws://" + $location.host() + ":8989/websocketlistener";
+                console.log(socketAddress);
+                $scope.dataStream = $websocket(socketAddress);
 		$scope.dataStream.onMessage($scope.parseMessage);
 	}
 
