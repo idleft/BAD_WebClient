@@ -28,7 +28,7 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                     'userId': userId,
                     'accessToken': accessToken,
                     'channelName': 'recentEmergenciesOfTypeAtLocationChannel',
-                    'parameters': [parameters [i], 'create-point(' + userLocation.x + ',' + userLocation.y + ')']
+                    'parameters': [parameters, userLocation.x, userLocation.y]
                 };
                 $http({
                     url: '/subscribe',
@@ -47,7 +47,7 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                     'userId': userId,
                     'accessToken': accessToken,
                     'channelName': 'recentEmergenciesOfTypeAtLocationWithShelter',
-                    'parameters': [parameters , 'create-point(' + userLocation.x + ',' + userLocation.y + ')']
+                    'parameters': [parameters, userLocation.x, userLocation.y]
                 };
                 $http({
                     url: '/subscribe',
