@@ -11,6 +11,8 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 
 		$scope.messages.reverse();
 
+		if(data['data']['results']!=null){
+
 		for(i = 0; i < data['data']['results'].length; i++) {
 			var message = {
 				'message' : data['data']['results'][i]['message'],
@@ -19,6 +21,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 			}
 			$scope.messages.push(message);
 		}
+	}
 		$scope.messages.reverse();
 	}
 
@@ -35,6 +38,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 
 		if($scope.userId == data['userId']) {
 			$scope.latestTimeStamp = data['timestamp'];
+			console.log("timestamp:"+$scope.latestTimeStamp);
 			SessionStorage.set('timestamp', $scope.latestTimeStamp);
 			HttpGetter.getNewResults($scope.userId, $scope.accessToken, $scope.subscriptionId, 
 				$scope.latestTimeStamp, data['channelName'], successFunction, errorFunction);
