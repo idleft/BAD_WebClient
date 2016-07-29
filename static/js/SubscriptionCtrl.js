@@ -6,10 +6,10 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
         $scope.accessToken = SessionStorage.get('accessToken');
         $scope.userId = SessionStorage.get('userId');
         $scope.chkbxs = [{label: "Earthquake", val: false},
-        {label: "Hurricane", val: false},
-        {label: "Tornado", val: false},
-        {label: "Flood", val: false},
-        {label: "Shooting", val: false}];
+            {label: "Hurricane", val: false},
+            {label: "Tornado", val: false},
+            {label: "Flood", val: false},
+            {label: "Shooting", val: false}];
         $scope.mylocation='';
         $scope.nearMe=false;
         $scope.flag=false;
@@ -51,74 +51,73 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
         $scope.onClickNearMe = function () {
             console.log("In onClickNearMe");
             if ($scope.nearMe) {
-             var d= geolocationService.getCurrentPosition().then(UserPosition);
-             var subscriptionList=getSubscriptionList();
-             d.then(function(){
-               for(i=0;i <subscriptionList.length;i++){
-                console.log("Subscripting for:"+subscriptionList[i]);
-                SubscriptionGetter.postEmergenciesNearMeSubscription($scope.userId, $scope.mylocation, $scope.accessToken, subscriptionList[i],
-                    successFunction, errorFunction)
-            }
-        });
-         }
-
-
-     };
-
-     $scope.subscribeToShelterInfo=function(){
-        console.log("In subscribeToShelterInfo");
-        var subscriptionList=getSubscriptionList();
-        if($scope.shelterInfo)
-        {
-            if (!$scope.nearMe) {
-             var d= geolocationService.getCurrentPosition().then(UserPosition);
-             d.then(function(){
-               for(i=0;i <subscriptionList.length;i++){
-                console.log("Subscripting for:"+subscriptionList[i]);
-                SubscriptionGetter.postEmergenciesLoctionWithSheltersSubscription($scope.userId, $scope.mylocation, $scope.accessToken, subscriptionList[i],
-                    successFunction, errorFunction)
+                var d = geolocationService.getCurrentPosition().then(UserPosition);
+                var subscriptionList = getSubscriptionList();
+                d.then(function () {
+                    for (i = 0; i < subscriptionList.length; i++) {
+                        console.log("Subscripting for:" + subscriptionList[i]);
+                        SubscriptionGetter.postEmergenciesNearMeSubscription($scope.userId, $scope.mylocation, $scope.accessToken, subscriptionList[i],
+                            successFunction, errorFunction)
+                    }
+                });
             }
 
-        });
-         }else{
-             for(i=0;i <subscriptionList.length;i++){
-                console.log("Subscripting for:"+subscriptionList[i]);
-                SubscriptionGetter.postEmergenciesLoctionWithSheltersSubscription($scope.userId, $scope.mylocation, $scope.accessToken, subscriptionList[i],
-                    successFunction, errorFunction)
+
+        };
+
+        $scope.subscribeToShelterInfo = function () {
+            console.log("In subscribeToShelterInfo");
+            var subscriptionList = getSubscriptionList();
+            if ($scope.shelterInfo) {
+                if (!$scope.nearMe) {
+                    var d = geolocationService.getCurrentPosition().then(UserPosition);
+                    d.then(function () {
+                        for (i = 0; i < subscriptionList.length; i++) {
+                            console.log("Subscripting for:" + subscriptionList[i]);
+                            SubscriptionGetter.postEmergenciesLoctionWithSheltersSubscription($scope.userId, $scope.mylocation, $scope.accessToken, subscriptionList[i],
+                                successFunction, errorFunction)
+                        }
+
+                    });
+                } else {
+                    for (i = 0; i < subscriptionList.length; i++) {
+                        console.log("Subscripting for:" + subscriptionList[i]);
+                        SubscriptionGetter.postEmergenciesLoctionWithSheltersSubscription($scope.userId, $scope.mylocation, $scope.accessToken, subscriptionList[i],
+                            successFunction, errorFunction)
+                    }
+                }
+            }
+
+        };
+
+
+        function getSubscriptionList() {
+            console.log("In getSubscriptionList");
+            var subscriptionList = $filter('filter')($scope.chkbxs, {val: true});
+            console.log("Just testing filter" + subscriptionList);
+            for (var i = 0; i < subscriptionList.length; i++) {
+                subscriptionList[i] = angular.lowercase(subscriptionList[i].label);
+                console.log("the list " + subscriptionList[i]);
+            }
+            $scope.length = subscriptionList.length;
+            console.log("length of subscriptionList:" + $scope.length);
+            return subscriptionList;
+
+        }
+
+        $scope.subscribeToEmergencies = function () {
+            $scope.isActive = true;
+            var i;
+            var subscriptionList = getSubscriptionList();
+            console.log(subscriptionList);
+            $scope.accessToken = SessionStorage.get('accessToken');
+            $scope.userId = SessionStorage.get('userId');
+            for (i = 0; i < subscriptionList.length; i++) {
+                console.log("Subscripting for:" + subscriptionList[i]);
+                SubscriptionGetter.postEmergenciesSubscription($scope.userId, $scope.accessToken, subscriptionList[i],
+                    emergencySuccessFunction, errorFunction);
             }
         }
-    }
-
-};
 
 
-function getSubscriptionList() {
-    console.log("In getSubscriptionList");
-    var subscriptionList = $filter('filter')($scope.chkbxs, {val: true});
-    console.log("Just testing filter"+subscriptionList);
-    for (var i = 0; i < subscriptionList.length; i++) {
-        subscriptionList[i] = angular.lowercase(subscriptionList[i].label);
-        console.log("the list "+subscriptionList[i]);
-    }
-    $scope.length=subscriptionList.length;
-    console.log("length of subscriptionList:"+$scope.length);
-    return subscriptionList;
-
-}
-
-$scope.subscribeToEmergencies = function () {
-    $scope.isActive = true;
-    var i;
-    var subscriptionList=getSubscriptionList();
-    console.log(subscriptionList);
-    $scope.accessToken = SessionStorage.get('accessToken');
-    $scope.userId = SessionStorage.get('userId');
-    for(i=0;i <subscriptionList.length;i++){
-        console.log("Subscripting for:"+subscriptionList[i]);
-        SubscriptionGetter.postEmergenciesSubscription($scope.userId, $scope.accessToken, subscriptionList[i],
-            emergencySuccessFunction, errorFunction);
-    }
-}
-
-
-}]);
+    }]);
