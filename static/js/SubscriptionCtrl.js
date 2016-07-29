@@ -129,6 +129,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
 
         }
 
+
         $scope.subscribeToEmergencies = function () {
             $scope.isActive = true;
             var i;

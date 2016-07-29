@@ -15,10 +15,13 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 
             for(i = 0; i < data['data']['results'].length; i++) {
                 var message = {
-                    'message' : data['data']['results'][i]['message'],
-                    'timestamp' : data['data']['results'][i]['timestamp'],
-                    'msgChannelName' : data['data']['channelName']
-                }
+                    'emergencytype': data['data']['results'][i]['emergencyType'],
+                    'severity': data['data']['results'][i]['severity'],
+                    'impactzone': data['data']['results'][i]['impactZone'],
+                    'message': data['data']['results'][i]['message'],
+                    'timestamp': data['data']['results'][i]['timestamp'],
+                    'msgChannelName': data['data']['channelName']
+               	}
                 $scope.messages.push(message);
             }
         }
@@ -77,5 +80,4 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
         $scope.dataStream = $websocket(socketAddress);
         $scope.dataStream.onMessage($scope.parseMessage);
     }
-
 }]);
