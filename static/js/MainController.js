@@ -14,11 +14,14 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             if (data['data']['results'] != null) {
 
                 for (i = 0; i < data['data']['results'].length; i++) {
+                    var d = data['data']['results'][i]['impactZone'].toString();
+                    var zone = d.split(",");
 
                     var message = {
                         'emergencytype': data['data']['results'][i]['emergencyType'],
                         'severity': data['data']['results'][i]['severity'],
-                        'impactzone': data['data']['results'][i]['impactZone'],
+                        'coordinates': zone[0] + "," + zone[1],
+                        'radius': zone[2],
                         'message': data['data']['results'][i]['message'],
                         'timestamp': data['data']['results'][i]['timestamp'],
                         'msgChannelName': data['data']['channelName']

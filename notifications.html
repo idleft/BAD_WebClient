@@ -52,11 +52,12 @@
                             <!--<div class="card card-block card-inverse card-danger">-->
                             <!--<h3 class="card-title">Special title treatment</h3>-->
                             <!--<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
-                            <p>Emergency:{{!message.emergencytype}}</p>
+                            <p>Emergency:{{!message.emergencytype| uppercase}}</p>
                             <p>Severity: {{!message.severity}}</p>
-                            <!--<p>Channel: {{!message.msgChannelName}}</p>-->
+                            <!-- <p>Channel: {{!message.msgChannelName}}</p> -->
                             <p>Message: {{!message.message}}</p>
-                            <p>Impact Center: {{!message.impactzone}}</p>
+                            <p>Coordinates: {{!message.coordinates}}</p>
+                            <p>Radius:{{!message.radius}}</p>
                             <p>TimeStamp: {{!message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</p>
                         </div>
                     </div>
