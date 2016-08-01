@@ -65,6 +65,9 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 
     $scope.logoutUser = function() {
         $scope.dataStream.close();
+
+        SessionStorage.remove();
+
         $window.location.href = '/';
     }
 

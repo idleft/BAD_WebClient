@@ -24,9 +24,14 @@ app.factory('SessionStorage', function($window) {
 		return $window.sessionStorage.getItem(key);
 	}
 
+	function remove() {
+		$window.sessionStorage.clear();
+	}
+
 	return {
-		set: set,
-		get: get
+		set : set,
+		get : get,
+		remove : remove
 	}
 
 });
