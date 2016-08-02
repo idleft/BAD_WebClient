@@ -12,6 +12,7 @@ app.factory('HttpGetter', ['$http', function($http){
           data: message,
         }).then(successFunction, errorFunction);
       },
+
       getNewResults: function(userId, accessToken, subscriptionId, deliveryTime, channelName, 
         successFunction, errorFunction) {
         console.log('In Get new results');
@@ -27,6 +28,22 @@ app.factory('HttpGetter', ['$http', function($http){
 
         $http({
           url: '/getresults',
+          method: "POST",
+          data: message,
+        }).then(successFunction, errorFunction);
+      },
+
+      getSubscriptions: function(userId, accessToken, successFunction, errorFunction) {
+        console.log('In get subscriptions');
+
+        var message = {
+          'dataverseName' : "channels",
+          'userId' : userId,
+          'accessToken' : accessToken
+        }
+
+        $http({
+          url: '/listsubscriptions',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
