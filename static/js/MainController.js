@@ -13,21 +13,20 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 
         if(data['data']['results'] != null){
 
-                for (i = 0; i < data['data']['results'].length; i++) {
-                    var d = data['data']['results'][i]['impactZone'].toString();
-                    var zone = d.split(",");
+            for (i = 0; i < data['data']['results'].length; i++) {
+                var d = data['data']['results'][i]['impactZone'].toString();
+                var zone = d.split(",");
 
-                    var message = {
-                        'emergencytype': data['data']['results'][i]['emergencyType'],
-                        'severity': data['data']['results'][i]['severity'],
-                        'coordinates': zone[0] + "," + zone[1],
-                        'radius': zone[2],
-                        'message': data['data']['results'][i]['message'],
-                        'timestamp': data['data']['results'][i]['timestamp'],
-                        'msgChannelName': data['data']['channelName']
-                    }
-                    $scope.messages.push(message);
+                var message = {
+                    'emergencytype': data['data']['results'][i]['emergencyType'],
+                    'severity': data['data']['results'][i]['severity'],
+                    'coordinates': zone[0] + "," + zone[1],
+                    'radius': zone[2],
+                    'message': data['data']['results'][i]['message'],
+                    'timestamp': data['data']['results'][i]['timestamp'],
+                    'msgChannelName': data['data']['channelName']
                 }
+                $scope.messages.push(message);
             }
         }
         $scope.messages.reverse();
@@ -39,8 +38,8 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 
         SessionStorage.removeElement("subscriptionId");
 
-        for(var i = 0; i < data['subscriptions'].length(); i++) {
-            SessionStorage.set('subscriptionId', data['subscriptions'][i]);    
+        for (var i = 0; i < data['data']['subscriptions'].length; i++) {
+            SessionStorage.set('subscriptionId', data['data']['subscriptions'][i]["userSubscriptionId"]);    
         }
 
         console.log('SAFIR-->Creating Web Socket');
@@ -51,7 +50,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
         
         $scope.dataStream = $websocket(socketAddress);
         $scope.dataStream.onMessage($scope.parseMessage);
-    }
+    };
 
     var errorFunction = function(data) {
         console.log("Something went wrong: " + data);
@@ -71,6 +70,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             //SessionStorage.set('timestamp', $scope.latestTimeStamp);
 
             var subscriptionList = JSON.parse(SessionStorage.get('subscriptionId'));
+            console.log("Printing:" + subscriptionList);
 
             function findSubcription(subscriptionId) {
                 return subscriptionId == data['userSubscriptionId'];
