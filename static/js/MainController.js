@@ -11,7 +11,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 
         $scope.messages.reverse();
 
-        if(data['data']['results']!=null){
+        if(data['data']['results'] != null){
 
                 for (i = 0; i < data['data']['results'].length; i++) {
                     var d = data['data']['results'][i]['impactZone'].toString();
@@ -31,6 +31,26 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             }
         }
         $scope.messages.reverse();
+    }
+
+    var subscribeSuccessFunction = function(data) { 
+        console.log("Retrieved subscriptions successfully!");
+        console.log(data);
+
+        SessionStorage.removeElement("subscriptionId");
+
+        for(var i = 0; i < data['subscriptions'].length(); i++) {
+            SessionStorage.set('subscriptionId', data['subscriptions'][i]);    
+        }
+
+        console.log('SAFIR-->Creating Web Socket');
+
+        var socketAddress = "ws://" + $location.host() + ":8989/websocketlistener";
+
+        console.log(socketAddress);
+        
+        $scope.dataStream = $websocket(socketAddress);
+        $scope.dataStream.onMessage($scope.parseMessage);
     }
 
     var errorFunction = function(data) {
@@ -82,10 +102,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
         $scope.subscriptionId = SessionStorage.get('subscriptionId');
         $scope.latestTimeStamp = SessionStorage.get('timestamp');
 
-        console.log('SAFIR-->Creating Web Socket');
-        socketAddress = "ws://" + $location.host() + ":8989/websocketlistener";
-        console.log(socketAddress);
-        $scope.dataStream = $websocket(socketAddress);
-        $scope.dataStream.onMessage($scope.parseMessage);
+        HttpGetter.getSubscriptions($scope.userId, $scope.accessToken, 
+            subscribeSuccessFunction, errorFunction);
     }
 }]);

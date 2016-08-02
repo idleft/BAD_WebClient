@@ -28,10 +28,20 @@ app.factory('SessionStorage', function($window) {
 		$window.sessionStorage.clear();
 	}
 
+	function removeElement(key) {
+		if($window.sessionStorage.getItem(key) != null) {
+			$window.sessionStorage.removeItem(key);
+		}
+		else {
+			console.log("Key is not present in local storage: " + key);
+		}
+	}
+
 	return {
 		set : set,
 		get : get,
-		remove : remove
+		remove : remove, 
+		removeElement : removeElement
 	}
 
 });
