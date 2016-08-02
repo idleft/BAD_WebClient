@@ -25,4 +25,4 @@ var sendTheRequest = function(urlString, requestFields){
 }
 
 console.log("Hi");
-sendTheRequest("http://127.0.0.1:5000/registerbroker", {"brokerName" : "brokerA", "brokerIP" : "http://127.0.0.1:8989"});
+sendTheRequest("http://radon.ics.uci.edu:5000/registerbroker", {"brokerName" : "brokerA", "brokerIP" : "128.195.52.73"});

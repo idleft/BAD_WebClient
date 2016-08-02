@@ -19,9 +19,9 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
             }).then(successFunction, errorFunction);
         },
         postEmergenciesNearMeSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
-
             console.log("postEmergenciesNearMeSubscription");
             console.log("Subscribing for :" + parameters);
+
             var message;
             message = {
                 'dataverseName': "channels",
@@ -37,7 +37,6 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
             }).then(successFunction, errorFunction);
         },
         postEmergenciesLoctionWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
-
             console.log("postEmergenciesLocationWithSheltersSubscription");
             console.log("Subscribing for :" + parameters);
 
@@ -55,8 +54,5 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 data: message
             }).then(successFunction, errorFunction);
         }
-
-
     };
-
 }]);
