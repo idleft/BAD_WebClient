@@ -6,16 +6,23 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
         $scope.accessToken = SessionStorage.get('accessToken');
         $scope.userId = SessionStorage.get('userId');
 
-        $scope.chkbxs = [{label: "Earthquake", val: false},
+        $scope.chkbxs = [
+            {label: "Earthquake", val: false},
             {label: "Hurricane", val: false},
             {label: "Tornado", val: false},
             {label: "Flood", val: false},
-            {label: "Shooting", val: false}];
+            {label: "Shooting", val: false}
+        ];
+
+        $scope.params = [
+            "Earthquake", "Hurricane", "Tornado", "Flood", "Shooting"
+        ];
 
         $scope.mylocation = '';
         $scope.nearMe = false;
         $scope.flag = false;
         $scope.length = 0;
+        $scope.isChecked = false;
 
         var counter = 0;
 
@@ -31,10 +38,9 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
             if(counter == $scope.length){
                 $window.location.href = '/notifications';
             }
-
         };
 
-        var successFunction = function(data){
+        var successFunction = function(data) {
             console.log("All is well with subscriptions!");
             SessionStorage.set('subscriptionId', data['data']['userSubscriptionId']);
             SessionStorage.set('timestamp', data['data']['timestamp']);
@@ -125,18 +131,27 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
 
         }
 
-
         $scope.subscribeToEmergencies = function () {
             $scope.isActive = true;
             var i;
-            var subscriptionList=getSubscriptionList();
+            //var subscriptionList = getSubscriptionList();
+
+            console.log("SAFIR" + $scope.isChecked);
+
+            if($scope.isChecked == true) {
+                var subscriptionList = $scope.params;
+            }
+            else {
+                var subscriptionList = getSubscriptionList();
+            }
 
             console.log(subscriptionList);
 
             $scope.accessToken = SessionStorage.get('accessToken');
             $scope.userId = SessionStorage.get('userId');
+
             for(i = 0; i < subscriptionList.length; i++){
-                console.log("Subscribing for:"+subscriptionList[i]);
+                console.log("Subscribing for:" + subscriptionList[i]);
 
                 var successFunctionUsed = successFunction;
 
@@ -148,4 +163,5 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
                     subscriptionList[i], emergencySuccessFunction, errorFunction);
             }
         }
-    }]);
+    }]
+);
