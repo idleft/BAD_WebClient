@@ -36,9 +36,50 @@
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> -->
     </head>
     <body ng-app="myApp">
+        <div ng-controller="LocationSubscriptionCtrl">
+            <nav class="navbar navbar-light navbar-static-top" style="background-color: #424242;">
+                <div class="container">
+                    <a class="navbar-brand" href="#">BAD_WebClient</a>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/subscriptions">Subscriptions<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/notifications">Notifications<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle navbar-btn" role="button" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
+                                    class="caret"></span></button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="/preferences">Preferences</a></li>
+                                <li role="separator" class="divdider"></li>
+                                <li><a href="/subscriptions">Subscriptions</a></li>
+                                <li role="separator" class="divdider"></li>
+                                <li><a href="/" ng-click="logoutUser()">Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container">
+                <div class="row">
+                    <div id="main-content">
+                        <div class="col-lg-8 col-md-offset-2">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#">Reports</a></li>
+                                <li><a href="/locationsubs">Locations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script type="text/javascript" src="/static/js/app.js"></script>
-        <script type="text/javascript" src="/static/js/SubscriptionCtrl.js"></script>
-        <script type="text/javascript" src="/static/js/SubscriptionGetter.js"></script>
+        <script type="text/javascript" src="/static/js/LocationSubscriptionCtrl.js"></script>
+        <script type="text/javascript" src="/static/js/LocationSubscriptionGetter.js"></script>
         <script type="text/javascript" src="/static/js/geolocationService.js"></script>
 
         <script type="text/javascript" src="/static/js/SessionStorage.js"></script>
