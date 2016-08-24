@@ -12,14 +12,16 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'channelName': 'recentEmergenciesOfTypeChannel',
                 'parameters': [parameters]
             };
+
             $http({
                 url: '/subscribe',
                 method: "POST",
                 data: message
             }).then(successFunction, errorFunction);
         },
-        postEmergenciesNearMeSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
-            console.log("postEmergenciesNearMeSubscription");
+
+        postEmergenciesAtLocationSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
+            console.log("postEmergenciesAtLocationSubscription");
             console.log("Subscribing for :" + parameters);
 
             var message;
@@ -30,13 +32,15 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'channelName': 'recentEmergenciesOfTypeAtLocationChannel',
                 'parameters': [parameters, userLocation.x, userLocation.y]
             };
+
             $http({
                 url: '/subscribe',
                 method: "POST",
                 data: message
             }).then(successFunction, errorFunction);
         },
-        postEmergenciesLoctionWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
+
+        postEmergenciesLocationWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
             console.log("postEmergenciesLocationWithSheltersSubscription");
             console.log("Subscribing for :" + parameters);
 
@@ -48,6 +52,7 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'channelName': 'recentEmergenciesOfTypeAtLocationWithShelter',
                 'parameters': [parameters, userLocation.x, userLocation.y]
             };
+
             $http({
                 url: '/subscribe',
                 method: "POST",
