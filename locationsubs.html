@@ -13,8 +13,8 @@
         <script type="text/javascript" src="/static/js/ng-infinite-scroll.min.js"></script>
         <script type="text/javascript"
                 src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
-    <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+        <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
     <!--
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script> -->
     <!-- Latest compiled and minified CSS --><!--
@@ -31,95 +31,95 @@
 
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> -->
-</head>
-<body ng-app="myApp">
-<div ng-controller="LocationSubscriptionCtrl">
-    <nav class="navbar navbar-light navbar-static-top" style="background-color: #424242;">
-        <div class="container">
-            <a class="navbar-brand" href="#">BAD_WebClient</a>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/subscriptions">Subscriptions<span
-                            class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/notifications">Notifications<span
-                            class="sr-only">(current)</span></a>
-                </li>
-                <li class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle navbar-btn" role="button" id="dropdownMenu1"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
-                            class="caret"></span></button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="/preferences">Preferences</a></li>
-                        <li role="separator" class="divdider"></li>
-                        <li><a href="/subscriptions">Subscriptions</a></li>
-                        <li role="separator" class="divdider"></li>
-                        <li><a href="/" ng-click="logoutUser()">Log Out</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container">
-        <div id="main-content">
-            <div class="row">
-                <div class="col-lg-8 col-md-offset-2">
-                    <ul class="nav nav-tabs">
-                        <li><a href="/subscriptions">Reports</a></li>
-                        <li class="active"><a href="#">Locations</a></li>
+    </head>
+    <body ng-app="myApp">
+        <div ng-controller="LocationSubscriptionCtrl">
+            <nav class="navbar navbar-light navbar-static-top" style="background-color: #424242;">
+                <div class="container">
+                    <a class="navbar-brand" href="#">BAD_WebClient</a>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/subscriptions">Subscriptions<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/notifications">Notifications<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle navbar-btn" role="button" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
+                                    class="caret"></span></button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="/preferences">Preferences</a></li>
+                                <li role="separator" class="divdider"></li>
+                                <li><a href="/subscriptions">Subscriptions</a></li>
+                                <li role="separator" class="divdider"></li>
+                                <li><a href="/" ng-click="logoutUser()">Log Out</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
-            </div>
-            <div class="row">
-                <form role="form">
-                    <div class="col-lg-4  col-md-offset-2">
-                        <div class="form-group">
-                            <label class="control-label col-md-2" for="Emergencies">Emergencies:</label>
-                            <div class="col-sm-10">
-                                <div ng-repeat="check in chkbxs">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" ng-model="check.val" >{{check.label}}
-                                        </label>
+            </nav>
+            <div class="container">
+                <div id="main-content">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-offset-2">
+                            <ul class="nav nav-tabs">
+                                <li><a href="/subscriptions">Reports</a></li>
+                                <li class="active"><a href="#">Locations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <form role="form">
+                            <div class="col-lg-4  col-md-offset-2">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="Emergencies">Emergencies:</label>
+                                    <div class="col-sm-10">
+                                        <div ng-repeat="check in chkbxs">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" ng-model="check.val" >{{check.label}}
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-md-2">Locations:</label>
+                                    <li ng-repeat='address in addresses'>{{address}}</li>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2">Locations:</label>
-                            <li ng-repeat='address in addresses'>{{address}}</li>
-                        </div>
+                            <div class="col-lg-4 ">
+                                <div class="form-group">
+                                    <input type='text' id='pac-input' ng-model='address' >
+                                    <input type="button" value="Add" ng-click="addLocation()">
+                                </div>
+                                <div id="map_canvas" >
+                                    <ui-gmap-google-map  center="map.center" zoom='map.zoom' control='control'>
+                                        <ui-gmap-marker ng-repeat='m in markers' coords="m.coords" idkey="m.id">
+                                            <ui-gmap-window show="show"><div>{{m.title}}</div></ui-gmap-window>
+                                        </ui-gmap-marker>
+                                    </ui-gmap-google-map>
+                                </div>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <button class="btn btn-success" ng-model="preferenceClicked"
+                                        ng-init="preferenceClicked=false"
+                                        ng-click=".subscribeToLocations(); preferenceClicked=true">Subscribe
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-lg-4 ">
-                        <div class="form-group">
-                            <input type='text' id='pac-input' ng-model='address' >
-                            <input type="button" value="Add" ng-click="addLocation()">
-                        </div>
-                        <div id="map_canvas" >
-                            <ui-gmap-google-map  center="map.center" zoom='map.zoom' control='control'>
-                                <ui-gmap-marker ng-repeat='m in markers' coords="m.coords" idkey="m.id">
-                                    <ui-gmap-window show="show"><div>{{m.title}}</div></ui-gmap-window>
-                                </ui-gmap-marker>
-                            </ui-gmap-google-map>
-                        </div>
-                    </div>
-                    <div class="col-sm-offset-2 col-sm-8">
-                        <button class="btn btn-success" ng-model="preferenceClicked"
-                                ng-init="preferenceClicked=false"
-                                ng-click=".subscribeToLocations(); preferenceClicked=true">Subscribe
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<script type="text/javascript" src="/static/js/app.js"></script>
-<script type="text/javascript" src="/static/js/LocationSubscriptionCtrl.js"></script>
-<script type="text/javascript" src="/static/js/EmergenciesGetter.js"></script>
-<script type="text/javascript" src="/static/js/geolocationService.js"></script>
-<script type="text/javascript" src="/static/js/SessionStorage.js"></script>
-<script type="text/javascript" src="/static/js/ng-infinite-scroll.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/css/style.css">
-</body>
+        <script type="text/javascript" src="/static/js/app.js"></script>
+        <script type="text/javascript" src="/static/js/LocationSubscriptionCtrl.js"></script>
+        <script type="text/javascript" src="/static/js/EmergenciesGetter.js"></script>
+        <script type="text/javascript" src="/static/js/geolocationService.js"></script>
+        <script type="text/javascript" src="/static/js/SessionStorage.js"></script>
+        <script type="text/javascript" src="/static/js/ng-infinite-scroll.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    </body>
 </html>
