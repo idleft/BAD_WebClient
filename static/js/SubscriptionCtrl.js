@@ -49,7 +49,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
 
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
-            $scope.mylocation = {x: lat, y: lng};
+            $scope.mylocation = {latitude: lat, longitude: lng};
 
             console.log("latitude" + lat);
         }

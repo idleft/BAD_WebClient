@@ -28,7 +28,7 @@ app.controller('LocationSubscriptionCtrl',['$scope','$filter','$window', 'Sessio
         counter++;
         console.log("counter:" + counter);
 
-        if(counter == $scope.length){
+        if(counter == $scope.length*$scope.markers.length){
             $window.location.href = '/notifications';
         }
 
