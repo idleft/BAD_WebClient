@@ -1,12 +1,12 @@
-app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStorage', 'SubscriptionGetter', 'geolocationService','EmergencyGetter'
-    , function ($scope,$window, $filter, SessionStorage, SubscriptionGetter, geolocationService,EmergencyGetter) {
+app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStorage', 'SubscriptionGetter', 'geolocationService','EmergenciesGetter'
+    , function ($scope,$window, $filter, SessionStorage, SubscriptionGetter, geolocationService,EmergenciesGetter) {
 
         console.log("In SubscriptionCtrl");
 
         $scope.accessToken = SessionStorage.get('accessToken');
         $scope.userId = SessionStorage.get('userId');
 
-        $scope.chkbxs = EmergencyGetter;
+        $scope.chkbxs = EmergenciesGetter;
 
         $scope.params = [
             "Earthquake", "Hurricane", "Tornado", "Flood", "Shooting"
