@@ -1,4 +1,4 @@
-app.controller('LocationCtrl',['$scope','EmergencyGetter','SessionStorage','SubscriptionGetter',function($scope,EmergencyGetter,SessionStorage,SubscriptionGetter){
+app.controller('LocationSubscriptionCtrl',['$scope','$filter','$window', 'SessionStorage', 'SubscriptionGetter','EmergenciesGetter',function($scope,$filter,$window,SessionStorage,SubscriptionGetter,EmergenciesGetter){
     console.log("In LocationCtrl");
 
     $scope.accessToken = SessionStorage.get('accessToken');
@@ -9,8 +9,10 @@ app.controller('LocationCtrl',['$scope','EmergencyGetter','SessionStorage','Subs
     $scope.address='';
     $scope.control= {};
     $scope.addresses=[];
+    $scope.markers=[];
     $scope.length=0;
     $scope.chkbxs = EmergenciesGetter;
+    var bounds = new google.maps.LatLngBounds();
     var counter = 0;
 
     console.log("chkbxs:"+$scope.chkbxs);
@@ -64,6 +66,7 @@ app.controller('LocationCtrl',['$scope','EmergencyGetter','SessionStorage','Subs
             {
                 console.log(results[0].geometry.location.lng());
                 $scope.addresses.push($scope.address);
+                $scope.$apply();
                 $scope.address='';
                 var marker = {
                     id: Date.now(),
@@ -81,6 +84,7 @@ app.controller('LocationCtrl',['$scope','EmergencyGetter','SessionStorage','Subs
                     bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
                 }
                 $scope.control.getGMap().fitBounds(bounds);
+                $scope.$apply();
             }
             else
             {
@@ -100,7 +104,7 @@ app.controller('LocationCtrl',['$scope','EmergencyGetter','SessionStorage','Subs
             for (i = 0; i < subscriptionList.length; i++) {
                 console.log("Subscribing for:" + subscriptionList[i]);
 
-                SubscriptionGetter.postEmergenciesAtLocaionSubscription($scope.userId, marker,
+                SubscriptionGetter.postEmergenciesAtLocationSubscription($scope.userId, marker,
                     $scope.accessToken, subscriptionList[i], emergencySuccessFunction, errorFunction)
             }
         }

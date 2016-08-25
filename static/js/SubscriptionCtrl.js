@@ -1,11 +1,12 @@
-app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStorage', 'SubscriptionGetter', 'geolocationService','EmergencyGetter', function ($scope,$window, $filter, SessionStorage, SubscriptionGetter, geolocationService,EmergencyGetter) {
+app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStorage', 'SubscriptionGetter', 'geolocationService','EmergenciesGetter'
+    , function ($scope,$window, $filter, SessionStorage, SubscriptionGetter, geolocationService,EmergenciesGetter) {
 
         console.log("In SubscriptionCtrl");
 
         $scope.accessToken = SessionStorage.get('accessToken');
         $scope.userId = SessionStorage.get('userId');
 
-        $scope.chkbxs = EmergencyGetter;
+        $scope.chkbxs = EmergenciesGetter;
 
         $scope.params = [
             "Earthquake", "Hurricane", "Tornado", "Flood", "Shooting"
@@ -62,7 +63,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
                     for(i = 0; i < subscriptionList.length; i++){
                         console.log("Subscribing for:"+subscriptionList[i]);
 
-                        SubscriptionGetter.postEmergenciesNearMeSubscription($scope.userId, $scope.mylocation,
+                        SubscriptionGetter.postEmergenciesAtLocationSubscription($scope.userId, $scope.mylocation,
                             $scope.accessToken, subscriptionList[i], successFunction, errorFunction)
                     }
                 });
@@ -78,7 +79,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
                     d.then(function() {
                         for(i = 0; i < subscriptionList.length; i++) {
                             console.log("Subscribing for:"+subscriptionList[i]);
-                            SubscriptionGetter.postEmergenciesLoctionWithSheltersSubscription($scope.userId,
+                            SubscriptionGetter.postEmergenciesLocationWithSheltersSubscription($scope.userId,
                                 $scope.mylocation, $scope.accessToken, subscriptionList[i],
                                 successFunction, errorFunction)
                         }
@@ -86,7 +87,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
                 } else {
                     for(i = 0; i < subscriptionList.length; i++){
                         console.log("Subscribing for:"+subscriptionList[i]);
-                        SubscriptionGetter.postEmergenciesLoctionWithSheltersSubscription($scope.userId,
+                        SubscriptionGetter.postEmergenciesLocationWithSheltersSubscription($scope.userId,
                             $scope.mylocation, $scope.accessToken, subscriptionList[i],
                             successFunction, errorFunction)
                     }

@@ -35,7 +35,7 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 data: message
             }).then(successFunction, errorFunction);
         },
-        postEmergenciesLoctionWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
+        postEmergenciesLocationWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
             console.log("postEmergenciesLocationWithSheltersSubscription");
             console.log("Subscribing for :" + parameters);
 
