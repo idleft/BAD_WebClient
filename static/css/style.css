@@ -31,6 +31,12 @@ div#notifications {
 	width: 100%;
 	margin: 0px;
 }
+.map_canvas_loc {
+	height: 300px;
+	width: 100%;
+	margin: 2px;
+	padding-top: 50px;
+}
 
 .map_canvas {
 	position: relative;
@@ -46,7 +52,7 @@ div#notifications {
 
 .angular-google-map-container {
 	position: absolute;
-	top: 0;
+	top: 2px;
 	bottom: 0;
 	right: 0;
 	left: 0;
