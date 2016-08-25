@@ -4,16 +4,25 @@ app.controller('LocationSubscriptionCtrl',['$scope','$filter', 'SessionStorage',
     $scope.accessToken = SessionStorage.get('accessToken');
     $scope.userId = SessionStorage.get('userId');
     $scope.map = {center: {latitude: 40.1451, longitude: -99.6680 }, zoom: 7 };
-    $scope.chords={latitude: 40.1451, longitude: -99.6680 };
+    $scope.chords = {latitude: 40.1451, longitude: -99.6680 };
     $scope.options = {scrollwheel: false};
+<<<<<<< HEAD
     $scope.address='';
     $scope.control= {};
     $scope.addresses=[];
     $scope.length=0;
     $scope.chkbxs = EmergenciesGetter;
+=======
+    $scope.address = '';
+    $scope.control = {};
+    $scope.addresses = [];
+    $scope.length = 0;
+    $scope.chkbxs = EmergencyGetter;
+>>>>>>> 7e34b48d5179f1729756ab42b85148040fec9de7
     var counter = 0;
 
     console.log("chkbxs:"+$scope.chkbxs);
+
     var searchAddressInput = document.getElementById('pac-input');
     var autocomplete = new google.maps.places.Autocomplete(searchAddressInput);
 
@@ -42,29 +51,42 @@ app.controller('LocationSubscriptionCtrl',['$scope','$filter', 'SessionStorage',
 
     function getSubscriptionList() {
         console.log("In getSubscriptionList");
+
         var subscriptionList = $filter('filter')($scope.chkbxs, {val: true});
+
         console.log("Just testing filter"+subscriptionList);
+
         for (var i = 0; i < subscriptionList.length; i++) {
             subscriptionList[i] = angular.lowercase(subscriptionList[i].label);
 
             console.log("the list "+subscriptionList[i]);
         }
+
         $scope.length = subscriptionList.length;
+
         console.log("length of subscriptionList:"+$scope.length);
+
         return subscriptionList;
 
     }
+
     $scope.addLocation = function(){
         console.log("in addLocation()");
+
         var geocoder = new google.maps.Geocoder();
+
         geocoder.geocode( { "address": $scope.address }, function(results, status) {
             console.log($scope.address);
+
             var address =$scope.address;
+
             if (status == google.maps.GeocoderStatus.OK)
             {
                 console.log(results[0].geometry.location.lng());
+
                 $scope.addresses.push($scope.address);
                 $scope.address='';
+
                 var marker = {
                     id: Date.now(),
                     coords: {
@@ -73,13 +95,19 @@ app.controller('LocationSubscriptionCtrl',['$scope','$filter', 'SessionStorage',
                     },
                     title: address
                 };
+
                 $scope.markers.push(marker);
+
                 console.log($scope.markers.coords);
+
                 for (var i = 0, length = $scope.markers.length; i < length; i++) {
                     var marker = $scope.markers[i].coords;
+
                     console.log(marker);
+
                     bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
                 }
+
                 $scope.control.getGMap().fitBounds(bounds);
             }
             else
@@ -94,9 +122,12 @@ app.controller('LocationSubscriptionCtrl',['$scope','$filter', 'SessionStorage',
         console.log("In subscribeToLocation");
 
         var subscriptionList = getSubscriptionList();
+
         for (var j = 0, length = $scope.markers.length; j < length; j++) {
             var marker = $scope.markers[j].coords;
+
             console.log("marker:"+ marker);
+            
             for (i = 0; i < subscriptionList.length; i++) {
                 console.log("Subscribing for:" + subscriptionList[i]);
 
