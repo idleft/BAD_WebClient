@@ -1,4 +1,4 @@
-app.factory('EmergenciesGetter',function(){
+app.factory('EmergencyGetter',function(){
 var emergency=[
             {label: "Earthquake", val: false},
             {label: "Hurricane", val: false},
@@ -7,5 +7,6 @@ var emergency=[
             {label: "Shooting", val: false}
         ];
 return emergency;
+}
 	
 });

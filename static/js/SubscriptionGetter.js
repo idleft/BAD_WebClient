@@ -12,21 +12,14 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'channelName': 'recentEmergenciesOfTypeChannel',
                 'parameters': [parameters]
             };
-
             $http({
                 url: '/subscribe',
                 method: "POST",
                 data: message
             }).then(successFunction, errorFunction);
         },
-<<<<<<< HEAD
         postEmergenciesAtLocationSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
             console.log("postEmergenciesNearMeSubscription");
-=======
-
-        postEmergenciesAtLocationSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
-            console.log("postEmergenciesAtLocationSubscription");
->>>>>>> 7e34b48d5179f1729756ab42b85148040fec9de7
             console.log("Subscribing for :" + parameters);
             var message;
             message = {
@@ -36,15 +29,13 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'channelName': 'recentEmergenciesOfTypeAtLocationChannel',
                 'parameters': [parameters, userLocation.x, userLocation.y]
             };
-
             $http({
                 url: '/subscribe',
                 method: "POST",
                 data: message
             }).then(successFunction, errorFunction);
         },
-
-        postEmergenciesLocationWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
+        postEmergenciesLoctionWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
             console.log("postEmergenciesLocationWithSheltersSubscription");
             console.log("Subscribing for :" + parameters);
 
@@ -56,7 +47,6 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'channelName': 'recentEmergenciesOfTypeAtLocationWithShelter',
                 'parameters': [parameters, userLocation.x, userLocation.y]
             };
-
             $http({
                 url: '/subscribe',
                 method: "POST",
