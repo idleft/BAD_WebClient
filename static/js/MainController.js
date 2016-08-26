@@ -8,13 +8,22 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
         //Map Integration
         $scope.map = {center: {latitude: 40.1451, longitude: -99.6680}, zoom: 7};
         $scope.options = {scrollwheel: false};
-        $scope.marker = {
-            id: 0,
-            coords: {
-                latitude: 40.1451,
-                longitude: -99.6680
-            }
-        };
+        $scope.markers = [];
+        $scope.control= {};
+        var bounds = new google.maps.LatLngBounds();
+
+
+         $scope.renderMap = function() {
+            console.log("In renderMap()");
+      
+       for (var i = 0, length = $scope.markers.length; i < length; i++) {
+                var marker = $scope.markers[i].coords;
+                console.log(marker);
+                bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
+              }
+            $scope.control.getGMap().fitBounds(bounds);
+          
+          } 
 
 
         var successFunction = function (data) {
@@ -41,6 +50,15 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
                         'msgChannelName': data['data']['channelName']
                     }
                     $scope.messages.push(message);
+                    var marker = {
+                        id: Date.now(),
+                        coords: {
+                            latitude: zone[0],
+                            longitude: zone[1]
+                        },
+                        message: message
+                    };
+                    $scope.markers.push(marker);
                 }
             }
             $scope.messages.reverse();
