@@ -78,7 +78,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             console.log(data['userId']);
 
             if ($scope.userId == data['userId']) {
-                $scope.latestTimeStamp = data['timestamp'];
+                $scope.latestTimeStamp = data['channelExecutionTime'];
 
                 console.log("timestamp:" + $scope.latestTimeStamp);
                 //SessionStorage.set('timestamp', $scope.latestTimeStamp);
