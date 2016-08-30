@@ -41,7 +41,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
             console.log("In errorFunction");
             console.log("Something went wrong: " + data['data']);
 
-            $scope.flag=true;
+            $scope.flag = true;
         };
 
         function UserPosition(position) {
