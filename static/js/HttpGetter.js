@@ -23,7 +23,7 @@ app.factory('HttpGetter', ['$http', function($http){
           'accessToken' : accessToken,
           'channelName' : channelName,
           'userSubscriptionId' : subscriptionId,
-          'deliveryTime' : deliveryTime
+          'channelExecutionTime' : deliveryTime
         };
 
         $http({

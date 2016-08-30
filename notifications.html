@@ -20,6 +20,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
     <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7GN3xAzg49710-kfwx-IMvI97WUcZBAE&libraries=geometry"></script>
+
+
 </head>
 <body ng-app="myApp">
 <div class="container_fluid">
@@ -49,22 +51,47 @@
                 </ul>
             </div>
         </nav>
+        <ul class="nav nav-tabs right">
+            <li class="active"><a data-toggle="tab" href="#map" ng-click="renderMap()">Map View</a></li>
+            <li><a data-toggle="tab" href="#list">List View</a></li>
+        </ul>
         <div class="row">
             <div id="main-content">
                 <div ng-init="init()">
-                    <div class="col-lg-4 col-md-offset-4">
-                        <div id="notifications" ng-repeat='message in messages'>
-                            <p>Emergency: {{!message.emergencytype| uppercase}}</p>
-                            <p>Severity: {{!message.severity}}</p>
-                            <p>Message: {{!message.message}}</p>
-                            <p>Coordinates: {{!message.coordinates}}</p>
-                            <p>Radius: {{!message.radius}}</p>
-                            <p>TimeStamp: {{!message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</p>
-                            <div class="map_canvas" id="map_canvas-{{!message.timestamp}}">
-                                <ui-gmap-google-map center="message.center" zoom="map.zoom">
-                                    <ui-gmap-marker coords="message.center" idkey="marker.id">
-                                    </ui-gmap-marker>
-                                </ui-gmap-google-map>
+                    <div class="tab-content">
+                        <div id="map" class="tab-pane fade in active">
+                            <div class="col-lg-8 col-md-offset-2">
+                                <div class="map_canvas_big" >
+                                    <ui-gmap-google-map center="map.center" zoom=7 control='control'>
+                                        <ui-gmap-marker ng-repeat='m in markers' coords="m.coords" idkey="m.id">
+                                            <ui-gmap-window show="show">
+                                                <div><p>Emergency: {{!m.message.emergencytype| uppercase}}</p>
+                                                    <p>Severity: {{!m.message.severity}}</p>
+                                                    <p>Message: {{!m.message.message}}</p>
+                                                    <p>Coordinates: {{!m.message.coordinates}}</p>
+                                                    <p>Radius: {{!m.message.radius}}</p>
+                                                    <p>TimeStamp: {{!m.message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</p></div></ui-gmap-window>
+                                        </ui-gmap-marker>
+                                    </ui-gmap-google-map>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="list" class="tab-pane fade in active">
+                            <div class="col-lg-4 col-md-offset-4">
+                                <div id="notifications" ng-repeat='message in messages'>
+                                    <p>Emergency: {{!message.emergencytype| uppercase}}</p>
+                                    <p>Severity: {{!message.severity}}</p>
+                                    <p>Message: {{!message.message}}</p>
+                                    <p>Coordinates: {{!message.coordinates}}</p>
+                                    <p>Radius: {{!message.radius}}</p>
+                                    <p>TimeStamp: {{!message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</p>
+                                    <div class="map_canvas" id="map_canvas-{{!message.timestamp}}">
+                                        <ui-gmap-google-map center="message.center" zoom="map.zoom">
+                                            <ui-gmap-marker coords="message.center" idkey="1">
+                                            </ui-gmap-marker>
+                                        </ui-gmap-google-map>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

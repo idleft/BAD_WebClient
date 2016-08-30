@@ -18,17 +18,16 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 data: message
             }).then(successFunction, errorFunction);
         },
-        postEmergenciesNearMeSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
+        postEmergenciesAtLocationSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
             console.log("postEmergenciesNearMeSubscription");
             console.log("Subscribing for :" + parameters);
-
             var message;
             message = {
                 'dataverseName': "channels",
                 'userId': userId,
                 'accessToken': accessToken,
                 'channelName': 'recentEmergenciesOfTypeAtLocationChannel',
-                'parameters': [parameters, userLocation.x, userLocation.y]
+                'parameters': [parameters, userLocation.latitude, userLocation.longitude]
             };
             $http({
                 url: '/subscribe',
@@ -36,7 +35,7 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 data: message
             }).then(successFunction, errorFunction);
         },
-        postEmergenciesLoctionWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
+        postEmergenciesLocationWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
             console.log("postEmergenciesLocationWithSheltersSubscription");
             console.log("Subscribing for :" + parameters);
 
@@ -46,7 +45,7 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'userId': userId,
                 'accessToken': accessToken,
                 'channelName': 'recentEmergenciesOfTypeAtLocationWithShelter',
-                'parameters': [parameters, userLocation.x, userLocation.y]
+                'parameters': [parameters, userLocation.latitude, userLocation.longitude]
             };
             $http({
                 url: '/subscribe',
