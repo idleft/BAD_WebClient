@@ -33,6 +33,25 @@ app.factory('HttpGetter', ['$http', function($http){
         }).then(successFunction, errorFunction);
       },
 
+      feedRecords: function(userId, accessToken, portNo, records, 
+        successFunction, errorFunction) {
+        console.log('In feedRecords');
+
+        var message = {
+          'dataverseName' : "channels",
+          'userId' : userId,
+          'accessToken' : accessToken,
+          'portNo' : portNo,
+          'records' : records
+        };
+
+        $http({
+          url: '/feedrecords',
+          method: "POST",
+          data: message,
+        }).then(successFunction, errorFunction);
+      },
+
       getSubscriptions: function(userId, accessToken, successFunction, errorFunction) {
         console.log('In get subscriptions');
 
