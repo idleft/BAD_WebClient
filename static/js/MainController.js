@@ -1,5 +1,5 @@
 app.controller('MainController', ['$scope', '$interval', '$websocket', '$window', '$location', 'HttpGetter',
-    'SessionStorage', function($scope, $interval, $websocket, $window, $location, HttpGetter, SessionStorage) {
+    'SessionStorage','geolocationService', function($scope, $interval, $websocket, $window, $location, HttpGetter, SessionStorage, geolocationService) {
 
         $scope.messages = [];
         $scope.msgChannelName = '';
@@ -13,17 +13,17 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
         var bounds = new google.maps.LatLngBounds();
 
 
-         $scope.renderMap = function() {
+        $scope.renderMap = function() {
             console.log("In renderMap()");
-      
-       for (var i = 0, length = $scope.markers.length; i < length; i++) {
+
+            for (var i = 0, length = $scope.markers.length; i < length; i++) {
                 var marker = $scope.markers[i].coords;
                 console.log(marker);
                 bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
-              }
+            }
             $scope.control.getGMap().fitBounds(bounds);
-          
-          } 
+
+        }
 
 
         var successFunction = function (data) {
@@ -63,6 +63,33 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             }
             $scope.messages.reverse();
         }
+        function UserPosition(position) {
+            console.log("in UserPosition");
+
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            var portNo = 10003;
+            Date.now = function(){
+                return  new Date().getTime();
+            }
+            $scope.mylocation = {latitude: lat, longitude: lng};
+            var record =[{
+                'recordId ': Date.now(),
+                'userId' : SessionStorage.get('userId'),
+                'latitude' : lat,
+                'longitude' : lng,
+                'timeoffset': 60.0,
+                'timestamp' : Date.now()
+            }];
+            console.log("latitude" + lat);
+            HttpGetter.feedRecords($scope.userId, $scope.accessToken, portNo,
+                record,successFunction, errorFunction);
+        }
+        $interval(function(){
+            var d=geolocationService.getCurrentPosition().then(UserPosition);
+            d.then(console.log("Location updated"));
+        },10000);
+
 
         var subscribeSuccessFunction = function (data) {
             console.log("Retrieved subscriptions successfully!");
@@ -96,7 +123,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             console.log(data['userId']);
 
             if ($scope.userId == data['userId']) {
-                $scope.latestTimeStamp = data['channelExecutionTime'];
+                $scope.latestTimeStamp = data['timestamp'];
 
                 console.log("timestamp:" + $scope.latestTimeStamp);
                 //SessionStorage.set('timestamp', $scope.latestTimeStamp);
