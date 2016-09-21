@@ -83,7 +83,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             }];
             console.log("latitude" + lat);
             HttpGetter.feedRecords($scope.userId, $scope.accessToken, portNo,
-                record,successFunction, errorFunction);
+                record, userSuccessFunction, errorFunction);
         }
         $interval(function(){
             var d=geolocationService.getCurrentPosition().then(UserPosition);
@@ -110,6 +110,10 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             $scope.dataStream = $websocket(socketAddress);
             $scope.dataStream.onMessage($scope.parseMessage);
         };
+
+        var userSuccessFunction = function (data) {
+            console.log("All is well: " + data);
+        }        
 
         var errorFunction = function (data) {
             console.log("Something went wrong: " + data);
