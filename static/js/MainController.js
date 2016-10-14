@@ -63,31 +63,35 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             }
             $scope.messages.reverse();
         }
-        function UserPosition(position) {
+        // function UserPosition(position) {
+            function UserPosition() {
             console.log("in UserPosition");
 
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
+            // var lat = position.coords.latitude;
+            // var lng = position.coords.longitude;
+            var lat = 33.6404952;
+            var lng = -117.8464902;
             var portNo = 10003;
             Date.now = function(){
                 return  new Date().getTime();
             }
             $scope.mylocation = {latitude: lat, longitude: lng};
             var record =[{
-                'recordId ': Date.now(),
+                'recordId ': JSON.stringify(Date.now()),
                 'userId' : SessionStorage.get('userId'),
                 'latitude' : lat,
                 'longitude' : lng,
                 'timeoffset': 60.0,
-                'timestamp' : Date.now()
+                'timestamp' : JSON.stringify(Date.now())
             }];
             console.log("latitude" + lat);
             HttpGetter.feedRecords($scope.userId, $scope.accessToken, portNo,
                 record, userSuccessFunction, errorFunction);
         }
         $interval(function(){
-            var d=geolocationService.getCurrentPosition().then(UserPosition);
-            d.then(console.log("Location updated"));
+            UserPosition();
+            // var d=geolocationService.getCurrentPosition().then(UserPosition);
+            // d.then(console.log("Location updated"));
         },10000);
 
 
