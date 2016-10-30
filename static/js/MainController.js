@@ -1,5 +1,5 @@
 app.controller('MainController', ['$scope', '$interval', '$websocket', '$window', '$location', 'HttpGetter',
-    'SessionStorage', function($scope, $interval, $websocket, $window, $location, HttpGetter, SessionStorage) {
+    'SessionStorage','geolocationService', function($scope, $interval, $websocket, $window, $location, HttpGetter, SessionStorage, geolocationService) {
 
         $scope.messages = [];
         $scope.msgChannelName = '';
@@ -13,17 +13,17 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
         var bounds = new google.maps.LatLngBounds();
 
 
-         $scope.renderMap = function() {
+        $scope.renderMap = function() {
             console.log("In renderMap()");
-      
-       for (var i = 0, length = $scope.markers.length; i < length; i++) {
+
+            for (var i = 0, length = $scope.markers.length; i < length; i++) {
                 var marker = $scope.markers[i].coords;
                 console.log(marker);
                 bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
-              }
+            }
             $scope.control.getGMap().fitBounds(bounds);
-          
-          } 
+
+        }
 
 
         var successFunction = function (data) {
@@ -63,6 +63,37 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             }
             $scope.messages.reverse();
         }
+        // function UserPosition(position) {
+            function UserPosition() {
+            console.log("in UserPosition");
+
+            // var lat = position.coords.latitude;
+            // var lng = position.coords.longitude;
+            var lat = 33.6404952;
+            var lng = -117.8464902;
+            var portNo = 10003;
+            Date.now = function(){
+                return  new Date().getTime();
+            }
+            $scope.mylocation = {latitude: lat, longitude: lng};
+            var record =[{
+                'recordId ': Date.now(),
+                'user-id' : SessionStorage.get('userId'),
+                'latitude' : lat,
+                'longitude' : lng,
+                'timeoffset': 60.0,
+                'timestamp' : JSON.stringify(Date.now())
+            }];
+            console.log("latitude" + lat);
+            HttpGetter.feedRecords($scope.userId, $scope.accessToken, portNo,
+                record, userSuccessFunction, errorFunction);
+        }
+        $interval(function(){
+            UserPosition();
+            // var d=geolocationService.getCurrentPosition().then(UserPosition);
+            // d.then(console.log("Location updated"));
+        },10000);
+
 
         var subscribeSuccessFunction = function (data) {
             console.log("Retrieved subscriptions successfully!");
@@ -84,6 +115,10 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             $scope.dataStream.onMessage($scope.parseMessage);
         };
 
+        var userSuccessFunction = function (data) {
+            console.log("All is well: " + data);
+        }        
+
         var errorFunction = function (data) {
             console.log("Something went wrong: " + data);
         }
@@ -98,7 +133,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             if ($scope.userId == data['userId']) {
                 $scope.latestTimeStamp = data['channelExecutionTime'];
 
-                console.log("timestamp:" + $scope.latestTimeStamp);
+                console.log("channelExecutionTime:" + $scope.latestTimeStamp);
                 //SessionStorage.set('timestamp', $scope.latestTimeStamp);
 
                 var subscriptionList = JSON.parse(SessionStorage.get('subscriptionId'));
