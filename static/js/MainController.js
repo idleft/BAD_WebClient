@@ -77,7 +77,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             }
             $scope.mylocation = {latitude: lat, longitude: lng};
             var record =[{
-                'recordId ': Date.now(),
+                'recordId': Date.now(),
                 'user-id' : SessionStorage.get('userId'),
                 'latitude' : lat,
                 'longitude' : lng,
