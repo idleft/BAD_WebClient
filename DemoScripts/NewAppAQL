@@ -1,0 +1,40 @@
+//initialize
+//use dataverse channels;
+
+//create datatypes
+create type UserType as closed {
+    recordId: string,
+    userId: string,
+    userName: string,
+    password: string,
+    email: string
+}
+
+create type UserSubscriptionType as closed {
+    recordId: string,
+    userSubscriptionId: string,
+    channelSubscriptionId: string,
+    userId: string,
+    channelName: string,
+    timestamp: string,
+    latestDeliveredResultTime: string,
+    resultsDataset: string
+}
+
+create type ChannelSubscriptionType as closed{
+    recordId: string,
+    channelName:string,
+    parameters: string,
+    channelSubscriptionId: string,
+    latestChannelExecutionTime: string,
+    brokerName : string
+}
+
+//create datasets
+create dataset UserDataset (UserType) primary key recordId;
+create dataset UserSubscriptionDataset(UserSubscriptionType) primary key recordId;
+create dataset ChannelSubscriptionDataset(ChannelSubscriptionType) primary key recordId;
+
+//create broker
+create broker brokerF at "http://radon.ics.uci.edu:8989/notifybroker";
+
