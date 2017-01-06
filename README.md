@@ -2,10 +2,11 @@
 
 This is the web client of BAD system. Learn more about Big Active Data(BAD) at [our site](http://asterix.ics.uci.edu/bigactivedata/).
 
-## Introduction
+## BAD
+
 Big Active Data (BAD) system is built by extending an existing scalable open-source BDMS (AsterixDB) in an active direction. 
 
-## System Overview
+### System Overview
 
 Outside of the platform are the **Data Publishers** and **Data Subscribers**. Within the system itself, its components provide two broad areas of functionality – BAD **Data Cluster** and BAD **Broker Network**.
 
@@ -21,6 +22,23 @@ Outside of the platform are the **Data Publishers** and **Data Subscribers**. Wi
 
 More info can be accessed from [ACM publication](dl.acm.org/ft_gateway.cfm?id=2933313&type=pdf).
 
-## User Experience
+### User Experience
 
 Suscriber users can subscribe to channels created by Manager users, in which data are provided by Publisher users. 
+
+## WebClient
+
+### For Subscriber
+
+* HomePage - register user and log in
+* Notification - recieve notifications
+* Subscription - subscribe channels
+* Preference - set preferences
+
+### For Publisher
+
+* Currently, manually publish by DemoScripts
+
+### For Manager
+
+* Register Applications
