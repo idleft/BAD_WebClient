@@ -26,11 +26,11 @@
                     <a class="navbar-brand" href="#">BAD_WebClient</a>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/subscriptions">Subscriptions<span
+                            <a class="nav-link" href="/subscriptions.html">Subscriptions<span
                                     class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="/notifications">Notifications<span
+                            <a class="nav-link" href="/notifications.html">Notifications<span
                                     class="sr-only">(current)</span></a>
                         </li>
                         <li class="dropdown">
@@ -38,9 +38,9 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
                                     class="caret"></span></button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="/preferences">Preferences</a></li>
+                                <li><a href="/preferences.html">Preferences</a></li>
                                 <li role="separator" class="divdider"></li>
-                                <li><a href="/subscriptions">Subscriptions</a></li>
+                                <li><a href="/subscriptions.html">Subscriptions</a></li>
                                 <li role="separator" class="divdider"></li>
                                 <li><a href="/" ng-click="logoutUser()">Log Out</a></li>
                             </ul>
@@ -53,7 +53,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-offset-2">
                             <ul class="nav nav-tabs">
-                                <li><a href="/subscriptions">Reports</a></li>
+                                <li><a href="/subscriptions.html">Reports</a></li>
                                 <li class="active"><a href="#">Locations</a></li>
                             </ul>
                         </div>
@@ -64,7 +64,7 @@
                                     <div class="col-sm-10">
                                         <div ng-repeat="check in chkbxs">
                                             <div class="checkbox">
-                                                <label><input type="checkbox" ng-model="check.val" >{{!check.label}}
+                                                <label><input type="checkbox" ng-model="check.val" >{{check.label}}
                                                 </label>
                                             </div>
                                         </div>
@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Locations:</label>
-                                    <li ng-repeat='address in addresses'>{{!address}}</li>
+                                    <li ng-repeat='address in addresses'>{{address}}</li>
                                 </div>
                                 <div class="form-group">
                                     <input type='text' id='pac-input' ng-model='address' >
@@ -84,7 +84,7 @@
                             <div class="map_canvas_loc" >
                                 <ui-gmap-google-map  center="map.center" zoom='map.zoom' control='control'>
                                     <ui-gmap-marker ng-repeat='m in markers' coords="m.coords" idkey="m.id">
-                                        <ui-gmap-window show="show"><div>{{!m.title}}</div></ui-gmap-window>
+                                        <ui-gmap-window show="show"><div>{{m.title}}</div></ui-gmap-window>
                                     </ui-gmap-marker>
                                 </ui-gmap-google-map>
                             </div>

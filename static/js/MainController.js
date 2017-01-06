@@ -1,6 +1,6 @@
 app.controller('MainController', ['$scope', '$interval', '$websocket', '$window', '$location', 'HttpGetter',
     'SessionStorage','geolocationService', function($scope, $interval, $websocket, $window, $location, HttpGetter, SessionStorage, geolocationService) {
-
+		SessionStorage.conf();
         $scope.messages = [];
         $scope.msgChannelName = '';
         var count = 0;
@@ -14,37 +14,42 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
 
 
         $scope.renderMap = function() {
-            console.log("In renderMap()");
+            console.log("1deamaxwu ---> rendering map");
 
             for (var i = 0, length = $scope.markers.length; i < length; i++) {
                 var marker = $scope.markers[i].coords;
-                console.log(marker);
                 bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
             }
             $scope.control.getGMap().fitBounds(bounds);
 
         }
-
+		var acksuccessFunction = function (data) {
+            console.log("1deamxwu ---> ackresults respond success");
+			if(data['data']['status']=='success'){
+				console.log("1deamaxwu ---> acked results success as "+data['data']['status']);
+			}else{
+				console.log("1deamaxwu ---> ackresults ERROR: "+data['data']['error'])
+			}
+        }
 
         var successFunction = function (data) {
-            console.log("SAFIR-->All is well with new results!");
+            console.log("1deamaxwu ---> all is well with new results");
 
-            console.log(data);
+			HttpGetter.ackResults($scope.userId, $scope.accessToken, $scope.ackUserSubscriptionId,
+                        $scope.latestTimeStamp, $scope.ackChannelName, SessionStorage.get('brokerUrl'), acksuccessFunction, errorFunction);
 
             $scope.messages.reverse();
 
             if (data['data']['results'] != null) {
 
                 for (i = 0; i < data['data']['results'].length; i++) {
-                    var d = data['data']['results'][i]['impactZone'].toString();
-                    var zone = d.split(",");
-
+					iz=data['data']['results'][i]['result']['impactZone']
                     var message = {
                         'emergencytype': data['data']['results'][i]['emergencyType'],
                         'severity': data['data']['results'][i]['severity'],
-                        'center': {latitude: zone[0], longitude: zone[1]},
-                        'coordinates': zone[0] + "," + zone[1],
-                        'radius': zone[2],
+                        'center': {latitude: iz[0][0], longitude: iz[0][1]},
+                        'coordinates': iz[0][0] + "," + iz[0][1],
+                        'radius': iz[1],
                         'message': data['data']['results'][i]['message'],
                         'timestamp': data['data']['results'][i]['timestamp'],
                         'msgChannelName': data['data']['channelName']
@@ -53,8 +58,8 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
                     var marker = {
                         id: Date.now(),
                         coords: {
-                            latitude: zone[0],
-                            longitude: zone[1]
+                            latitude: iz[0][0],
+                            longitude: iz[0][1]
                         },
                         message: message
                     };
@@ -65,7 +70,7 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
         }
         // function UserPosition(position) {
             function UserPosition() {
-            console.log("in UserPosition");
+            console.log("1deamaxwu ---> interval as UserPosition")
 
             // var lat = position.coords.latitude;
             // var lng = position.coords.longitude;
@@ -84,77 +89,87 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
                 'timeoffset': 60.0,
                 'timestamp' : JSON.stringify(Date.now())
             }];
-            console.log("latitude" + lat);
             HttpGetter.feedRecords($scope.userId, $scope.accessToken, portNo,
-                record, userSuccessFunction, errorFunction);
+                record, SessionStorage.get('brokerUrl'), userSuccessFunction, errorFunction);
         }
         $interval(function(){
-            UserPosition();
-            // var d=geolocationService.getCurrentPosition().then(UserPosition);
-            // d.then(console.log("Location updated"));
+            //UserPosition();
         },10000);
 
 
         var subscribeSuccessFunction = function (data) {
-            console.log("Retrieved subscriptions successfully!");
-            console.log(data);
+            console.log("1deamxwu ---> get subscribtion respond success");
+			if(data['data']['status']=='success'){ 
+				console.log("1deamaxwu ---> got subcribtion success as "+data['data']['subscriptions']);
 
-            SessionStorage.removeElement("subscriptionId");
+				if(SessionStorage.get("subscriptionId")!=null){SessionStorage.removeElement("subscriptionId");}
+				if(data['data']['subscriptions'] !=null){
+            		for (var i = 0; i < data['data']['subscriptions'].length; i++) {
+                		SessionStorage.set('subscriptionId', data['data']['subscriptions'][i]["userSubscriptionId"]);
+           			}
+				}
+			}else{
+				console.log("1deamaxwu ---> subscribe ERROR: "+data['data']['error'])		
+			}
 
-            for (var i = 0; i < data['data']['subscriptions'].length; i++) {
-                SessionStorage.set('subscriptionId', data['data']['subscriptions'][i]["userSubscriptionId"]);
-            }
+            var socketAddress = "ws://" + SessionStorage.get('brokerUrl') +"/websocketlistener";
 
-            console.log('SAFIR-->Creating Web Socket');
-
-            var socketAddress = "ws://" + $location.host() + ":8989/websocketlistener";
-
-            console.log(socketAddress);
+            console.log('1deamaxwu ---> Creating Web Socket as '+socketAddress);
 
             $scope.dataStream = $websocket(socketAddress);
             $scope.dataStream.onMessage($scope.parseMessage);
         };
 
         var userSuccessFunction = function (data) {
-            console.log("All is well: " + data);
+            console.log("1deamxwu ---> feed record respond success");
+			if(data['data']['status']=='success'){
+				console.log("1deamaxwu ---> feeded record success as "+data['data']);
+			}else{
+				console.log("1deamaxwu ---> feed record ERROR: "+data['data']['error'])
+			}
+        }
+		var logoutSuccessFunction = function (data) {
+            console.log("1deamxwu ---> logout respond success");
+			if(data['data']['status']=='success'){
+				console.log("1deamaxwu ---> logged out success as "+data['data']['userId']);
+			}else{
+				console.log("1deamaxwu ---> logged out ERROR: "+data['data']['error'])
+			}
         }        
 
         var errorFunction = function (data) {
-            console.log("Something went wrong: " + data);
+            console.log("1deamxwu ---> respond ERROR: " + data['data']);
+			$window.alert(data['data']);
         }
 
         $scope.parseMessage = function (message) {
-            console.log('Received websocket message from the server');
+            console.log('1deamaxwu ---> received websocket message from the server');
             var data = JSON.parse(message.data);
-            console.log(data);
-            console.log($scope.userId);
-            console.log(data['userId']);
 
             if ($scope.userId == data['userId']) {
                 $scope.latestTimeStamp = data['channelExecutionTime'];
 
-                console.log("channelExecutionTime:" + $scope.latestTimeStamp);
-                //SessionStorage.set('timestamp', $scope.latestTimeStamp);
 
                 var subscriptionList = JSON.parse(SessionStorage.get('subscriptionId'));
-                console.log("Printing:" + subscriptionList);
+                //console.log("Printing:" + subscriptionList);
 
                 function findSubcription(subscriptionId) {
                     return subscriptionId == data['userSubscriptionId'];
                 }
 
                 if (undefined != subscriptionList.find(findSubcription)) {
+					$scope.ackUserSubscriptionId=data['userSubscriptionId']
+					$scope.ackChannelName=data['channelName']
                     HttpGetter.getNewResults($scope.userId, $scope.accessToken, data['userSubscriptionId'],
-                        $scope.latestTimeStamp, data['channelName'], successFunction, errorFunction);
+                        $scope.latestTimeStamp, data['channelName'], SessionStorage.get('brokerUrl'), successFunction, errorFunction);
                 }
             }
         }
 
         $scope.logoutUser = function () {
             $scope.dataStream.close();
-
+			HttpGetter.logout($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'), logoutSuccessFunction, errorFunction);
             SessionStorage.remove();
-
             $window.location.href = '/';
         }
 
@@ -168,8 +183,8 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             $scope.accessToken = SessionStorage.get('accessToken');
             $scope.subscriptionId = SessionStorage.get('subscriptionId');
             $scope.latestTimeStamp = SessionStorage.get('timestamp');
-
-            HttpGetter.getSubscriptions($scope.userId, $scope.accessToken,
+			console.log("1deamaxwu ---> current userId: "+$scope.userId)
+            HttpGetter.getSubscriptions($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'), 
                 subscribeSuccessFunction, errorFunction);
         }
     }]);

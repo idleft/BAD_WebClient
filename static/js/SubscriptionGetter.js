@@ -3,8 +3,8 @@
  */
 app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$window,$q) {
     return {
-        postEmergenciesSubscription: function (userId, accessToken, parameters, successFunction, errorFunction) {
-            console.log("postEmergenciesSubscription");
+        postEmergenciesSubscription: function (userId, accessToken, parameters, url, successFunction, errorFunction) {
+            console.log("1deamaxwu ---> posting EmergenciesSubscription for "+ parameters);
             var message = {
                 'dataverseName': "channels",
                 'userId': userId,
@@ -13,14 +13,13 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'parameters': [parameters]
             };
             $http({
-                url: '/subscribe',
+                url: 'http://'+url+'/subscribe',
                 method: "POST",
                 data: message
             }).then(successFunction, errorFunction);
         },
-        postEmergenciesAtLocationSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
-            console.log("postEmergenciesNearMeSubscription");
-            console.log("Subscribing for :" + parameters);
+        postEmergenciesAtLocationSubscription: function (userId, userLocation, accessToken, parameters, url, successFunction, errorFunction) {
+            console.log("1deamaxwu ---> posting EmergenciesNearMeSubscription for "+ [parameters, userLocation.latitude, userLocation.longitude]);
             var message;
             message = {
                 'dataverseName': "channels",
@@ -30,15 +29,13 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'parameters': [parameters, userLocation.latitude, userLocation.longitude]
             };
             $http({
-                url: '/subscribe',
+                url: 'http://'+url+'/subscribe',
                 method: "POST",
                 data: message
             }).then(successFunction, errorFunction);
         },
-        postEmergenciesLocationWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, successFunction, errorFunction) {
-            console.log("postEmergenciesLocationWithSheltersSubscription");
-            console.log("Subscribing for :" + parameters);
-
+        postEmergenciesLocationWithSheltersSubscription: function (userId, userLocation, accessToken, parameters, url, successFunction, errorFunction) {
+            console.log("1deamaxwu ---> posting EmergenciesLocationWithSheltersSubscription for " + [parameters, userLocation.latitude, userLocation.longitude]);
             var message;
             message = {
                 'dataverseName': "channels",
@@ -48,10 +45,24 @@ app.factory('SubscriptionGetter', ['$http','$window',"$q",function ($http,$windo
                 'parameters': [parameters, userLocation.latitude, userLocation.longitude]
             };
             $http({
-                url: '/subscribe',
+                url: 'http://'+url+'/subscribe',
                 method: "POST",
                 data: message
             }).then(successFunction, errorFunction);
-        }
+        },
+		logout :function(userId, accessToken, url, successFunction, errorFunction){
+			console.log('1deamaxwu ---> logging out as UserId: '+userId);
+
+			var message = {
+          		'dataverseName' : "channels",
+          		'userId' : userId,
+          		'accessToken' : accessToken
+        	}
+			$http({
+          		url: 'http://'+url+'/logout',
+          		method: "POST",
+          		data: message,
+        	}).then(successFunction, errorFunction);
+		}
     };
 }]);

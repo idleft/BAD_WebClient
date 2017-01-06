@@ -3,9 +3,9 @@
     <title>Subscriptions</title>
     <head>
 
-
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-                integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="/static/js/jsutils/jquery-1.12.4.min.js"></script>
+        <!--<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+                integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>-->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
               integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -42,11 +42,11 @@
                     <a class="navbar-brand" href="#">BAD_WebClient</a>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/subscriptions">Subscriptions<span
+                            <a class="nav-link" href="/subscriptions.html">Subscriptions<span
                                     class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="/notifications">Notifications<span
+                            <a class="nav-link" href="/notifications.html">Notifications<span
                                     class="sr-only">(current)</span></a>
                         </li>
                         <li class="dropdown">
@@ -54,9 +54,9 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
                                     class="caret"></span></button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="/preferences">Preferences</a></li>
+                                <li><a href="/preferences.html">Preferences</a></li>
                                 <li role="separator" class="divdider"></li>
-                                <li><a href="/subscriptions">Subscriptions</a></li>
+                                <li><a href="/subscriptions.html">Subscriptions</a></li>
                                 <li role="separator" class="divdider"></li>
                                 <li><a href="/" ng-click="logoutUser()">Log Out</a></li>
                             </ul>
@@ -70,17 +70,17 @@
                         <div class="col-lg-8 col-md-offset-2">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#">Reports</a></li>
-                                <li><a href="/locationsubs">Locations</a></li>
+                                <li><a href="/locationsubs.html">Locations</a></li>
                             </ul>
                             <form class="form-horizontal" role="form">
                                 <h1>Emergency Report Subscriptions</h1>
                                 <div class="form-group">
                                     <label class="control-label col-sm-2" for="Emergencies">Emergencies:</label>
                                     <div class="col-sm-10">
-                                        <input type="checkbox" ng-model="isChecked" /><b>Select All</b><br />
+                                        <input type="checkbox" ng-model="isCheckAll" ng-click="onClickCheckAll()"/><b>Select All</b><br />
                                         <div ng-repeat="check in chkbxs">
                                             <div class="checkbox">
-                                                <label><input type="checkbox" ng-model="check.val" ng-checked="isChecked">{{!check.label}}
+                                                <label><input type="checkbox" ng-model="check.val" ng-checked="isCheckAll">{{check.label}}
                                                 </label>
                                             </div>
                                         </div>

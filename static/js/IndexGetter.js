@@ -1,8 +1,7 @@
 app.factory('IndexGetter', ['$http', function($http){
 	return {
-      postUserData: function(userId, userPassword, successFunction, errorFunction){
-        console.log("Hi");
-
+      postUserData: function(userId, userPassword, url, successFunction, errorFunction){
+		console.log('1deamxwu ---> logging in as UserId: '+userId+' Pwd: '+userPassword)
         var message = {
           'dataverseName' : "channels",
           'userName' : userId,
@@ -10,14 +9,13 @@ app.factory('IndexGetter', ['$http', function($http){
           'platform' : 'web'
         };
         $http({
-          url: '/login',
+			url: 'http://'+url+'/login',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
       },
-      postRegisterUser: function(newUserName, newUserPassword, newUserEmail, successFunction, errorFunction) {
-        console.log('Registering a new user');
-
+      postRegisterUser: function(newUserName, newUserPassword, newUserEmail, url, successFunction, errorFunction) {
+		console.log('1deamxwu ---> registering as Name: '+newUserName+' Pwd: '+newUserPassword+' Email: '+newUserEmail)
         var message = {
           'dataverseName' : "channels",
           'userName' : newUserName,
@@ -26,7 +24,7 @@ app.factory('IndexGetter', ['$http', function($http){
           'platform' : 'web'
         };
         $http({
-          url: '/register',
+          url: 'http://'+url+'/register',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);

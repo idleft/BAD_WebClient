@@ -24,8 +24,3 @@ More info can be accessed from [ACM publication](dl.acm.org/ft_gateway.cfm?id=29
 ## User Experience
 
 Suscriber users can subscribe to channels created by Manager users, in which data are provided by Publisher users. 
-
-* index - login and register page
-* notifications - newsfeed
-* subscriptions - reports and location subscriptions
-* preferences - preference settings

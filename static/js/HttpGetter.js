@@ -13,10 +13,9 @@ app.factory('HttpGetter', ['$http', function($http){
         }).then(successFunction, errorFunction);
       },
 
-      getNewResults: function(userId, accessToken, subscriptionId, deliveryTime, channelName, 
+      getNewResults: function(userId, accessToken, subscriptionId, deliveryTime, channelName, url, 
         successFunction, errorFunction) {
-        console.log('In Get new results');
-
+        console.log('1deamxwu ---> getting newresults as UserId: '+userId+' SubId: '+subscriptionId)
         var message = {
           'dataverseName' : "channels",
           'userId' : userId,
@@ -27,16 +26,34 @@ app.factory('HttpGetter', ['$http', function($http){
         };
 
         $http({
-          url: '/getresults',
+          url: 'http://'+url+'/getresults',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
       },
 
-      feedRecords: function(userId, accessToken, portNo, records, 
+	  ackResults: function(userId, accessToken, subscriptionId, deliveryTime, channelName, url, 
         successFunction, errorFunction) {
-        console.log('In feedRecords');
+        console.log('1deamxwu ---> acking results as UserId: '+userId+' SubId: '+subscriptionId)
+        var message = {
+          'dataverseName' : "channels",
+          'userId' : userId,
+          'accessToken' : accessToken,
+          'channelName' : channelName,
+          'userSubscriptionId' : subscriptionId,
+          'channelExecutionTime' : deliveryTime
+        };
 
+        $http({
+          url: 'http://'+url+'/ackresults',
+          method: "POST",
+          data: message,
+        }).then(successFunction, errorFunction);
+      },
+
+      feedRecords: function(userId, accessToken, portNo, records, url, 
+        successFunction, errorFunction) {
+        console.log('1deamxwu ---> feeding records as UserId: '+userId+' records: '+records)
         var message = {
           'dataverseName' : "channels",
           'userId' : userId,
@@ -46,14 +63,14 @@ app.factory('HttpGetter', ['$http', function($http){
         };
 
         $http({
-          url: '/feedrecords',
+          url: 'http://'+url+'/feedrecords',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
       },
 
-      getSubscriptions: function(userId, accessToken, successFunction, errorFunction) {
-        console.log('In get subscriptions');
+      getSubscriptions: function(userId, accessToken, url, successFunction, errorFunction) {
+        console.log('1deamaxwu ---> getting subscriptions as UserId: '+userId);
 
         var message = {
           'dataverseName' : "channels",
@@ -62,10 +79,24 @@ app.factory('HttpGetter', ['$http', function($http){
         }
 
         $http({
-          url: '/listsubscriptions',
+          url: 'http://'+url+'/listsubscriptions',
           method: "POST",
           data: message,
         }).then(successFunction, errorFunction);
-      }
+      },
+		logout :function(userId, accessToken, url, successFunction, errorFunction){
+			console.log('1deamaxwu ---> logging out as UserId: '+userId);
+
+			var message = {
+          		'dataverseName' : "channels",
+          		'userId' : userId,
+          		'accessToken' : accessToken
+        	}
+			$http({
+          		url: 'http://'+url+'/logout',
+          		method: "POST",
+          		data: message,
+        	}).then(successFunction, errorFunction);
+		}
     };
 }]);
