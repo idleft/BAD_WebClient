@@ -54,6 +54,8 @@ create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $l
 
 create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $lattitude, $longitude){
 	for $report in dataset EmergencyReports
+	let $shelters :=	
+	for $shelter in dataset EmergencyShelters where spatial-intersect($report.impactZone,$shelter.location) return $shelter
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
 	where $report.timestamp >= $tenMinutesAgo
 	and $report.emergencyType = $emergencyType
@@ -61,14 +63,14 @@ create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $l
 	return {
 		"impactZone":$report.impactZone,
 		"message":$report.message,
-		"shelters":for $shelter in dataset EmergencyShelters where spatial-intersect($report.impactZone,$shelter.location) return $shelter
+		"shelters":$shelters
 	}
 }
 
 //create channels
 create repetitive channel recentEmergenciesOfTypeChannel using recentEmergenciesOfType@1 period duration("PT20S");
 create repetitive channel recentEmergenciesOfTypeAtLocationChannel using recentEmergenciesOfTypeAtLocation@3 period duration("PT20S");
-create repetitive channel recentEmergenciesOfTypeAtLocationWithShelter using recentEmergenciesOfTypeAtLocation@3 period duration("PT20S");
+create repetitive channel recentEmergenciesOfTypeAtLocationWithShelter using recentEmergenciesOfTypeAtLocationWithShelter@3 period duration("PT20S");
 
 //create feeds
 create feed ReportFeed using socket_adapter
