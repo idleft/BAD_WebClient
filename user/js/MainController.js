@@ -170,12 +170,12 @@ app.controller('MainController', ['$scope', '$interval', '$websocket', '$window'
             $scope.dataStream.close();
 			HttpGetter.logout($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'), logoutSuccessFunction, errorFunction);
             SessionStorage.remove();
-            $window.location.href = '/';
+            $window.location.href = 'index.html';
         }
 
         $scope.switchToSubscriptionsPage = function () {
             $scope.dataStream.close();
-            $window.location.href = '/preferences';
+            $window.location.href = 'preferences.html';
         }
 
         $scope.init = function () {

@@ -24,7 +24,7 @@ More info can be accessed from [ACM publication](dl.acm.org/ft_gateway.cfm?id=29
 
 ### User Experience
 
-Suscriber users can subscribe to channels created by Manager users, in which data are provided by Publisher users. 
+**Suscriber** users can subscribe to channels created by **Manager** users, in which data are provided by **Publisher** users. System **Admin** administers the BAD backend with statistic monitoring.
 
 ## WebClient
 
@@ -41,4 +41,8 @@ Suscriber users can subscribe to channels created by Manager users, in which dat
 
 ### For Manager
 
-* Register Applications
+* Register, update, delete and monitor Applications with dashboards.
+
+### For Admin
+
+* Administer the BAD backend.

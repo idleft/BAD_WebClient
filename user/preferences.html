@@ -10,7 +10,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
                 integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
                 crossorigin="anonymous"></script>
-        <script type="text/javascript" src="/static/js/ng-infinite-scroll.min.js"></script>
+        <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script>
         <script type="text/javascript"
                 src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
 
@@ -24,11 +24,11 @@
                     <a class="navbar-brand" href="#">BAD_WebClient</a>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/subscriptions.html">Subscriptions<span
+                            <a class="nav-link" href="subscriptions.html">Subscriptions<span
                                     class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="/notifications.html">Notifications<span
+                            <a class="nav-link" href="notifications.html">Notifications<span
                                     class="sr-only">(current)</span></a>
                         </li>
                         <li class="dropdown">
@@ -36,11 +36,11 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
                                     class="caret"></span></button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="/preferences.html">Preferences</a></li>
+                                <li><a href="preferences.html">Preferences</a></li>
                                 <li role="separator" class="divdider"></li>
-                                <li><a href="/subscriptions.html">Subscriptions</a></li>
+                                <li><a href="subscriptions.html">Subscriptions</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="/" ng-click="logoutUser()">Log Out</a></li>
+                                <li><a href="index.html" ng-click="logoutUser()">Log Out</a></li>
                             </ul>
                     </ul>
                 </div>
@@ -71,11 +71,11 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript" src="/static/js/app.js"></script>
-        <script type="text/javascript" src="/static/js/PreferenceController.js"></script>
-        <script type="text/javascript" src="/static/js/PreferenceGetter.js"></script>
-        <script type="text/javascript" src="/static/js/SessionStorage.js"></script>
-        <script type="text/javascript" src="/static/js/ng-infinite-scroll.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+        <script type="text/javascript" src="/utils/js/app.js"></script>
+        <script type="text/javascript" src="js/PreferenceController.js"></script>
+        <script type="text/javascript" src="js/PreferenceGetter.js"></script>
+        <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
+        <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/utils/css/style.css">
     </body>
 </html>

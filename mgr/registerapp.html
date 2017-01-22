@@ -58,6 +58,28 @@
     	ng-click="registerUser(newAppName, newAppDataverse, newAdminUser, newAdminPassword, newEmail, dropExisting, newSetupAQL); newAppClicked=true">
     	Register Application
     </button>
+	<hr/><p>TESTs</p>
+	<button type="submit" class="btn btn-primary"
+    	ng-init="updateAppClicked=false"
+    	ng-click="updateApplication()">
+    	Update Application
+    </button></br>
+	<button type="submit" class="btn btn-primary"
+    	ng-init="appLoginClicked=false"
+    	ng-click="adminAppLogin()">
+    	Admin Application Login
+    </button></br>
+	<button type="submit" class="btn btn-primary"
+    	ng-init="appLCClicked=false"
+    	ng-click="adminQueryLC()">
+    	Admin Query ListChannels
+    </button></br>
+	<button type="submit" class="btn btn-primary"
+    	ng-init="appLSClicked=false"
+    	ng-click="adminQueryLS()">
+    	Admin Query ListSubscriptions
+    </button>
+	<hr/>
 
 </form>
 
@@ -67,11 +89,11 @@
 	</div>
 </div>
 
-		<script type="text/javascript" src="/static/js/app.js"></script>
-        <script type="text/javascript" src="/static/js/RegisterAppController.js"></script>
-        <script type="text/javascript" src="/static/js/RegisterAppGetter.js"></script>
-        <script type="text/javascript" src="/static/js/SessionStorage.js"></script>
-        <script type="text/javascript" src="/static/js/ng-infinite-scroll.min.js"></script> 
-        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+		<script type="text/javascript" src="/utils/js/app.js"></script>
+        <script type="text/javascript" src="js/RegisterAppController.js"></script>
+        <script type="text/javascript" src="js/RegisterAppGetter.js"></script>
+        <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
+        <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/utils/css/style.css">
 </body>
 </html>

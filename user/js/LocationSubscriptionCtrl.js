@@ -27,7 +27,7 @@ app.controller('LocationSubscriptionCtrl',['$scope','$filter','$window', 'Sessio
 
 			counter++;
         	if(counter == $scope.length*$scope.markers.length){
-            	$window.location.href = '/notifications.html';
+            	$window.location.href = 'notifications.html';
         	}
 		}else{
 				console.log("1deamaxwu ---> subscription ERROR: "+data['data']['error'])

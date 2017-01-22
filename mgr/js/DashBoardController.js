@@ -1,4 +1,4 @@
-app.controller('RegisterAppController',['$scope','$window','RegisterAppGetter','SessionStorage',function($scope,$window,RegisterAppGetter,SessionStorage){
+app.controller('DashBoardController',['$scope','$window','DashBoardGetter','SessionStorage',function($scope,$window,DashBoardGetter,SessionStorage){
 	SessionStorage.conf();
 	var successFunction = function(data) {
 		console.log("1deamxwu ---> register application respond success");

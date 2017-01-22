@@ -1,4 +1,4 @@
-app.factory('RegisterAppGetter',['$http',function($http){
+app.factory('DashBoardGetter',['$http',function($http){
 	return{
 		postRegisterAppData: function(newAppName, newAppDataverse, newAdminUser, newAdminPassword, newEmail, dropExisting, newSetupAQL, url, successFunction, errorFunction){
 			console.log("1deamxwu ---> registering application: "+newAppName+'\t'+newAppDataverse+'\t'+newAdminUser+'\t'+newAdminPassword+'\t'+newEmail+ '\t'+dropExisting+'\t'+newSetupAQL);

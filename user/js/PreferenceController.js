@@ -12,7 +12,7 @@ app.controller('PreferenceController', ['$scope', '$window', '$filter', 'Prefere
 			SessionStorage.set('subscriptionId', data['data']['userSubscriptionId']);
 			SessionStorage.set('timestamp', data['data']['timestamp']);
 
-			$window.location.href = '/notifications.html';
+			$window.location.href = 'notifications.html';
 		}else{
 			console.log("1deamaxwu ---> subscribe channel ERROR: "+data['data']['error'])
 			$window.alert(data['data']['error']);		

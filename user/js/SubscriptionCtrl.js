@@ -25,7 +25,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window','$filter', 'SessionStora
             //counter++;
             //console.log("counter:" + counter);
             //if(counter == $scope.length){
-                $window.location.href = '/locationsubs.html';
+                $window.location.href = 'locationsubs.html';
             //}
         };
 
