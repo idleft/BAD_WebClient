@@ -2,38 +2,18 @@
 <html lang="en">
     <title>Subscriptions</title>
     <head>
-
-		<script type="text/javascript" src="/utils/js/jquery-1.12.4.min.js"></script>
-        <!--<script src="https://code.jquery.com/jquery-1.12.4.min.js"
-                integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>-->
+        <script type="text/javascript" src="/utils/js/jquery-1.12.4.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-              integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+            integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-                integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-                crossorigin="anonymous"></script>
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
         <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script>
         <script type="text/javascript"
-                src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
-
+            src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
         <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
-        <!--
-            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script> -->
-        <!-- Latest compiled and minified CSS --><!--
-    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
-        <!-- Optional theme --><!--
-    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
-        <!-- Latest compiled and minified JavaScript -->
-        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap2/bootstrap-switch.min.css">
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
-
-        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> -->
     </head>
     <body ng-app="myApp">
         <div ng-controller="SubscriptionCtrl">
@@ -43,16 +23,16 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="nav-item active">
                             <a class="nav-link" href="subscriptions.html">Subscriptions<span
-                                    class="sr-only">(current)</span></a>
+                                class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="notifications.html">Notifications<span
-                                    class="sr-only">(current)</span></a>
+                                class="sr-only">(current)</span></a>
                         </li>
                         <li class="dropdown">
                             <button class="btn btn-primary dropdown-toggle navbar-btn" role="button" id="dropdownMenu1"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
-                                    class="caret"></span></button>
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
+                                class="caret"></span></button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li><a href="preferences.html">Preferences</a></li>
                                 <li role="separator" class="divdider"></li>
@@ -98,16 +78,10 @@
                                         <input type="checkbox" ng-model="shelterInfo" ng-click="subscribeToShelterInfo()">
                                     </div>
                                 </div>
-                                <!--<div class="form-group">-->
-                                <!--<label class="control-label col-sm-2" >Add New Location:</label>-->
-                                <!--<div class="col-sm-10">-->
-                                <!--<input type="textbox">-->
-                                <!--</div>-->
-                                <!--</div>-->
                                 <div class="col-sm-offset-2 col-sm-8">
                                     <button class="btn btn-success" ng-model="preferenceClicked"
-                                            ng-init="preferenceClicked=false"
-                                            ng-click="subscribeToEmergencies(); preferenceClicked=true">Subscribe
+                                        ng-init="preferenceClicked=false"
+                                        ng-click="subscribeToEmergencies(); preferenceClicked=true">Subscribe
                                     </button>
                                 </div>
                             </form>
