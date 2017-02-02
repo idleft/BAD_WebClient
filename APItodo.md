@@ -11,7 +11,7 @@ Response:
 ```
 { 
 	"status": "success", 
-	"products" : [{"procustId": string},{"productType": string}] 
+	"products" : [{"procustId": string, "productType": string}] 
 } 
 ```
 * Example call: http://<brokerIp>:8989/listallproducts
@@ -29,7 +29,7 @@ Response:
 ```
 { 
 	"status": "success", 
-	"products" : [{"procustId": string},{"productType": string}] 
+	"products" : [{"procustId": string, "productType": string}] 
 } 
 ```
 * Example call: http://<brokerIp>:8989/listregisteredproducts
@@ -46,7 +46,7 @@ Response:
 Response:
 ```
 { 
-	"status": "success", 
+	"status": "success" 
 } 
 ```
 * Example call: http://<brokerIp>:8989/registerproduct
@@ -63,7 +63,7 @@ Response:
 Response:
 ```
 { 
-	"status": "success", 
+	"status": "success" 
 } 
 ```
 * Example call: http://<brokerIp>:8989/deleteproduct
@@ -83,7 +83,7 @@ Response:
 ```
 { 
 	"status": "success", 
-	"applications" : [{"applicationId": string},{"applicationInfo":{"applicationName": string,"numberOfUsers": int,...}}] 
+	"applications" : [{"applicationId": string, "applicationInfo":{"applicationName": string,"numberOfUsers": int,...}}] 
 } 
 ```
 * Example call: http://<brokerIp>:8989/listapplications
