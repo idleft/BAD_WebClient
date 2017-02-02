@@ -37,7 +37,7 @@ Response:
 ## registerproduct ##
 * register a product by a user
 ```
-{ registerApplication -- create a new app with 
+{
 	"dataverseName": string,
 	"userId" : string,
 	"accessToken": string
