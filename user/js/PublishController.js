@@ -1,6 +1,12 @@
 app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'SessionStorage', function($scope, $window, 
     PublishGetter, SessionStorage) { 
 	SessionStorage.conf();
+	$scope.userId = SessionStorage.get('userId');
+    if ($scope.userId == null){
+    	console.log("1deamaxwu ---> no access!");
+    } else {
+    	$window.location.href = 'upload.html';
+    }
     var successFunction = function(data) {
         console.log("1deamxwu ---> login in user respond success");
 		if(data['data']['status']=='success'){ 
@@ -53,6 +59,7 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
         //else {
         //    IndexGetter.postUserData($scope.userId, $scope.userPassword, SessionStorage.get('brokerUrl'), subscribeSuccessFunction, errorFunction);
         //}
+        //SessionStorage.set('userId', "admin");
 		$window.location.href = 'upload.html';
         
     };

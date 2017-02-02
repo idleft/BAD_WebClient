@@ -2,109 +2,111 @@
 <html lang="en">
     <title>Big Active Data</title>
     <head>
-		<script type="text/javascript" src="/utils/js/jquery-1.12.4.min.js"></script>
-        <!--<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>-->
+        <script type="text/javascript" src="/utils/js/jquery-1.12.4.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
         <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
-
-
     </head>
     <body ng-app="myApp">
-        <div ng-controller="AsterixIndexController">
+        <div ng-controller="ConsoleController">
+            <nav class="navbar navbar-light navbar-static-top"  style="background-color: #000042;">
+                <div class="container">
+                    <a class="navbar-brand" href="#">BAD_Console</a>
+                    <form class="navbar-form navbar-right">
+                        Welcome, {{userId}}!
+                        <button type="submit" class="btn btn-primary" ng-model="clicked" ng-init="clicked=false"
+                            ng-click="logoutUser(); clicked=true">Logout
+                        </button>
+                    </form>
+                </div>
+            </nav>
             <div class="container">
                 <div class="row">
                     <div id="main-content">
                         <div class="col-md-4 col-md-offset-4">
-                            <center><h2>BAD Servives Console</h2></center></br>
-							<center><img src="/utils/res/badicon.png" alt="BAD" width="105" height="60"></center></br>
-							
-							</br></br></br></br></br></br><p></p><center>
-
-<div class="row">
-<p align="left">Asterix Admin</p><hr/>
-  <div class="col-md-4">
-
-    <div class="thumbnail">
-      <a href="admin.html">
-        <img src="/utils/res/root.png" alt="Admin" style="width:50%">
-        <div class="caption">
-          <p>Admin</p>
-        </div>
-      </a>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-<p align="left">Manager</p><hr/>
-  <div class="col-md-4">
-
-    <div class="thumbnail">
-      <a href="../mgr/dashboard.html">
-        <img src="/utils/res/mgr.png" alt="Manager" style="width:50%">
-        <div class="caption">
-          <p>Manager</p>
-        </div>
-      </a>
-    </div>
-  </div>
-
-</div>
-
-<div class="row">
-<p align="left">User</p><hr/>
-  <div class="col-md-4">
-
-    <div class="thumbnail">
-      <a href="../user/publish.html">
-        <img src="/utils/res/pbr.png" alt="Publisher" style="width:50%">
-        <div class="caption">
-          <p>Publisher</p>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="../user/subscriptions.html">
-        <img src="/utils/res/sbr.png" alt="Subscriber" style="width:50%">
-        <div class="caption">
-          <p>Subscriber</p>
-        </div>
-      </a>
-    </div>
-  </div>
-</div>
-       
-
-<div class="row">
-<p align="left">More</p><hr/>
-  <div class="col-md-4">
-
-    <div class="thumbnail">
-      <a href="#">
-        <img src="/utils/res/addcnl.png" alt="Manager" style="width:50%">
-        <div class="caption">
-          <p>More</p>
-        </div>
-      </a>
-    </div>
-  </div>
-
-</div>
-                </div>
+                            <center>
+                                <h2 style="margin-bottom:30px">BAD Servives Console</h2>
+                            </center>
+                            <center><img style="margin-bottom:30px" src="/utils/res/badicon.png" alt="BAD" width="105" height="60"></center>
+                            <p style="margin-top:150px"></p>
+                            <center>
+                            <div class="row">
+                                <p align="left">Asterix Admin</p>
+                                <hr/>
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <a href="admin.html">
+                                            <img src="/utils/res/root.png" alt="Admin" style="width:50%">
+                                            <div class="caption">
+                                                <p>Admin</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <p align="left">Manager</p>
+                                <hr/>
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <a href="../mgr/dashboard.html">
+                                            <img src="/utils/res/mgr.png" alt="Manager" style="width:50%">
+                                            <div class="caption">
+                                                <p>Manager</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <p align="left">User</p>
+                                <hr/>
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <a href="../user/publish.html">
+                                            <img src="/utils/res/pbr.png" alt="Publisher" style="width:50%">
+                                            <div class="caption">
+                                                <p>Publisher</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <a href="../user/subscriptions.html">
+                                            <img src="/utils/res/sbr.png" alt="Subscriber" style="width:50%">
+                                            <div class="caption">
+                                                <p>Subscriber</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <p align="left">More</p>
+                                <hr/>
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <a href="#">
+                                            <img src="/utils/res/addcnl.png" alt="Manager" style="width:50%">
+                                            <div class="caption">
+                                                <p>More</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-		
         <script type="text/javascript" src="/utils/js/app.js"></script>
-        <script type="text/javascript" src="js/AsterixIndexController.js"></script>
-        <script type="text/javascript" src="js/AsterixIndexGetter.js"></script>
-		<script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
+        <script type="text/javascript" src="js/ConsoleController.js"></script>
+        <script type="text/javascript" src="js/ConsoleGetter.js"></script>
+        <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
         <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script> 
         <link rel="stylesheet" type="text/css" href="/utils/css/style.css">
     </body>

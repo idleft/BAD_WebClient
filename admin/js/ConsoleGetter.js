@@ -1,4 +1,4 @@
-app.factory('IndexGetter', ['$http', function($http) {
+app.factory('ConsoleGetter', ['$http', function($http) {
     return {
         postUserData: function(userId, userPassword, url, successFunction, errorFunction) {
             console.log('1deamxwu ---> logging in as UserId: ' + userId + ' Pwd: ' + userPassword)

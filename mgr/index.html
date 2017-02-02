@@ -2,15 +2,12 @@
 <html lang="en">
     <title>Big Active Data</title>
     <head>
-		<script type="text/javascript" src="/utils/js/jquery-1.12.4.min.js"></script>
-        <!--<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>-->
+        <script type="text/javascript" src="/utils/js/jquery-1.12.4.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
         <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
-
-
     </head>
     <body ng-app="myApp">
         <div ng-controller="IndexController">
@@ -27,57 +24,54 @@
                             <input type="password" class="form-control" id="userPassword" placeholder="Password" ng-model="userpassword">
                         </div>
                         <button type="submit" class="btn btn-primary" ng-model="clicked" ng-init="clicked=false"
-                                ng-click="loginUser(userid, userpassword, true); clicked=true">Log In
+                            ng-click="loginUser(userid, userpassword, true); clicked=true">Log In
                         </button>
                     </form>
                 </div>
             </nav>
-
-
             <div class="container">
                 <div class="row">
                     <div id="main-content">
-<div class="row">
-<div class="col-md-8">
-       <center><img src="/utils/res/mgr.png" alt="BAD" width="50%" height="50%"></center></br>                     
-</div>
-
-                        <div class="col-md-4">
-                            <h2>Sign up here</h2>
-                            <form>
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Name" ng-model="newUserName">
-                                </div>
-                                <div class="form-group">
-                                    <label for="emailAddress">Email</label>
-                                    <input type="email" class="form-control" id="emailAddress" placeholder="Email" ng-model="newUserEmail">
-                                </div>
-                                <div class="form-group">
-                                    <label for="userName">Username</label>
-                                    <input type="text" class="form-control" id="userName" placeholder="User Name" ng-model="newUserLoginName">
-                                </div>
-                                <div class="form-group">
-                                    <label for="newUserPassword">Password</label>
-                                    <input type="password" class="form-control" id="newUserPassword" placeholder="Password" ng-model="newUserPassword">
-                                </div>
-                                <button type="submit" class="btn btn-primary" ng-model="newUserClicked"
+                        <div class="row">
+                            <div class="col-md-8">
+                                <center><img src="/utils/res/mgr.png" alt="BAD" width="50%" height="50%"></center>
+                                </br>                     
+                            </div>
+                            <div class="col-md-4">
+                                <h2>Sign up here</h2>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Name" ng-model="newUserName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="emailAddress">Email</label>
+                                        <input type="email" class="form-control" id="emailAddress" placeholder="Email" ng-model="newUserEmail">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="userName">Username</label>
+                                        <input type="text" class="form-control" id="userName" placeholder="User Name" ng-model="newUserLoginName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="newUserPassword">Password</label>
+                                        <input type="password" class="form-control" id="newUserPassword" placeholder="Password" ng-model="newUserPassword">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" ng-model="newUserClicked"
                                         ng-init="newUserClicked=false"
                                         ng-click="registerUser(newUserLoginName, newUserPassword, newUserEmail); newUserClicked=true">
                                     Sign Up
-                                </button>
-                            </form>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-</div>
                     </div>
                 </div>
             </div>
         </div>
-		
         <script type="text/javascript" src="/utils/js/app.js"></script>
         <script type="text/javascript" src="js/IndexController.js"></script>
         <script type="text/javascript" src="js/IndexGetter.js"></script>
-		<script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
+        <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
         <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script> 
         <link rel="stylesheet" type="text/css" href="/utils/css/style.css">
     </body>
