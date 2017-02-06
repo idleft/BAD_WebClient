@@ -70,7 +70,7 @@ create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $l
 //create channels
 create repetitive channel recentEmergenciesOfTypeChannel using recentEmergenciesOfType@1 period duration("PT20S");
 create repetitive channel recentEmergenciesOfTypeAtLocationChannel using recentEmergenciesOfTypeAtLocation@3 period duration("PT20S");
-create repetitive channel recentEmergenciesOfTypeAtLocationWithShelter using recentEmergenciesOfTypeAtLocationWithShelter@3 period duration("PT20S");
+create repetitive channel recentEmergenciesOfTypeAtLocationWithShelterChannel using recentEmergenciesOfTypeAtLocationWithShelter@3 period duration("PT20S");
 
 //create feeds
 create feed ReportFeed using socket_adapter
