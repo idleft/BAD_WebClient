@@ -151,26 +151,3 @@ create feed UserLocationFeed using socket_adapter
 connect feed ReportFeed to dataset EmergencyReports
 connect feed ShelterFeed to dataset EmergencyShelters
 connect feed UserLocationFeed to dataset UserLocations
-	("type-name"="EmergencyReport"),
-	("format"="adm")
-);
-
-create feed ShelterFeed using socket_adapter
-(
-	("sockets"="promethium.ics.uci.edu:10002"),
-	("address-type"="IP"),
-	("type-name"="EmergencyShelter"),
-	("format"="adm")
-);
-create feed UserLocationFeed using socket_adapter
-(
-	("sockets"="promethium.ics.uci.edu:10003"),
-	("address-type"="IP"),
-	("type-name"="UserLocation"),
-	("format"="adm")
-);
-
-//connect feeds
-connect feed ReportFeed to dataset EmergencyReports
-connect feed ShelterFeed to dataset EmergencyShelters
-connect feed UserLocationFeed to dataset UserLocations
