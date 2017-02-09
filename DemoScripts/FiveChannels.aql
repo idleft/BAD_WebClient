@@ -5,9 +5,10 @@ use dataverse channels;
 
 //create datatypes
 create type UserLocation if not exists as open{
+	userId: string,
 	recordId: uuid,
-	latitude: float,
-	longitude: float,
+	latitude: double,
+	longitude: double,
 	user-id: string,
 	timeoffset: float,
 	timestamp: datetime
@@ -85,11 +86,11 @@ create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 }
 
 //4_1) "The impactZone and message for all emergencies of type T intersecting user U:"
-create function recentIptMsgofEmergenciesOfTypeIntUser2($emergencyType, $uuid){
+create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	for $report in dataset EmergencyReports
 	for $user in dataset UserLocations
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
-	where $user.uuid = $uuid
+	where $user.userId = $uuid
  	  and $report.timestamp >= $tenMinutesAgo// commnent out for continuous channel
 	  and $report.emergencyType = $emergencyType
 	  and spatial-intersect($report.impactZone,create-point($user.latitude,$user.longitude))
@@ -113,6 +114,26 @@ create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType
 	  and $user.timestamp >= $tenMinutesAgo// commnent out for continuous channels
 	  and $user.timestamp >= $report.timestamp
 	  and $report.timestamp - $user.timestamp <= $report.duration
+	  and $report.emergencyType = $emergencyType
+	  and spatial-intersect($report.impactZone,create-point($user.latitude,$user.longitude))
+	return {
+		"impactZone":$report.impactZone,
+		"message":$report.message,
+		"shelters":$shelters
+	}
+}
+
+//5_1) "The impactZone, message, and a list of Shelters for all emergencies of type T intersecting user U:" 
+create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType, $uuid){
+	for $report in dataset EmergencyReports
+	for $user in dataset UserLocations
+	let $shelters :=
+	  for $shelter in dataset EmergencyShelters
+	  where spatial-intersect($report.impactZone,$shelter.location)
+	  return $shelter
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
+	where $user.userId = $uuid 
+	  and $report.timestamp >= $tenMinutesAgo// commnent out for continuous channel
 	  and $report.emergencyType = $emergencyType
 	  and spatial-intersect($report.impactZone,create-point($user.latitude,$user.longitude))
 	return {
