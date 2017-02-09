@@ -84,6 +84,21 @@ create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	}
 }
 
+//4_1) "The impactZone and message for all emergencies of type T intersecting user U:"
+create function recentIptMsgofEmergenciesOfTypeIntUser2($emergencyType, $uuid){
+	for $report in dataset EmergencyReports
+	for $user in dataset UserLocations
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
+	where $user.uuid = $uuid
+ 	  and $report.timestamp >= $tenMinutesAgo// commnent out for continuous channel
+	  and $report.emergencyType = $emergencyType
+	  and spatial-intersect($report.impactZone,create-point($user.latitude,$user.longitude))
+	return {
+		"impactZone":$report.impactZone,
+		"message":$report.message
+	}
+}
+
 //5) "The impactZone, message, and a list of Shelters for all emergencies of type T intersecting user U:" 
 create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType, $uuid){
 	for $report in dataset EmergencyReports
