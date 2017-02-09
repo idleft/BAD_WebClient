@@ -5,7 +5,6 @@ use dataverse channels;
 
 //create datatypes
 create type UserLocation if not exists as open{
-	userId: string,
 	recordId: uuid,
 	latitude: double,
 	longitude: double,
@@ -87,13 +86,18 @@ create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 
 //4_1) "The impactZone and message for all emergencies of type T intersecting user U:"
 create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
+	let $lastloc=
+	for $loc in dataset UserLocations
+	  where $loc.user-id=$uuid
+	  order by $loc.timestamp desc
+	  limit 1
+	return $loc
 	for $report in dataset EmergencyReports
-	for $user in dataset UserLocations
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
 	where $user.userId = $uuid
  	  and $report.timestamp >= $tenMinutesAgo// commnent out for continuous channel
 	  and $report.emergencyType = $emergencyType
-	  and spatial-intersect(create-point($user.latitude,$user.longitude),$report.impactZone)
+	  and spatial-intersect(create-point($lastloc.latitude,$lastloc.longitude),$report.impactZone)
 	return {
 		"impactZone":$report.impactZone,
 		"message":$report.message
