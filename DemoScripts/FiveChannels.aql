@@ -93,7 +93,7 @@ create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	where $user.userId = $uuid
  	  and $report.timestamp >= $tenMinutesAgo// commnent out for continuous channel
 	  and $report.emergencyType = $emergencyType
-	  and spatial-intersect($report.impactZone,create-point($user.latitude,$user.longitude))
+	  and spatial-intersect(create-point($user.latitude,$user.longitude),$report.impactZone)
 	return {
 		"impactZone":$report.impactZone,
 		"message":$report.message
