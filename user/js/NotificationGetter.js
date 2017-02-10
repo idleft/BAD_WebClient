@@ -1,4 +1,4 @@
-app.factory('HttpGetter', ['$http', function($http){
+app.factory('NotificationGetter', ['$http', function($http){
   return {
       pollBroker: function(successFunction, errorFunction){
         console.log("Hi");

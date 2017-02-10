@@ -7,6 +7,7 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
 			console.log("1deamaxwu ---> logined user success as "+data['data']['userId']);
 			SessionStorage.set('accessToken', data['data']['accessToken']);
         	SessionStorage.set('userId', data['data']['userId']);
+        	SessionStorage.set('userName', $scope.userName);
         	$window.location.href = 'notifications.html';
 		}else{
 			console.log("1deamaxwu ---> login user ERROR: "+data['data']['error'])	
@@ -14,10 +15,11 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
 		}
     }
 
-    var subscribeSuccessFunction = function(data) {
+    var altSuccessFunction = function(data) {
         console.log("1deamaxwu ---> login as new user and going to subscribe");
         SessionStorage.set('accessToken', data['data']['accessToken']);
 		SessionStorage.set('userId', data['data']['userId']);
+		SessionStorage.set('userName', $scope.userName);
         $window.location.href = 'subscriptions.html';
 
     }
@@ -26,7 +28,6 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
         console.log("1deamxwu ---> register user respond success");
 		if(data['data']['status']=='success'){ 
 			console.log("1deamaxwu ---> registered user success as "+data['data']['userId']);
-			//SessionStorage.set('userId', data['data']['userId']);
         	$scope.loginUser($scope.newUserName, $scope.newUserPassword, false);
 		}else{
 			console.log("1deamaxwu ---> register user ERROR: "+data['data']['error'])
@@ -40,18 +41,18 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
 		$window.alert(data['data']);
     }
 
-    $scope.userId = '';
-    $scope.userPassword = '';
-
-    $scope.loginUser = function(userId, userPassword, fromHtml) {
-        $scope.isActive = true;
-        $scope.userId = userId;
+    $scope.loginUser = function(userName, userPassword, fromHtml) {
+        $scope.userName = userName;
         $scope.userPassword = userPassword;
-        if(fromHtml) {
-            IndexGetter.postUserData($scope.userId, $scope.userPassword, SessionStorage.get('brokerUrl'), successFunction, errorFunction);   
-        }
-        else {
-            IndexGetter.postUserData($scope.userId, $scope.userPassword, SessionStorage.get('brokerUrl'), subscribeSuccessFunction, errorFunction);
+        if ($scope.userName != null && $scope.userPassword != null){
+        	if(fromHtml) {
+            	IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), successFunction, errorFunction);   
+        	}
+        	else {
+            	IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), altSuccessFunction, errorFunction);
+        	}
+        }else{
+        	$window.alert("Invalid Inputs!");
         }
         
     };
@@ -60,7 +61,10 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
         $scope.newUserName = newUserName;
         $scope.newUserPassword = newUserPassword;
         $scope.newUserEmail = newUserEmail;
-        IndexGetter.postRegisterUser($scope.newUserName, $scope.newUserPassword, $scope.newUserEmail, SessionStorage.get('brokerUrl'),
-            registerSuccessFunction, errorFunction);
+        if ($scope.newUserName != null && $scope.newUserPassword != null && $scope.newUserEmail != null){
+        	IndexGetter.postRegisterUser($scope.newUserName, $scope.newUserPassword, $scope.newUserEmail, SessionStorage.get('brokerUrl'), registerSuccessFunction, errorFunction);
+        }else{
+        	$window.alert("Invalid Inputs!");
+        }
     }
 }]);

@@ -6,6 +6,10 @@ var emergency=[
             {label: "Flood", val: false},
             {label: "Shooting", val: false}
         ];
-return emergency;
+var subslist=["Earthquake NearMe","Shooting","Flood with Shelter"]
+return {
+	emergencytpye: emergency,
+	subsrcibtionlist: subslist,
+	}
 	
 });

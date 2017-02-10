@@ -10,7 +10,7 @@ app.controller('LocationSubscriptionCtrl',['$scope','$filter','$window', 'Sessio
     $scope.addresses=[];
     $scope.markers=[];
     $scope.length=0;
-    $scope.chkbxs = EmergenciesGetter;
+    $scope.chkbxs = EmergenciesGetter.emergencytpye;
     var bounds = new google.maps.LatLngBounds();
     var counter = 0;
 

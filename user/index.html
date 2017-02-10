@@ -11,20 +11,20 @@
     </head>
     <body ng-app="myApp">
         <div ng-controller="IndexController">
-            <nav class="navbar navbar-light navbar-static-top"  style="background-color: #420042;">
+            <nav class="navbar navbar-light navbar-static-top"  style="background-color: #333333">
                 <div class="container">
                     <a class="navbar-brand" href="#">BAD_Subscriber</a>
                     <form class="navbar-form navbar-right">
                         <div class="form-group">
-                            <label for="userId" style="color:#778899;">User</label>
-                            <input type="text" class="form-control" id="userId" placeholder="User ID" ng-model="userid">
+                            <label for="userName" style="color:#778899;">User</label>
+                            <input type="text" class="form-control" placeholder="Username" ng-model="username">
                         </div>
                         <div class="form-group">
                             <label for="userPassword" style="color:#778899;">Password</label>
                             <input type="password" class="form-control" id="userPassword" placeholder="Password" ng-model="userpassword">
                         </div>
-                        <button type="submit" class="btn btn-primary" ng-model="clicked" ng-init="clicked=false"
-                            ng-click="loginUser(userid, userpassword, true); clicked=true">Log In
+                        <button type="submit" class="btn btn-primary" ng-click="loginUser(username, userpassword, true)">
+                        	Log In
                         </button>
                     </form>
                 </div>
@@ -41,24 +41,18 @@
                                 <h2>Sign up here</h2>
                                 <form>
                                     <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Name" ng-model="newUserName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="emailAddress">Email</label>
-                                        <input type="email" class="form-control" id="emailAddress" placeholder="Email" ng-model="newUserEmail">
-                                    </div>
-                                    <div class="form-group">
                                         <label for="userName">Username</label>
-                                        <input type="text" class="form-control" id="userName" placeholder="User Name" ng-model="newUserLoginName">
+                                        <input type="text" class="form-control" placeholder="Username" ng-model="newUserLoginName">
                                     </div>
                                     <div class="form-group">
                                         <label for="newUserPassword">Password</label>
-                                        <input type="password" class="form-control" id="newUserPassword" placeholder="Password" ng-model="newUserPassword">
+                                        <input type="password" class="form-control" placeholder="Password" ng-model="newUserPassword">
                                     </div>
-                                    <button type="submit" class="btn btn-primary" ng-model="newUserClicked"
-                                        ng-init="newUserClicked=false"
-                                        ng-click="registerUser(newUserLoginName, newUserPassword, newUserEmail); newUserClicked=true">
+                                    <div class="form-group">
+                                        <label for="emailAddress">Email</label>
+                                        <input type="email" class="form-control" placeholder="Email" ng-model="newUserEmail">
+                                    </div>                                 
+                                    <button type="submit" class="btn btn-primary" ng-click="registerUser(newUserLoginName, newUserPassword, newUserEmail)">
                                     Sign Up
                                     </button>
                                 </form>

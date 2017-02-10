@@ -18,10 +18,10 @@
     </head>
     <body ng-app="myApp">
         <div class="container_fluid">
-            <div ng-controller="MainController">
-                <nav class="navbar navbar-light navbar-static-top" style="background-color: #424242;">
+            <div ng-controller="NotificationController">
+                <nav class="navbar navbar-light navbar-static-top" style="background-color: #222222;">
                     <div class="container">
-                        <a class="navbar-brand" href="notifications.html">BAD_WebClient</a>
+                        <a class="navbar-brand" href="notifications.html">BAD_Subscriber</a>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="nav-item active">
                                 <a class="nav-link" href="subscriptions.html">Subscriptions<span
@@ -36,57 +36,87 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
                                     class="caret"></span></button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="preferences.html">Preferences</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
                                     <li role="separator" class="divdider"></li>
-                                    <li><a href="index.html" ng-click="logoutUser()">Log Out</a></li>
+                                    <li><a href="#" ng-click="logoutUser()">Log Out</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </div>
                 </nav>
                 <ul class="nav nav-tabs right">
-                    <li class="active"><a data-toggle="tab" href="#map" ng-click="renderMap()">Map View</a></li>
+                    <li class="active"><a data-toggle="tab" href="#map"">Map View</a></li>
                     <li><a data-toggle="tab" href="#list">List View</a></li>
                 </ul>
                 <div class="row">
                     <div id="main-content">
                         <div ng-init="init()">
                             <div class="tab-content">
-                                <div id="map" class="tab-pane fade in active">
-                                    <div class="col-lg-8 col-md-offset-2">
+                                <div id="map" class="tab-pane in active">
+                                    <div class="col-md-8 col-md-offset-2">
+
                                         <div class="map_canvas_big" >
-                                            <ui-gmap-google-map center="map.center" zoom=7 control='control'>
-                                                <ui-gmap-marker ng-repeat='m in markers' coords="m.coords" idkey="m.id">
+                                            <ui-gmap-google-map center="map.center" zoom="map.zoom" control='control'>
+                                            	<ui-gmap-marker ng-repeat='s in shelters' coords="s.coords" idkey="s.id" options="m.options">
+                                            		<ui-gmap-window show="show">
+                                                        <div>
+                                                    		<p>{{s.message.name}}</p>
+                                            			</div>
+                                                    </ui-gmap-window>
+                                            	</ui-gmap-marker>
+                                            	<ui-gmap-marker coords="mylocation.coords" idkey="mylocation.id">
+                                            		<ui-gmap-window show="show">
+                                                        <div>
+                                                    		<p>{{mylocation.message}}{{mylocation.coords}}</p>
+                                            			</div>
+                                                    </ui-gmap-window>
+                                            	</ui-gmap-marker>
+                                                <ui-gmap-marker ng-repeat='m in markers' coords="m.coords" idkey="m.id" options="m.options">
+                                             
                                                     <ui-gmap-window show="show">
                                                         <div>
-                                                            <p>Emergency: {{!m.message.emergencytype| uppercase}}</p>
-                                                            <p>Severity: {{!m.message.severity}}</p>
-                                                            <p>Message: {{!m.message.message}}</p>
-                                                            <p>Coordinates: {{!m.message.coordinates}}</p>
-                                                            <p>Radius: {{!m.message.radius}}</p>
-                                                            <p>TimeStamp: {{!m.message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</p>
+                                                            <p>Emergency: {{m.message.emergencytype| uppercase}}</p>
+                                                            <p>Severity: {{m.message.severity}}</p>
+                                                            <p>Message: {{m.message.message}}</p>
+                                                            <p>Coordinates: {{m.message.coordinates}}</p>
+                                                            <p>Radius: {{m.message.radius}}</p>
+                                                            <p>TimeStamp: {{m.message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</p>
                                                         </div>
                                                     </ui-gmap-window>
+                                                    
                                                 </ui-gmap-marker>
+                                                <ui-gmap-circle ng-repeat="c in circles" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius" coords="c.center">
+                                                
+                                                </ui-gmap-circle>
                                             </ui-gmap-google-map>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="list" class="tab-pane fade in active">
-                                    <div class="col-lg-4 col-md-offset-4">
-                                        <div id="notifications" ng-repeat='message in messages'>
-                                            <p>Emergency: {{message.emergencytype| uppercase}}</p>
-                                            <p>Severity: {{message.severity}}</p>
-                                            <p>Message: {{message.message}}</p>
-                                            <p>Coordinates: {{message.coordinates}}</p>
-                                            <p>Radius: {{message.radius}}</p>
-                                            <p>TimeStamp: {{message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</p>
-                                            <div class="map_canvas" id="map_canvas-{{!message.timestamp}}">
-                                                <ui-gmap-google-map center="message.center" zoom="map.zoom">
-                                                    <ui-gmap-marker coords="message.center" idkey="1">
-                                                    </ui-gmap-marker>
-                                                </ui-gmap-google-map>
-                                            </div>
+                                <div id="list" class="tab-pane fade">
+                                    <div class="col-md-8 col-md-offset-2">
+
+                                    	<table class="table table-hover">
+                                    		<thead>
+                                    			<tr>
+                                    				<th>Type</th>
+                                    				<th>Severity</th>
+                                    				<th>Mesaage</th>
+                                    				<th>Coordinates</th>
+                                    				<th>Radius</th>
+                                    				<th>TimeStamp</th>
+                                    			</tr>
+                                    		</thead>
+                                    		<tbody ng-repeat='message in messages'>
+                                    			<tr>
+                                    				<th>{{message.emergencytype| uppercase}}</th>
+                                    				<th>{{message.severity}}</th>
+                                    				<th>{{message.message}}</th>
+                                    				<th>{{message.coordinates}}</th>
+                                    				<th>{{message.radius}}</th>
+                                    				<th>{{message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</th>
+                                    			</tr>
+                                    		</tbody>
+                                    	</table>
                                         </div>
                                     </div>
                                 </div>
@@ -97,8 +127,8 @@
             </div>
         </div>
         <script type="text/javascript" src="/utils/js/app.js"></script>
-        <script type="text/javascript" src="js/MainController.js"></script>
-        <script type="text/javascript" src="js/HttpGetter.js"></script>
+        <script type="text/javascript" src="js/NotificationController.js"></script>
+        <script type="text/javascript" src="js/NotificationGetter.js"></script>
         <script type="text/javascript" src="js/geolocationService.js"></script>
         <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
         <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script>
