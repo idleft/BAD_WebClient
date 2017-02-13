@@ -150,7 +150,7 @@ connect feed UserLocationFeed to dataset UserLocations
 /****** Data Population ******/
 
 //four subscriber users
-
 //one publisher user
-
 //six shelters
+
+//Above three populations are via webclient
