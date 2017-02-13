@@ -1,4 +1,4 @@
-/****** Five channels ******/
+/****** Five Channels ******/
 
 //use dataverse channels;
 
@@ -116,6 +116,8 @@ create repetitive channel recentEmergenciesOfTypeAtLocationWithShelterChannel us
 create repetitive channel recentIptMsgofEmergenciesOfTypeIntUserChannel using recentIptMsgofEmergenciesOfTypeIntUser@2 period duration("PT20S");
 create repetitive channel recentIptMsgofEmergenciesOfTypeWithShelterIntUserChannel using recentIptMsgofEmergenciesOfTypeWithShelterIntUser@2 period duration("PT20S");
 
+/****** Feed Management ******/
+
 //create feeds
 create feed ReportFeed using socket_adapter
 (
@@ -144,3 +146,11 @@ create feed UserLocationFeed using socket_adapter
 connect feed ReportFeed to dataset EmergencyReports
 connect feed ShelterFeed to dataset EmergencyShelters
 connect feed UserLocationFeed to dataset UserLocations
+
+/****** Data Population ******/
+
+//four subscriber users
+
+//one publisher user
+
+//six shelters
