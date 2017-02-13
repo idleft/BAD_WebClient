@@ -30,11 +30,13 @@ create type EmergencyReport if not exists as open {
 	emergencyType: string
 }
 
+//create datasets
 create dataset EmergencyReports(EmergencyReport) primary key reportId;
 create dataset UserLocations(UserLocation) primary key recordId;
 create dataset EmergencyShelters(EmergencyShelter) primary key name;
 
 //create functions
+//1) "All emergencies of type T"
 create function recentEmergenciesOfType($emergencyType){
 	for $report in dataset EmergencyReports
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
@@ -42,7 +44,7 @@ create function recentEmergenciesOfType($emergencyType){
 	and $report.emergencyType = $emergencyType
 	return $report
 }
-
+//2) "All emergencies of type T at location L"
 create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $longitude){
 	for $report in dataset EmergencyReports
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
@@ -51,7 +53,7 @@ create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $l
 	and spatial-intersect($report.impactZone,create-circle(create-point($lattitude,$longitude),0.1))
 	return $report
 }
-
+//3) "All emergencies of type T at location L with shelters S"
 create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $lattitude, $longitude){
 	for $report in dataset EmergencyReports
 	let $shelters :=	
@@ -66,7 +68,7 @@ create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $l
 		"shelters":$shelters
 	}
 }
-//4) "The impactZone and message for all emergencies of type T intersecting user U:"
+//4) "The impactZone and message for all emergencies of type T intersecting user U"
 create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	for $report in dataset EmergencyReports
 	for $user in dataset UserLocations
@@ -84,7 +86,7 @@ create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	}
 }
 
-//5) "The impactZone, message, and a list of Shelters for all emergencies of type T intersecting user U:" 
+//5) "The impactZone, message, and a list of Shelters for all emergencies of type T intersecting user U" 
 create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType, $uuid){
 	for $report in dataset EmergencyReports
 	for $user in dataset UserLocations
@@ -111,16 +113,7 @@ create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType
 create repetitive channel recentEmergenciesOfTypeChannel using recentEmergenciesOfType@1 period duration("PT20S");
 create repetitive channel recentEmergenciesOfTypeAtLocationChannel using recentEmergenciesOfTypeAtLocation@3 period duration("PT20S");
 create repetitive channel recentEmergenciesOfTypeAtLocationWithShelterChannel using recentEmergenciesOfTypeAtLocationWithShelter@3 period duration("PT20S");
-
-//4)
-//for continuous channels
-//create continuous channel recentIptMsgofEmergenciesOfTypeIntUserChannel using recentIptMsgofEmergenciesOfTypeIntUser@2;
-//for repetitive channels
 create repetitive channel recentIptMsgofEmergenciesOfTypeIntUserChannel using recentIptMsgofEmergenciesOfTypeIntUser@2 period duration("PT20S");
-//5)
-//for continuous channels
-//create continuous channel recentIptMsgofEmergenciesOfTypeWithShelterIntUserChannel using recentIptMsgofEmergenciesOfTypeWithShelterIntUser@2;
-//for repetitive channels
 create repetitive channel recentIptMsgofEmergenciesOfTypeWithShelterIntUserChannel using recentIptMsgofEmergenciesOfTypeWithShelterIntUser@2 period duration("PT20S");
 
 //create feeds
