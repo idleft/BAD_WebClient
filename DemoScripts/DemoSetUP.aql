@@ -55,7 +55,7 @@ create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $l
 create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $lattitude, $longitude){
 	for $report in dataset EmergencyReports
 	let $shelters :=	
-	for $shelter in dataset EmergencyShelters where spatial-intersect($shelter.location,$report.impactZone) return $shelter
+	for $shelter in dataset EmergencyShelters where spatial-intersect($report.impactZone,create-circle($shelter.location,0.1)) return $shelter
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
 	where $report.timestamp >= $tenMinutesAgo
 	and $report.emergencyType = $emergencyType
@@ -77,7 +77,7 @@ create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	  //and $user.timestamp >= $report.timestamp
 	  //and $report.timestamp - $user.timestamp <= $report.duration
 	  and $report.emergencyType = $emergencyType
-	  and spatial-intersect(create-point($user.latitude,$user.longitude),$report.impactZone)
+	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.1))
 	return {
 		"impactZone":$report.impactZone,
 		"message":$report.message
@@ -90,7 +90,7 @@ create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType
 	for $user in dataset UserLocations
 	let $shelters :=
 	  for $shelter in dataset EmergencyShelters
-	  where spatial-intersect($shelter.location,$report.impactZone)
+	  where spatial-intersect($report.impactZone,create-circle($shelter.location,0.1))
 	  return $shelter
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
 	where $user.user-id = $uuid 
@@ -99,7 +99,7 @@ create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType
 	  //and $user.timestamp >= $report.timestamp
 	  //and $report.timestamp - $user.timestamp <= $report.duration
 	  and $report.emergencyType = $emergencyType
-	  and spatial-intersect(create-point($user.latitude,$user.longitude),$report.impactZone)
+	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.1))
 	return {
 		"impactZone":$report.impactZone,
 		"message":$report.message,
