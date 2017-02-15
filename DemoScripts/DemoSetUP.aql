@@ -55,7 +55,7 @@ create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $l
 create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $lattitude, $longitude){
 	for $report in dataset EmergencyReports
 	let $shelters :=	
-	for $shelter in dataset EmergencyShelters where spatial-intersect($report.impactZone,$shelter.location) return $shelter
+	for $shelter in dataset EmergencyShelters where spatial-intersect($shelter.location,$report.impactZone) return $shelter
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
 	where $report.timestamp >= $tenMinutesAgo
 	and $report.emergencyType = $emergencyType
@@ -90,7 +90,7 @@ create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType
 	for $user in dataset UserLocations
 	let $shelters :=
 	  for $shelter in dataset EmergencyShelters
-	  where spatial-intersect($report.impactZone,$shelter.location)
+	  where spatial-intersect($shelter.location,$report.impactZone)
 	  return $shelter
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
 	where $user.user-id = $uuid 
