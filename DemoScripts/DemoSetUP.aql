@@ -57,7 +57,7 @@ create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $l
 	}
 }
 //3) "All emergencies of type T at location L with shelters S"
-create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $lattitude, $longitude){
+create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType, $lattitude, $longitude){
 	for $report in dataset EmergencyReports
 	let $shelters :=	
 	for $shelter in dataset EmergencyShelters where spatial-intersect($report.impactZone,create-circle($shelter.location,0.1)) return $shelter
