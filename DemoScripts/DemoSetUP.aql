@@ -41,7 +41,9 @@ create function recentEmergenciesOfType($emergencyType){
 	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
 	where $report.timestamp >= $tenMinutesAgo
 	and $report.emergencyType = $emergencyType
-	return $report
+	return {
+		"reports":$report
+	}
 }
 //2) "All emergencies of type T at location L"
 create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $longitude){
@@ -50,7 +52,9 @@ create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $l
 	where $report.timestamp >= $tenMinutesAgo
 	and $report.emergencyType = $emergencyType
 	and spatial-intersect($report.impactZone,create-circle(create-point($lattitude,$longitude),0.1))
-	return $report
+	return {
+		"reports":$report
+	}
 }
 //3) "All emergencies of type T at location L with shelters S"
 create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $lattitude, $longitude){
@@ -62,8 +66,7 @@ create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType,  $l
 	and $report.emergencyType = $emergencyType
 	and spatial-intersect($report.impactZone,create-circle(create-point($lattitude,$longitude),0.1))
 	return {
-		"impactZone":$report.impactZone,
-		"message":$report.message,
+		"reports":$report,
 		"shelters":$shelters
 	}
 }
@@ -81,8 +84,7 @@ create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.1))
 	  //distinct by $report.reportId
 	return {
-		"impactZone":$report.impactZone,
-		"message":$report.message
+		"reports":$report
 	}
 }
 
@@ -104,8 +106,7 @@ create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType
 	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.1))
 	  //distinct by $report.reportId
 	return {
-		"impactZone":$report.impactZone,
-		"message":$report.message,
+		"reports":$report,
 		"shelters":$shelters
 	}
 }
