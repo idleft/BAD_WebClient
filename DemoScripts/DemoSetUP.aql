@@ -77,7 +77,7 @@ create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	  //and $user.timestamp >= $report.timestamp
 	  //and $report.timestamp - $user.timestamp <= $report.duration
 	  and $report.emergencyType = $emergencyType
-	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.1))\
+	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.1))
 	  distinct by $report.reportId
 	return {
 		"impactZone":$report.impactZone,
