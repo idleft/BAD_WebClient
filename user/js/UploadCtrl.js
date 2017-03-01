@@ -85,6 +85,9 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
             } else if ("austin" == $scope.locselection) {
                 mlat = 30.3076863;
                 mlng = -97.8934839;
+            } else if ("munich" == $scope.locselection) {
+                mlat = 48.1548895;
+                mlng = 11.4717964;
             } else {
                 console.log("1deamaxwu ---> unknown city!")
             }
@@ -166,6 +169,9 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
             } else if ("austin" == $scope.locselection) {
                 baselat = 30.3076863;
                 baselng = -97.8934839;
+            } else if ("munich" == $scope.locselection) {
+                baselat = 48.1548895;
+                baselng = 11.4717964;
             } else {
                 console.log("1deamaxwu ---> unknown city!")
             }

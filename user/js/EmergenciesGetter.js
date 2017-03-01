@@ -8,7 +8,7 @@ var emergency=[
             {label: "Riot", val: false}
         ];
 var subslist=["Earthquake NearMe","Shooting","Flood with Shelter"];
-var locs=[{name: "Seattle", val: "seattle"},{name: "Des Moines", val: "desmoines"},{name: "D.C.", val: "washington"},{name: "Austin", val: "austin"},{name: "Riverside", val: "riverside"}];
+var locs=[{name: "Seattle", val: "seattle"},{name: "Des Moines", val: "desmoines"},{name: "D.C.", val: "washington"},{name: "Austin", val: "austin"},{name: "Riverside", val: "riverside"},{name: "Munich", val: "munich"}];
 
 var types=[{name: "Earthquake", val: "earthquake"},{name: "Hurricane", val: "hurricane"},{name: "Tornado", val: "tornado"},{name: "Flood", val: "flood"},{name: "Shooting", val: "shooting"}, {name: "Riot", val: "riot"}];
 

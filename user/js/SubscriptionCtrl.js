@@ -80,7 +80,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
             }
         });
     }
-    $scope.nearMe = function() {
+    $scope.locChange = function() {
         if ($scope.locselection == "NearMe") {
             $scope.addresses = [];
             $scope.addmarkers = [];
@@ -98,7 +98,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                 },
                 title: "myloc"
             };
-            $scope.markers.push(marker);
+            $scope.addmarkers.push(marker);
             bounds.extend(new google.maps.LatLng(marker.coords.latitude, marker.coords.longitude));
             $scope.control.getGMap().fitBounds(bounds);
             //$scope.$apply();
@@ -479,6 +479,9 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
         } else if (uname == "Will") {
             baselat = 38.8993277;
             baselng = -77.0846059;
+        } else if (uname == "Mary") {
+            baselat = 48.1548895;
+            baselng = 11.4717964;
         } else {
             console.log("1deamaxwu ---> undefault location.")
         }

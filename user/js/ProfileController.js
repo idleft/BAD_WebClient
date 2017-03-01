@@ -284,7 +284,9 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                 $scope.ucity = "Washington D.C."
             } else if ($scope.uname == "Will") {
                 $scope.ucity = "Washington D.C."
-            } else {
+            } else if ($scope.uname == "Mary") {
+            	$scope.ucity = "Munich, German"
+        	} else {
                 console.log("1deamaxwu ---> city: " + $scope.uname)
             }
             console.log("1deamaxwu ---> profile: " + $scope.uname)

@@ -358,7 +358,6 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             $scope.baselat = 33.6869803;
             $scope.baselng = -117.8442917;
 
-
             var uname = SessionStorage.get('userName')
             if (uname == "Rose") {
                 $scope.baselat = 33.9459957;
@@ -372,7 +371,10 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             } else if (uname == "Will") {
                 $scope.baselat = 38.8993277;
                 $scope.baselng = -77.0846059;
-            } else {
+            } else if (uname == "Mary") {
+            	$scope.baselat = 48.1548895;
+            	$scope.baselng = 11.4717964;
+        	} else {
                 console.log("1deamaxwu ---> undefault location.")
             }
             console.log("1deamaxwu ---> location: (" + $scope.baselat + ',' + $scope.baselng + ')')
