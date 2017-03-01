@@ -99,8 +99,7 @@
                            <div class="form-group">
                               <label class="control-label col-sm-2">Location:</label>
                               <div class="col-sm-4">
-                                 <!--<input type="checkbox" ng-model="nearMe">-->
-                                 <select class="form-control" ng-model="locselection" ng-change="nearMe()">
+                                 <select class="form-control" ng-model="locselection" ng-change="locChange()">
                                     <option value="">---Please Select---</option>
                                     <option value="NearMe">NearMe</option>
                                     <option value="Location">Add Location</option>
@@ -126,7 +125,7 @@
                            <div class="col-md-12 ">
                               <div class="map_canvas_loc" >
                                  <ui-gmap-google-map  center="map.center" zoom='map.zoom' control='control'>
-                                    <ui-gmap-marker ng-repeat='m in markers' coords="m.coords" idkey="m.id">
+                                    <ui-gmap-marker ng-repeat='m in addmarkers' coords="m.coords" idkey="m.id">
                                        <ui-gmap-window show="show">
                                           <div>{{m.title}}</div>
                                        </ui-gmap-window>

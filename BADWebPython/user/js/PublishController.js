@@ -1,11 +1,7 @@
 app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'SessionStorage', function($scope, $window,
     PublishGetter, SessionStorage) {
-    SessionStorage.conf();
-    $scope.alertmsg = "";
-    $("#rolechoice").modal('show');
-    $scope.tryrole = function() {
-        $("#rolechoice").modal('show');
-    }
+    
+    
     var successFunction = function(data) {
         console.log("1deamxwu ---> login in user respond success");
         if (data['data']['status'] == 'success') {
@@ -16,7 +12,6 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
             $window.location.href = 'upload.html';
         } else {
             console.log("1deamaxwu ---> login user ERROR: " + data['data']['error'])
-            //$window.alert(data['data']['error']);
             $scope.alertmsg = data['data']['error'];
             $("#alertmodal").modal('show');
         }
@@ -38,17 +33,14 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
             $scope.loginUser($scope.newUserName, $scope.newUserPassword, false);
         } else {
             console.log("1deamaxwu ---> register user ERROR: " + data['data']['error'])
-            //$window.alert(data['data']['error']);
             $scope.alertmsg = data['data']['error'];
             $("#alertmodal").modal('show');
         }
 
     }
 
-
     var errorFunction = function(data) {
         console.log("1deamxwu ---> respond ERROR: " + data['data']);
-        //$window.alert(data['data']);
         $scope.alertmsg = "Error Connection! " + data['data'];
         $("#alertmodal").modal('show');
     }
@@ -60,6 +52,10 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
         PublishGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
     }
 
+	$scope.tryrole = function() {
+        $("#rolechoice").modal('show');
+    }
+    
     $scope.loginUser = function(userName, userPassword, fromHtml) {
         $scope.userName = userName;
         $scope.userPassword = userPassword;
@@ -70,7 +66,6 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
                 PublishGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), altSuccessFunction, errorFunction);
             }
         } else {
-            //$window.alert("Invalid Inputs!");
             $scope.alertmsg = "Invalid Inputs!";
             $("#alertmodal").modal('show');
         }
@@ -78,10 +73,15 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
     };
 
     $scope.registerUser = function(newUserName, newUserPassword, newUserEmail) {
-        //$scope.newUserName = newUserName;
-        //$scope.newUserPassword = newUserPassword;
-        //$scope.newUserEmail = newUserEmail;
-        //IndexGetter.postRegisterUser($scope.newUserName, $scope.newUserPassword, $scope.newUserEmail, SessionStorage.get('brokerUrl'),
-        //    registerSuccessFunction, errorFunction);
+        $scope.alertmsg = "Only Loki can publish!";
+        $("#alertmodal").modal('show');
     }
+    
+    $scope.init = function(){
+    	SessionStorage.conf();
+    
+    	$scope.alertmsg = "";
+    	$("#rolechoice").modal('show');
+    }
+    
 }]);

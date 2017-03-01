@@ -13,6 +13,6 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
     $scope.signIn = function(userName, password) {
         SessionStorage.set('testId', "admin");
         console.log("1deamxwu ---> login as " + SessionStorage.get('testId'));
-        //$window.location.href = 'admin/asterixconsole.html';
+        $window.location.href = 'admin/asterixconsole.html';
     }
 }]);

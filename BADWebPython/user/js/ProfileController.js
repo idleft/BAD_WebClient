@@ -1,35 +1,6 @@
 app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket', 'ProfileGetter', 'SubscriptionGetter', 'SessionStorage',
     function($scope, $window, $filter, $websocket, ProfileGetter, SubscriptionGetter, SessionStorage) {
-        SessionStorage.conf();
-        $scope.alertmsg = "";
-        $scope.alertjump = "";
-        $scope.accessToken = SessionStorage.get('accessToken');
-        $scope.userId = SessionStorage.get('userId');
-        
-        $scope.messages = JSON.parse(SessionStorage.get('messages')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
-	$scope.markers = JSON.parse(SessionStorage.get('markers')) == null ? [] : JSON.parse(SessionStorage.get('markers'));
-	$scope.shelters = JSON.parse(SessionStorage.get('shelters')) == null ? [] : JSON.parse(SessionStorage.get('shelters'));;
-        $scope.circles = JSON.parse(SessionStorage.get('circles')) == null ? [] : JSON.parse(SessionStorage.get('circles'));;
-    
-	$scope.numNoti = SessionStorage.get('numNoti') == null ? 0 : SessionStorage.get('numNoti');
 
-        $scope.uname = SessionStorage.get('userName')
-        $scope.uemail = $scope.uname + "@bad.com"
-        $scope.ucity = "Unknown"
-        if ($scope.uname == "Rose") {
-            $scope.ucity = "Riverside, CA"
-        } else if ($scope.uname == "Adam") {
-            $scope.ucity = "Austin, TX"
-        } else if ($scope.uname == "Walt") {
-            $scope.ucity = "Washington D.C."
-        } else if ($scope.uname == "Will") {
-            $scope.ucity = "Washington D.C."
-        } else if ($scope.uname == "Mary") {
-            $scope.ucity = "Munich German"
-        }else {
-            console.log("1deamaxwu ---> city: " + $scope.uname)
-        }
-        console.log("1deamaxwu ---> profile: " + $scope.uname)
         var updateSuccessFunction = function(data) {
 
         }
@@ -44,31 +15,27 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
             console.log("1deamxwu ---> logout respond success");
             if (data['data']['status'] == 'success') {
                 console.log("1deamaxwu ---> logged out success as " + data['data']['userId']);
-                //SessionStorage.remove();
                 SessionStorage.removeElement("accessToken");
                 SessionStorage.removeElement("userId");
                 SessionStorage.removeElement("userName");
                 SessionStorage.removeElement("notiHistory");
                 SessionStorage.removeElement("numNoti");
-            SessionStorage.removeElement("messages");
-            SessionStorage.removeElement("markers");
-            SessionStorage.removeElement("shelters");
+                SessionStorage.removeElement("messages");
+                SessionStorage.removeElement("markers");
+                SessionStorage.removeElement("shelters");
                 SessionStorage.removeElement("circles");
                 $window.location.href = 'index.html';
             } else {
                 console.log("1deamaxwu ---> logged out ERROR: " + data['data']['error']);
                 if (data['data']['error'] == "Invalid access token") {
-                    //$window.alert("Invalid access token! Your account has been accessed at another device!");
                     $scope.alertmsg = "Invalid access token! Your account has been accessed at another device!";
                     $("#alertmodal").modal('show');
                     $scope.alertjump = 'index.html';
                 } else if (data['data']['error'] == "User is not authenticated") {
-                    //$window.alert("User is not authenticated! Please re-login!");
                     $scope.alertmsg = "User is not authenticated! Please re-login!";
                     $("#alertmodal").modal('show');
                     $scope.alertjump = 'index.html';
                 } else {
-                    //$window.alert(data['data']['error']);
                     $scope.alertmsg = data['data']['error'];
                     $("#alertmodal").modal('show');
                     $scope.alertjump = "";
@@ -77,14 +44,16 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
         }
         var errorFunction = function(data) {
             console.log("1deamxwu ---> respond ERROR: " + data['data']);
-            //$window.alert(data['data']);
             $scope.alertmsg = "Error Connection! " + data['data'];
             $("#alertmodal").modal('show');
             $scope.alertjump = "";
         }
 
         $scope.updateUserInfo = function(name, email, bio) {
-            ProfileGetter.updateUserInfo($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'), name, email, bio, updateSuccessFunction, errorFunction);
+        	$scope.alertmsg = "NOT ready function!";
+			$("#alertmodal").modal('show');
+            $scope.alertjump = "";
+            //ProfileGetter.updateUserInfo($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'), name, email, bio, updateSuccessFunction, errorFunction);
             console.log("1deamaxwu ---> update user info as: " + name + " " + email + " " + bio)
         };
 
@@ -92,17 +61,18 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
             ProfileGetter.logout($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'), logoutSuccessFunction, errorFunction);
 
         };
+
         function hasValue(arr, key, val) {
-			if (arr == null){
-				return false;
-			}
-			for (var i = 0; i < arr.length; i++){
-				if(arr[i][key] == val){
-					return true;
-				}
-			}
-			return false;
-		}
+            if (arr == null) {
+                return false;
+            }
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i][key] == val) {
+                    return true;
+                }
+            }
+            return false;
+        }
         var acksuccessFunction = function(data) {
             console.log("1deamxwu ---> ackresults respond success");
             if (data['data']['status'] == 'success') {
@@ -110,17 +80,14 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
             } else {
                 console.log("1deamaxwu ---> ackresults ERROR: " + data['data']['error']);
                 if (data['data']['error'] == "Invalid access token") {
-                    //$window.alert("Invalid access token! Your account has been accessed at another device!");
                     $scope.alertmsg = "Invalid access token! Your account has been accessed at another device!";
                     $("#alertmodal").modal('show');
                     $scope.alertjump = 'index.html';
                 } else if (data['data']['error'] == "User is not authenticated") {
-                    //$window.alert("User is not authenticated! Please re-login!");
                     $scope.alertmsg = "User is not authenticated! Please re-login!";
                     $("#alertmodal").modal('show');
                     $scope.alertjump = 'index.html';
                 } else {
-                    //$window.alert(data['data']['error']);
                     $scope.alertmsg = data['data']['error'];
                     $("#alertmodal").modal('show');
                     $scope.alertjump = "";
@@ -134,16 +101,16 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                 $scope.latestTimeStamp, $scope.ackChannelName, SessionStorage.get('brokerUrl'), acksuccessFunction, errorFunction);
 
             if (data['data']['results'] != null) {
-            	console.log(data['data']);
+                console.log(data['data']);
                 for (i = 0; i < data['data']['results'].length; i++) {
-                	//local client side duplicate verification
-                	if (hasValue($scope.messages, 'reportId', data['data']['results'][i]['result']['reports']['reportId'])){
-                		console.log("1deamaxwu ---> DUPLICATE!");
-                		continue;
-                	}
+                    //local client side duplicate verification
+                    if (hasValue($scope.messages, 'reportId', data['data']['results'][i]['result']['reports']['reportId'])) {
+                        console.log("1deamaxwu ---> DUPLICATE!");
+                        continue;
+                    }
                     iz = data['data']['results'][i]['result']['reports']['impactZone']
                     var message = {
-                    	'reportId': data['data']['results'][i]['result']['reports']['reportId'],
+                        'reportId': data['data']['results'][i]['result']['reports']['reportId'],
                         'emergencytype': data['data']['results'][i]['result']['reports']['emergencyType'],
                         'severity': data['data']['results'][i]['result']['reports']['severity'],
                         'center': {
@@ -151,20 +118,19 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                             longitude: iz[0][1].toFixed(6)
                         },
                         'coordinates': iz[0][0].toFixed(6) + "," + iz[0][1].toFixed(6),
-                        'radius': Math.round(iz[1].toFixed(4)*100000),
+                        'radius': Math.round(iz[1].toFixed(4) * 100000),
                         'message': data['data']['results'][i]['result']['reports']['message'],
                         'duration': data['data']['results'][i]['result']['reports']['duration'].toFixed(6),
                         'timestamp': data['data']['results'][i]['result']['reports']['timestamp'],
                         'msgChannelName': data['data']['channelName'],
                         'visibl': true
                     }
-					//console.log(data['data']['results'][i]['result']['reports']['timestamp']);
                     if (data['data']['results'][i]['result']['shelters'] != null) {
-                    	if (data['data']['results'][i]['result']['shelters'].length == undefined) {
-                    		//if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['name'])){
-                    		//	console.log("1deamaxwu ---> Shelter DUPLICATE!");
-                    		//} else {
-                    		var shelter = {
+                        if (data['data']['results'][i]['result']['shelters'].length == undefined) {
+                            //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['name'])){
+                            //	console.log("1deamaxwu ---> Shelter DUPLICATE!");
+                            //} else {
+                            var shelter = {
                                 id: Date.now(),
                                 sid: data['data']['results'][i]['result']['reports']['reportId'],
                                 sname: data['data']['results'][i]['result']['shelters'][j]['name'],
@@ -185,51 +151,43 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                                 }
                             }
                             console.log("1deamaxwu ---> SHELTER at Location: ");
-                            //console.log(shelter)
-                            //$scope.shelters.push(shelter);
                             SessionStorage.set('shelters', shelter);
-                    $scope.shelters = JSON.parse(SessionStorage.get('shelters'));
+                            $scope.shelters = JSON.parse(SessionStorage.get('shelters'));
                             //}
-                    	} else {
-                        	for (j = 0; j < data['data']['results'][i]['result']['shelters'].length; j++) {
-                        		//if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['name'])){
-                    			//	console.log("1deamaxwu ---> Shelter DUPLICATE!");
-                    			//} else {
-                           	 	var shelter = {
-                                	id: Date.now(),
-                                	sid: data['data']['results'][i]['result']['reports']['reportId'],
-                                	sname: data['data']['results'][i]['result']['shelters'][j]['name'],
-                                	coords: {
-                                    	latitude: data['data']['results'][i]['result']['shelters'][j]['location'][0],
-                                    	longitude: data['data']['results'][i]['result']['shelters'][j]['location'][1]
-                                	},
-                                	options: {
-                                    	icon: 'res/shelter.png',
-                                    	visible: true
-                                	},
-                                	message: {
-                                    	'name': data['data']['results'][i]['result']['shelters'][j]['name'],
-                                    	'coords': {
-                                        	latitude: data['data']['results'][i]['result']['shelters'][j]['location'][0].toFixed(6),
-                                        	longitude: data['data']['results'][i]['result']['shelters'][j]['location'][1].toFixed(6)
-                                    	},
-                                	}
-                            	}
-                            	console.log("1deamaxwu ---> SHELTER from NearMe: ");
-                            	//console.log(shelter)
-                            	//$scope.shelters.push(shelter);
-                            	SessionStorage.set('shelters', shelter);
-                    $scope.shelters = JSON.parse(SessionStorage.get('shelters'));
-                            	//}
-                        	}
+                        } else {
+                            for (j = 0; j < data['data']['results'][i]['result']['shelters'].length; j++) {
+                                //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['name'])){
+                                //	console.log("1deamaxwu ---> Shelter DUPLICATE!");
+                                //} else {
+                                var shelter = {
+                                    id: Date.now(),
+                                    sid: data['data']['results'][i]['result']['reports']['reportId'],
+                                    sname: data['data']['results'][i]['result']['shelters'][j]['name'],
+                                    coords: {
+                                        latitude: data['data']['results'][i]['result']['shelters'][j]['location'][0],
+                                        longitude: data['data']['results'][i]['result']['shelters'][j]['location'][1]
+                                    },
+                                    options: {
+                                        icon: 'res/shelter.png',
+                                        visible: true
+                                    },
+                                    message: {
+                                        'name': data['data']['results'][i]['result']['shelters'][j]['name'],
+                                        'coords': {
+                                            latitude: data['data']['results'][i]['result']['shelters'][j]['location'][0].toFixed(6),
+                                            longitude: data['data']['results'][i]['result']['shelters'][j]['location'][1].toFixed(6)
+                                        },
+                                    }
+                                }
+                                console.log("1deamaxwu ---> SHELTER from NearMe: ");
+                                SessionStorage.set('shelters', shelter);
+                                $scope.shelters = JSON.parse(SessionStorage.get('shelters'));
+                                //}
+                            }
                         }
                     }
 
                     console.log("1deamaxwu ---> RESULTS: ");
-                    //console.log(data['data']['results'][i]['result']);
-                    //$scope.messages.reverse();
-                    //$scope.messages.push(message);
-                    //$scope.messages.reverse();
                     var marker = {
                         id: data['data']['results'][i]['result']['reports']['reportId'],
                         coords: {
@@ -260,32 +218,23 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                         },
                         visible: true
                     };
-                    //$scope.markers.push(marker);
-                    //$scope.circles.push(circle);
-                    
-                    SessionStorage.set('notiHistory', message);
-                    $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
-                    //console.log("1deamaxwu ---> LLLLLLLLLLLLLLLLLLL");
-                    //console.log($scope.notiHistory);
+
+                    SessionStorage.set('notiHistory', message); 
                     SessionStorage.set('messages', message);
                     SessionStorage.set('markers', marker);
                     SessionStorage.set('circles', circle);
+                    
+                    $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
                     $scope.messages = JSON.parse(SessionStorage.get('messages'));
                     $scope.markers = JSON.parse(SessionStorage.get('markers'));
                     $scope.circles = JSON.parse(SessionStorage.get('circles'));
-                    //$scope.notiHistory.sort(SortBy('timestamp', true, function(a){return a.toUpperCase()}));
-                    //$scope.messages.sort(SortBy('timestamp', true, function(a){return a.toUpperCase()}));
-                    //$scope.notiHistory.sort(SortBy('emergencytype', false, function(a){return a.toUpperCase()}));
-                    //$scope.notiHistory.sort(SortBy('severity', false, parseInt));
-                    
+                  
                     $scope.numNoti = $scope.markers.length;
                     SessionStorage.set('numNoti', $scope.numNoti);
-                    
-                    //updateInterSect($scope.mylocation.coords);
                 }
             }
-            //$scope.renderMap();
         }
+        
         $scope.parseMessage = function(message) {
             console.log('1deamaxwu ---> received websocket message from the server');
             var data = JSON.parse(message.data);
@@ -308,13 +257,45 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                         $scope.latestTimeStamp, data['channelName'], SessionStorage.get('brokerUrl'), parseSuccessFunction, errorFunction);
                 }
             }
-    }
-        $scope.init = function(){
-        var socketAddress = "ws://" + SessionStorage.get('brokerUrl') + "/websocketlistener";
+        }
+        
+        $scope.init = function() {
+            SessionStorage.conf();
+
+            $scope.alertmsg = "";
+            $scope.alertjump = "";
+            $scope.accessToken = SessionStorage.get('accessToken');
+            $scope.userId = SessionStorage.get('userId');
+
+            $scope.messages = JSON.parse(SessionStorage.get('messages')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
+            $scope.markers = JSON.parse(SessionStorage.get('markers')) == null ? [] : JSON.parse(SessionStorage.get('markers'));
+            $scope.shelters = JSON.parse(SessionStorage.get('shelters')) == null ? [] : JSON.parse(SessionStorage.get('shelters'));;
+            $scope.circles = JSON.parse(SessionStorage.get('circles')) == null ? [] : JSON.parse(SessionStorage.get('circles'));;
+            $scope.numNoti = SessionStorage.get('numNoti') == null ? 0 : SessionStorage.get('numNoti');
+
+            $scope.uname = SessionStorage.get('userName')
+            $scope.uemail = $scope.uname + "@bad.com"
+            $scope.ucity = "Unknown"
+            if ($scope.uname == "Rose") {
+                $scope.ucity = "Riverside, CA"
+            } else if ($scope.uname == "Adam") {
+                $scope.ucity = "Austin, TX"
+            } else if ($scope.uname == "Walt") {
+                $scope.ucity = "Washington D.C."
+            } else if ($scope.uname == "Will") {
+                $scope.ucity = "Washington D.C."
+            } else if ($scope.uname == "Mary") {
+            	$scope.ucity = "Munich, German"
+        	} else {
+                console.log("1deamaxwu ---> city: " + $scope.uname)
+            }
+            console.log("1deamaxwu ---> profile: " + $scope.uname)
+            var socketAddress = "ws://" + SessionStorage.get('brokerUrl') + "/websocketlistener";
 
             console.log('1deamaxwu ---> Creating Web Socket as ' + socketAddress);
 
-            $scope.dataStream = $websocket(socketAddress);$scope.messages = JSON.parse(SessionStorage.get('messages')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
+            $scope.dataStream = $websocket(socketAddress);
+            $scope.messages = JSON.parse(SessionStorage.get('messages')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
             console.log($scope.dataStream);
             $scope.dataStream.onMessage($scope.parseMessage);
         }

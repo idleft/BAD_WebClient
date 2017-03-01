@@ -1,11 +1,6 @@
 app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionStorage', function($scope, $window,
     IndexGetter, SessionStorage) {
-    SessionStorage.conf();
-    $scope.alertmsg = "";
-    $("#rolechoice").modal('show');
-    $scope.tryrole = function() {
-        $("#rolechoice").modal('show');
-    }
+    
     var successFunction = function(data) {
         console.log("1deamxwu ---> login in user respond success");
         if (data['data']['status'] == 'success') {
@@ -16,7 +11,6 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
             $window.location.href = 'notifications.html';
         } else {
             console.log("1deamaxwu ---> login user ERROR: " + data['data']['error'])
-            //$window.alert(data['data']['error']);
             $scope.alertmsg = data['data']['error'];
             $("#alertmodal").modal('show');
         }
@@ -38,7 +32,6 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
             $scope.loginUser($scope.newUserName, $scope.newUserPassword, false);
         } else {
             console.log("1deamaxwu ---> register user ERROR: " + data['data']['error'])
-            //$window.alert(data['data']['error']);	
             $scope.alertmsg = data['data']['error'];
             $("#alertmodal").modal('show');
         }
@@ -47,9 +40,11 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
 
     var errorFunction = function(data) {
         console.log("1deamxwu ---> respond ERROR: " + data['data']);
-        //$window.alert(data['data']);
         $scope.alertmsg = "Error Connection! " + data['data'];
         $("#alertmodal").modal('show');
+    }
+    $scope.tryrole = function() {
+        $("#rolechoice").modal('show');
     }
     $scope.rolebtn = function(myrole) {
         if (myrole == null) {
@@ -62,7 +57,6 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
             $scope.userPassword = "trump";
             IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
         }
-
     }
     $scope.loginUser = function(userName, userPassword, fromHtml) {
         $scope.userName = userName;
@@ -74,7 +68,6 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
                 IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), altSuccessFunction, errorFunction);
             }
         } else {
-            //$window.alert("Invalid Inputs!");
             $scope.alertmsg = "Invalid Inputs!";
             $("#alertmodal").modal('show');
         }
@@ -88,9 +81,14 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
         if ($scope.newUserName != null && $scope.newUserPassword != null && $scope.newUserEmail != null) {
             IndexGetter.postRegisterUser($scope.newUserName, $scope.newUserPassword, $scope.newUserEmail, SessionStorage.get('brokerUrl'), registerSuccessFunction, errorFunction);
         } else {
-            //$window.alert("Invalid Inputs!");
             $scope.alertmsg = "Invalid Inputs!";
             $("#alertmodal").modal('show');
         }
+    }
+
+    $scope.init = function() {
+        SessionStorage.conf();
+        $scope.alertmsg = "";
+        $("#rolechoice").modal('show');
     }
 }]);

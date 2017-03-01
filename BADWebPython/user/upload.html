@@ -18,7 +18,7 @@
    </head>
    <body ng-app="myApp">
       <div ng-controller="UploadCtrl">
-         <nav class="navbar navbar-light navbar-static-top" style="background-color: #424242;">
+         <nav class="navbar navbar-light navbar-static-top" style="background-color: #00aacc;">
             <div class="container">
                <a class="navbar-brand" href="#">BAD_Publisher</a>
                <ul class="nav navbar-nav navbar-right">
@@ -26,12 +26,6 @@
                      <a class="nav-link" href="upload.html">Publish<span
                         class="sr-only">(current)</span></a>
                   </li>
-                  <!--
-                     <li class="nav-item active">
-                         <a class="nav-link" href="notifications.html">Notifications<span
-                             class="sr-only">(current)</span></a>
-                     </li>
-                     -->
                   <li class="dropdown">
                      <button class="btn btn-primary dropdown-toggle navbar-btn" role="button" id="dropdownMenu1"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
@@ -47,7 +41,7 @@
          </nav>
          <div class="container">
             <div class="row">
-               <div id="main-content">
+               <div id="main-content" ng-init="init()">
                   <div class="modal fade" id="alertmodal" role="dialog">
                      <div class="modal-dialog">
                         <!-- Modal content-->

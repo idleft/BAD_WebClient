@@ -11,7 +11,7 @@
    </head>
    <body ng-app="myApp">
       <div ng-controller="IndexController">
-         <nav class="navbar navbar-light navbar-static-top"  style="background-color: #333333">
+         <nav class="navbar navbar-light navbar-static-top"  style="background-color: #222222">
             <div class="container">
                <a class="navbar-brand" href="#">BAD_Subscriber</a>
                <form class="navbar-form navbar-right">
@@ -34,7 +34,7 @@
          </nav>
          <div class="container">
             <div class="row">
-               <div id="main-content">
+               <div id="main-content" ng-init="init()">
                   <div class="modal fade" id="alertmodal" role="dialog">
                      <div class="modal-dialog">
                         <!-- Modal content-->
@@ -72,7 +72,7 @@
                                     <label><input type="radio" name="radiorole" ng-model="myrole" value="Will">Will @D.C.</label>
                                  </div>
                                  <div class="radio">
-                                    <label><input type="radio" name="radiorole" ng-model="myrole" value="Mary">Mary @German</label>
+                                    <label><input type="radio" name="radiorole" ng-model="myrole" value="Mary">Mary @Munish</label>
                                  </div>
                                  <div class="radio">
                                     <label><input type="radio" name="radiorole" ng-model="myrole" value="Other">Create OR Use My Own Role</label>
