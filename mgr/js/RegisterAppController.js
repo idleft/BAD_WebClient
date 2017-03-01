@@ -104,6 +104,7 @@ app.controller('RegisterAppController', ['$scope', '$window', 'RegisterAppGetter
 		RegisterAppGetter.postRegisterUser("Adam", "trump", "adam@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
 		RegisterAppGetter.postRegisterUser("Walt", "trump", "walt@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
 		RegisterAppGetter.postRegisterUser("Will", "trump", "will@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
+		RegisterAppGetter.postRegisterUser("Mary", "trump", "mary@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
 		
 		//one publisher user
 		RegisterAppGetter.postRegisterUser("Loki", "clinton", "luke@bad.com", SessionStorage.get('brokerUrl'), registerPubUserSuccessFunction, errorFunction);
