@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>Big Active Data</title>
+    <head>
+        <script type="text/javascript" src="utils/js/jquery-1.12.4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
+        <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
+    </head>
+    <body ng-app="myApp">
+        <div ng-controller="IndexController">
+            <div class="container">
+                <div class="row">
+                    <div id="main-content">
+                        <div class="col-md-4 col-md-offset-4">
+                            <center>
+                                <h2 style="margin-bottom:30px">BAD Servives</h2>
+                            </center>
+                            <center><img style="margin-bottom:30px" src="/utils/res/badicon.png" alt="BAD" width="105" height="60"></center>
+                            <form>
+                                <div class="form-group">
+                                    <label for="userName">Username</label>
+                                    <input type="text" class="form-control" id="userName" placeholder="Username" ng-model="newUserLoginName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newUserPassword">Password</label>
+                                    <input type="password" class="form-control" id="newUserPassword" placeholder="Password" ng-model="newUserPassword">
+                                </div>
+                                <button type="submit" class="btn btn-primary" ng-model="newUserClicked"
+                                    ng-init="signInClicked=false"
+                                    ng-click="signIn(loginName, password); signInClicked=true">
+                                Sign In
+                                </button>
+                                <a href="#">Sign Up?</a>
+                            </form>
+                            <p style="margin-top:150px">Products</p>
+                            <center>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <!--<a href="mgr/index.html">-->
+                                        	<a href="#">
+                                            <img src="/utils/res/mgr.png" alt="Manager" style="width:50%">
+                                            <div class="caption">
+                                                <p>Manager</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <a href="user/publish.html">
+                                            <img src="/utils/res/pbr.png" alt="Publisher" style="width:50%">
+                                            <div class="caption">
+                                                <p>Publisher</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <a href="user/index.html">
+                                            <img src="/utils/res/sbr.png" alt="Subscriber" style="width:50%">
+                                            <div class="caption">
+                                                <p>Subscriber</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <a href="#">
+                                            <img src="/utils/res/addcnl.png" alt="Subscriber" style="width:50%">
+                                            <div class="caption">
+                                                <p>More</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="utils/js/app.js"></script>
+        <script type="text/javascript" src="admin/js/IndexController.js"></script>
+        <script type="text/javascript" src="admin/js/IndexGetter.js"></script>
+        <script type="text/javascript" src="utils/js/SessionStorage.js"></script>
+        <script type="text/javascript" src="utils/js/ng-infinite-scroll.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="utils/css/style.css">
+    </body>
+</html>

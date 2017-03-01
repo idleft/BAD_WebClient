@@ -1,0 +1,158 @@
+/****** Five Channels ******/
+
+//comman datatypes and datasets
+
+//create datatypes
+create type UserLocation if not exists as open{
+	recordId: uuid,
+	latitude: double,
+	longitude: double,
+	user-id: string,
+	timeoffset: float,
+	timestamp: datetime
+}
+
+create type EmergencyShelter if not exists as open {
+	name: string,
+	location: point
+}
+
+create type EmergencyReport if not exists as open {
+	reportId: uuid,
+	severity: int,
+	impactZone: circle,
+	timeoffset: float,
+	timestamp: datetime,
+	duration: float,
+	message: string,
+	emergencyType: string
+}
+
+//create datasets
+create dataset EmergencyReports(EmergencyReport) primary key reportId;
+create dataset UserLocations(UserLocation) primary key recordId;
+create dataset EmergencyShelters(EmergencyShelter) primary key name;
+
+//create functions
+
+//1) "All emergencies of type T"
+create function recentEmergenciesOfType($emergencyType){
+	for $report in dataset EmergencyReports
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
+	where $report.timestamp >= $tenMinutesAgo
+	and $report.emergencyType = $emergencyType
+	return {
+		"reports":$report
+	}
+}
+//2) "All emergencies of type T at location L"
+create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $longitude){
+	for $report in dataset EmergencyReports
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
+	where $report.timestamp >= $tenMinutesAgo
+	and $report.emergencyType = $emergencyType
+	and spatial-intersect($report.impactZone,create-circle(create-point($lattitude,$longitude),0.1))
+	return {
+		"reports":$report
+	}
+}
+//3) "All emergencies of type T at location L with shelters S"
+create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType, $lattitude, $longitude){
+	for $report in dataset EmergencyReports	
+	for $shelter in dataset EmergencyShelters  
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
+	where $report.timestamp >= $tenMinutesAgo
+	and $report.emergencyType = $emergencyType
+	and spatial-intersect($report.impactZone,create-circle(create-point($lattitude,$longitude),0.1))
+	and spatial-intersect($report.impactZone,create-circle($shelter.location,0.1))
+	return {
+		"reports":$report,
+		"shelters":$shelter
+	}
+}
+//4) "The impactZone and message for all emergencies of type T intersecting user U"
+create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
+	for $report in dataset EmergencyReports
+	for $user in dataset UserLocations
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
+	where $user.user-id = $uuid
+ 	  and $report.timestamp >= $tenMinutesAgo// commnent out for continuous channels
+	  and $user.timestamp >= $tenMinutesAgo// commnent out for continuous channels
+	  //and $user.timestamp >= $report.timestamp
+	  //and $report.timestamp - $user.timestamp <= $report.duration
+	  and $report.emergencyType = $emergencyType
+	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.1))
+	  //distinct by $report.reportId
+	return {
+		"reports":$report
+	}
+}
+
+//5) "The impactZone, message, and a list of Shelters for all emergencies of type T intersecting user U" 
+create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType, $uuid){
+	for $report in dataset EmergencyReports
+	for $user in dataset UserLocations
+	let $shelters :=
+	  for $shelter in dataset EmergencyShelters
+	  where spatial-intersect($report.impactZone,create-circle($shelter.location,0.1))
+	  return $shelter
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
+	where $user.user-id = $uuid 
+	  and $report.timestamp >= $tenMinutesAgo// commnent out for continuous channels
+	  and $user.timestamp >= $tenMinutesAgo// commnent out for continuous channels
+	  //and $user.timestamp >= $report.timestamp
+	  //and $report.timestamp - $user.timestamp <= $report.duration
+	  and $report.emergencyType = $emergencyType
+	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.1))
+	  //distinct by $report.reportId
+	return {
+		"reports":$report,
+		"shelters":$shelters
+	}
+}
+
+// create channels
+create repetitive channel recentEmergenciesOfTypeChannel using recentEmergenciesOfType@1 period duration("PT20S");
+create repetitive channel recentEmergenciesOfTypeAtLocationChannel using recentEmergenciesOfTypeAtLocation@3 period duration("PT20S");
+create repetitive channel recentEmergenciesOfTypeAtLocationWithShelterChannel using recentEmergenciesOfTypeAtLocationWithShelter@3 period duration("PT20S");
+create repetitive channel recentIptMsgofEmergenciesOfTypeIntUserChannel using recentIptMsgofEmergenciesOfTypeIntUser@2 period duration("PT20S");
+create repetitive channel recentIptMsgofEmergenciesOfTypeWithShelterIntUserChannel using recentIptMsgofEmergenciesOfTypeWithShelterIntUser@2 period duration("PT20S");
+
+/****** Feed Management ******/
+
+//create feeds
+create feed ReportFeed using socket_adapter
+(
+	("sockets"="promethium.ics.uci.edu:10001"),
+	("address-type"="IP"),
+	("type-name"="EmergencyReport"),
+	("format"="adm")
+);
+
+create feed ShelterFeed using socket_adapter
+(
+	("sockets"="promethium.ics.uci.edu:10002"),
+	("address-type"="IP"),
+	("type-name"="EmergencyShelter"),
+	("format"="adm")
+);
+create feed UserLocationFeed using socket_adapter
+(
+	("sockets"="promethium.ics.uci.edu:10003"),
+	("address-type"="IP"),
+	("type-name"="UserLocation"),
+	("format"="adm")
+);
+
+//connect feeds
+connect feed ReportFeed to dataset EmergencyReports
+connect feed ShelterFeed to dataset EmergencyShelters
+connect feed UserLocationFeed to dataset UserLocations
+
+/****** Data Population ******/
+
+//four subscriber users
+//one publisher user
+//five shelters
+
+//Above three populations are via webclient

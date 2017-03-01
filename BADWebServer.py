@@ -14,7 +14,7 @@ class SubscriptionPageHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("subscriptions.html")
 
-class RegisterAppHandler(tornado.web.RequestHandler):
+class RegisterAppPageHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("registerapp.html")
 

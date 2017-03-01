@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+   <title>Subscriptions</title>
+   <head>
+      <script type="text/javascript" src="/utils/js/jquery-1.12.4.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+         integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+         crossorigin="anonymous"></script>
+      <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script>
+      <script type="text/javascript"
+         src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+      <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
+      <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB7GN3xAzg49710-kfwx-IMvI97WUcZBAE&libraries=places&sensor=false"></script>
+   </head>
+   <body ng-app="myApp">
+      <div ng-controller="SubscriptionCtrl">
+         <nav class="navbar navbar-light navbar-static-top" style="background-color: #222222;">
+            <div class="container">
+               <a class="navbar-brand" href="#">BAD_Subscriber</a>
+               <ul class="nav navbar-nav navbar-right">
+                  <li class="nav-item active">
+                     <a class="nav-link" href="subscriptions.html">Subscriptions<span
+                        class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item active">
+                     <a class="nav-link" href="notifications.html">Notifications <span
+                        class="badge">{{numNoti}}</span></a>
+                  </li>
+                  <li class="dropdown">
+                     <button class="btn btn-primary dropdown-toggle navbar-btn" role="button" id="dropdownMenu1"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
+                        class="caret"></span></button>
+                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="profile.html">Profile</a></li>
+                        <li role="separator" class="divdider"></li>
+                        <li><a href="#" ng-click="logoutUser()">Log Out</a></li>
+                     </ul>
+                  </li>
+               </ul>
+            </div>
+         </nav>
+         <div class="container">
+            <div class="row">
+               <div id="main-content">
+                  <div class="modal fade" id="alertmodal" role="dialog">
+                     <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <img src="res/alert.png" class="img-responsive" style="float:left">
+                           </div>
+                           <div class="modal-body">
+                              <p>Alert: {{alertmsg}}</p>
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeAlert()">Close</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <h2 style="margin-bottom:50px">Emergency Report Subscriptions</h2>
+                     <hr/>
+                     <div class="col-md-3" ng-init="init()">
+                        <h3> Your Subscriptions</h3>
+                        <hr/>
+                        <div ng-repeat="sub in sublist" style="word-wrap:break-word">
+                           <ul>
+                              <li ng-model="sub">{{sub.name}} <button type="button" class="btn btn-danger btn-xs" ng-click="deleteSubs(sub.id, sub.name)">Delete</button></li>
+                           </ul>
+                        </div>
+                        <h3> You are Choosing</h3>
+                        <hr/>
+                        <div ng-repeat="choice in chkbxs">
+                           <ul>
+                              <li ng-hide="!choice.val">Type: {{choice.label}}, Location: {{locselection}}, Shelter: {{shelterInfo}}</li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <form class="form-horizontal" role="form">
+                           <h3>Subscriptions Options</h3>
+                           <hr/>
+                           <div class="form-group">
+                              <label class="control-label col-sm-2" for="Emergencies">Type:</label>
+                              <div class="col-sm-10">
+                                 <div ng-repeat="check in chkbxs">
+                                    <div class="checkbox">
+                                       <label><input type="checkbox" ng-model="check.val">{{check.label}}
+                                       </label>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label class="control-label col-sm-2">Location:</label>
+                              <div class="col-sm-4">
+                                 <!--<input type="checkbox" ng-model="nearMe">-->
+                                 <select class="form-control" ng-model="locselection" ng-change="nearMe()">
+                                    <option value="">---Please Select---</option>
+                                    <option value="NearMe">NearMe</option>
+                                    <option value="Location">Add Location</option>
+                                 </select>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label class="control-label col-sm-2">Shelter:</label>
+                              <div class="col-sm-10">
+                                 <input type="checkbox" ng-model="shelterInfo">
+                              </div>
+                           </div>
+                           <div class="col-sm-offset-2 col-sm-8">
+                              <button type="submit" class="btn btn-primary" ng-click="subscribeToEmergencies()">Subscribe
+                              </button>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="col-md-3">
+                        <h3>Subscription Map</h3>
+                        <hr/>
+                        <div class="row">
+                           <div class="col-md-12 ">
+                              <div class="map_canvas_loc" >
+                                 <ui-gmap-google-map  center="map.center" zoom='map.zoom' control='control'>
+                                    <ui-gmap-marker ng-repeat='m in markers' coords="m.coords" idkey="m.id">
+                                       <ui-gmap-window show="show">
+                                          <div>{{m.title}}</div>
+                                       </ui-gmap-window>
+                                    </ui-gmap-marker>
+                                 </ui-gmap-google-map>
+                              </div>
+                           </div>
+                           <div class="col-md-12" ng-hide="!(locselection=='Location')">
+                              <div class="form-group">
+                                 <label style="margin-top:30px">Add A Location:</label>
+                                 <li ng-repeat='address in addresses'>{{address}}</li>
+                              </div>
+                              <div class="form-group">
+                                 <input type='text' id='pac-input' ng-model='address' >
+                                 <input type="button" value="Add" ng-click="addLocation()">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script type="text/javascript" src="/utils/js/app.js"></script>
+      <script type="text/javascript" src="js/SubscriptionCtrl.js"></script>
+      <script type="text/javascript" src="js/SubscriptionGetter.js"></script>
+      <script type="text/javascript" src="js/geolocationService.js"></script>
+      <script type="text/javascript" src="js/EmergenciesGetter.js"></script>
+      <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
+      <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="/utils/css/style.css">
+   </body>
+</html>

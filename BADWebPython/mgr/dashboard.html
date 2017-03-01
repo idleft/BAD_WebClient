@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>App Dashboard</title>
+    <head>
+        <script type="text/javascript" src="/utils/js/jquery-1.12.4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+        <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
+        <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
+    </head>
+    <body ng-app="myApp">
+        <div ng-controller="DashBoardController">
+            <nav class="navbar navbar-toggleable-md navbar-light bg-faded" >
+            <div class="container">
+                <a class="navbar-brand" href="#">BAD_Console</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        Welcome, {{userId}}!
+                        <button type="submit" class="btn btn-primary" ng-model="clicked" ng-init="clicked=false"
+                            ng-click="logoutUser(); clicked=true">Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+            </nav>
+            <div class="container">
+                </br>
+                <center>
+                    <h2>App DashBoard</h2>
+                </center>
+                </br>
+                <div class="card-deck-wrapper">
+                    <div class="card-deck">
+                        <div class="card tab-content">
+                            <div class="card-header">Channel 1</div>
+                            <div class="card-block tab-pane in active" id="dcrp">
+                                <h4 class="card-title">Description</h4>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                            <div class="card-block tab-pane fade" id="mg">
+                                <h4 class="card-title">Manage</h4>
+                                <p class="card-text">This content is a little bit longer.</p>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit">Edit</button>
+                                <a href="#delete" class="btn btn-primary">Delete</a>
+                            </div>
+                            <div class="modal fade" id="edit" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Channel Edit</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Editing Channel...</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <ul class="nav nav-pills card-footer-pills">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#dcrp">Description</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#mg">Manage</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">Channel 2</div>
+                            <div class="card-block">
+                                <h4 class="card-title">Description</h4>
+                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">Channel 3</div>
+                            <div class="card-block">
+                                <h4 class="card-title">Description</h4>
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">New Channel</div>
+                            <div class="card-block">
+                                <h4 class="card-title">Create New Channel</h4>
+                                <img class="card-img-top" src="/utils/res/addcnl.png" alt="Card image cap">
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                </br><a href="registerapp.html">Manage App</a>
+            </div>
+        </div>
+        <script type="text/javascript" src="/utils/js/app.js"></script>
+        <script type="text/javascript" src="js/DashBoardController.js"></script>
+        <script type="text/javascript" src="js/DashBoardGetter.js"></script>
+        <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
+        <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/utils/css/style.css">
+    </body>
+</html>

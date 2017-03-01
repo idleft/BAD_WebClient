@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+   <title>Profile</title>
+   <head>
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+         integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+         integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+         crossorigin="anonymous"></script>
+      <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script>
+      <script type="text/javascript"
+         src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+      <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
+   </head>
+   <body ng-app="myApp">
+      <div ng-controller="PubProfileController" ng-init="getChannels()">
+         <nav class="navbar navbar-light navbar-static-top" style="background-color: #00aacc;">
+            <div class="container">
+               <a class="navbar-brand" href="#">BAD_Publisher</a>
+               <ul class="nav navbar-nav navbar-right">
+                  <li class="nav-item active">
+                     <a class="nav-link" href="upload.html">Publish<span
+                        class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="dropdown">
+                     <button class="btn btn-primary dropdown-toggle navbar-btn" role="button" id="dropdownMenu1"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings <span
+                        class="caret"></span></button>
+                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="pubprofile.html">Profile</a></li>
+                        <li role="separator" class="divdider"></li>
+                        <li><a href="#" ng-click="logoutUser()">Log Out</a></li>
+                     </ul>
+               </ul>
+            </div>
+         </nav>
+         <div class="container">
+            <div class="row">
+               <div id="main-content" ng-init="init()">
+                  <div class="modal fade" id="alertmodal" role="dialog">
+                     <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <img src="res/alert.png" class="img-responsive" style="float:left">
+                           </div>
+                           <div class="modal-body">
+                              <p>Alert: {{alertmsg}}</p>
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeAlert()">Close</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-4 col-md-offset-4">
+                     <form class="form-horizontal" role="form">
+                        <h1>Profile</h1>
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" placeholder="{{uname}}" ng-model="name">
+                        <p></p>
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" placeholder="{{uemail}}" ng-model="email">
+                        <p></p>
+                        <label for="city">city</label>
+                        <input type="text" class="form-control" placeholder={{ucity}} ng-model="city">
+                        <p></p>
+                        <label for="bio">Bio</label>
+                        <input type="text" class="form-control" placeholder="I am a BAD user!" ng-model="bio">
+                        <p></p>
+                        <button type="submit" class="btn btn-primary" ng-click="updateUserInfo(name, email, bio)">
+                        update
+                        </button>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script type="text/javascript" src="/utils/js/app.js"></script>
+      <script type="text/javascript" src="js/PubProfileController.js"></script>
+      <script type="text/javascript" src="js/PubProfileGetter.js"></script>
+      <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
+      <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="/utils/css/style.css">
+   </body>
+</html>
