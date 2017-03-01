@@ -27,5 +27,6 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
     
     $scope.init = function(){
     	SessionStorage.conf();
+    	$scope.alertmsg = "";
     }
 }]);
