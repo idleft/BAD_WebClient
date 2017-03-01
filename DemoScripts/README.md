@@ -13,4 +13,4 @@ python3 FeedPub.py UserLocations 10003
 
 //for new version setup
 
-check at [Demo Intro Release](https://docs.google.com/presentation/d/1-YWiU1oMdhn8FQILJWuPUvcoeZ8KKOUn3QZ8iZ37SVI/edit?usp=sharing)
+check at Google Docs [Demo Intro Release](https://docs.google.com/presentation/d/1-YWiU1oMdhn8FQILJWuPUvcoeZ8KKOUn3QZ8iZ37SVI/edit?usp=sharing)
