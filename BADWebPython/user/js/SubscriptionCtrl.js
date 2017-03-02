@@ -1,5 +1,14 @@
 app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket', 'SessionStorage', 'SubscriptionGetter', 'geolocationService', 'EmergenciesGetter', function($scope, $window, $filter, $websocket, SessionStorage, SubscriptionGetter, geolocationService, EmergenciesGetter) {
 
+    Array.prototype.contains = function(obj) {
+        var i = this.length;
+        while (i--) {
+            if (this[i] == obj) {
+                return true;
+            }
+        }
+        return false;
+    }
     Array.prototype.removeValue = function(name, value) {
         var array = $.map(this, function(v, i) {
             return v[name] === value ? null : v;
@@ -18,9 +27,9 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
     $scope.options = {
         scrollwheel: false
     };
-    
+
     $scope.control = {};
-    
+
     var bounds = new google.maps.LatLngBounds();
 
     var searchAddressInput = document.getElementById('pac-input');
@@ -45,41 +54,27 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
     }
 
     $scope.addLocation = function() {
-        console.log("1deamaxwu ---> addding location");
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({
-            "address": $scope.address
-        }, function(results, status) {
-            var address = $scope.address;
-            if (status == google.maps.GeocoderStatus.OK) {
-                $scope.addresses.push($scope.address);
-                //$scope.$apply();
-                var marker = {
-                    id: Date.now(),
-                    coords: {
-                        latitude: results[0].geometry.location.lat(),
-                        longitude: results[0].geometry.location.lng()
-                    },
-                    title: address
-                };
-                $scope.addmarkers.push(marker);
-                $scope.address = '';
-                console.log("1deamaxwu ---> Add a new location: " + marker.coords.latitude + "," + marker.coords.longitude);
-                for (var i = 0, length = $scope.addmarkers.length; i < length; i++) {
-                    var marker = $scope.addmarkers[i].coords;
-                    console.log("test: " + marker.latitude + ',' + marker.longitude)
-                    bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
-                }
-                $scope.control.getGMap().fitBounds(bounds);
-                //$scope.$apply();
-            } else {
-                console.log("1deamaxwu ---> Geocode was not successful for the following reason: " + status);
-                $scope.alertmsg = "1deamaxwu ---> Geocode was not successful for the following reason: " + status;
-                $("#alertmodal").modal('show');
-                $scope.alertjump = "";
+
+        console.log("1deamaxwu ---> addding location: " + $scope.addmarker + ", name: " + $scope.address);
+
+        if ($scope.addresses.contains($scope.address)) {
+            $scope.alertmsg = "Duplicated Location!";
+            $("#alertmodal").modal('show');
+            $scope.alertjump = '';
+
+        } else {
+            $scope.addresses.push($scope.address);
+            $scope.addmarkers.push($scope.addmarker);
+            console.log("1deamaxwu ---> addresses: " + $scope.addresses);
+            for (var i = 0, length = $scope.addmarkers.length; i < length; i++) {
+                var marker = $scope.addmarkers[i].coords;
+                bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
             }
-        });
+            $scope.control.getGMap().fitBounds(bounds);
+        }
+
     }
+
     $scope.locChange = function() {
         if ($scope.locselection == "NearMe") {
             $scope.addresses = [];
@@ -106,6 +101,26 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
         if ($scope.locselection == "Location") {
             $scope.addresses = [];
             $scope.addmarkers = [];
+
+            autocomplete.addListener('place_changed', function() {
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    console.log("1deamaxwu ---> Autocomplete returned place contains no geometry");
+                    return;
+                } else {
+
+                    $scope.address = place.name;
+                    $scope.addmarker = {
+                        id: Date.now(),
+                        coords: {
+                            latitude: place.geometry.location.lat(),
+                            longitude: place.geometry.location.lng()
+                        },
+                        title: $scope.address
+                    };
+                    console.log("1deamaxwu ---> place: " + $scope.addmarker.coords + ', name: ' + $scope.address);
+                }
+            });
         }
     }
 
@@ -417,12 +432,12 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                 SessionStorage.set('messages', message);
                 SessionStorage.set('markers', marker);
                 SessionStorage.set('circles', circle);
-                
+
                 $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
                 $scope.messages = JSON.parse(SessionStorage.get('messages'));
                 $scope.markers = JSON.parse(SessionStorage.get('markers'));
                 $scope.circles = JSON.parse(SessionStorage.get('circles'));
-                
+
                 $scope.numNoti = $scope.markers.length;
                 SessionStorage.set('numNoti', $scope.numNoti);
             }
@@ -600,10 +615,10 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
     }
     $scope.init = function() {
         SessionStorage.conf();
-		
-		$scope.address = '';
-		$scope.addresses = [];
-    	$scope.addmarkers = [];
+
+        $scope.address = '';
+        $scope.addresses = [];
+        $scope.addmarkers = [];
         $scope.alertmsg = "";
         $scope.alertjump = "";
         $scope.chkbxs = EmergenciesGetter.emergencytpye;
