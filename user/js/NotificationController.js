@@ -119,7 +119,6 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         var historySuccessFunction = function(data) {
             console.log("1deamaxwu ---> all is well with HISTORY results");
             if (data['data']['results'] != null) {
-                console.log(data['data']);
                 for (i = 0; i < data['data']['results'].length; i++) {
                     if (hasValue($scope.notiHistory, 'reportId', data['data']['results'][i]['result']['reports']['reportId'])) {
                         console.log("1deamaxwu ---> DUPLICATE!");
@@ -143,20 +142,21 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                         'msgChannelName': data['data']['channelName'],
                         'visibl': true
                     }
-
                     SessionStorage.set('notiHistory', message);
                     $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
+                    
                 }
+           
             }
         }
         var successFunction = function(data) {
             console.log("1deamaxwu ---> all is well with new results");
-
+			
             NotificationGetter.ackResults($scope.userId, $scope.accessToken, $scope.ackUserSubscriptionId,
                 $scope.latestTimeStamp, $scope.ackChannelName, SessionStorage.get('brokerUrl'), acksuccessFunction, errorFunction);
 
             if (data['data']['results'] != null) {
-                console.log(data['data']);
+                
                 for (i = 0; i < data['data']['results'].length; i++) {
                     //local client side duplicate verification
                     if (hasValue($scope.messages, 'reportId', data['data']['results'][i]['result']['reports']['reportId'])) {
@@ -243,8 +243,6 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                         }
                     }
 
-                    console.log("1deamaxwu ---> RESULTS: ");
-
                     var marker = {
                         id: data['data']['results'][i]['result']['reports']['reportId'],
                         coords: {
@@ -275,17 +273,17 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                         },
                         visible: true
                     };
-
+					
                     SessionStorage.set('notiHistory', message);
                     SessionStorage.set('messages', message);
                     SessionStorage.set('markers', marker);
                     SessionStorage.set('circles', circle);
-                    
+					
                     $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
                     $scope.messages = JSON.parse(SessionStorage.get('messages'));
                     $scope.markers = JSON.parse(SessionStorage.get('markers'));
                     $scope.circles = JSON.parse(SessionStorage.get('circles'));
-
+                    
                     $scope.numNoti = $scope.markers.length;
                     SessionStorage.set('numNoti', $scope.numNoti);
 
@@ -538,7 +536,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         $scope.parseMessage = function(message) {
             console.log('1deamaxwu ---> received websocket message from the server');
             var data = JSON.parse(message.data);
-
+			
             if ($scope.userId == data['userId']) {
                 $scope.latestTimeStamp = data['channelExecutionTime'];
                 //$scope.latestTimeStamp = "2017-02-24T20:53:58.410Z";
@@ -560,7 +558,13 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
 
         function GetHistory() {
             var subscriptionList = JSON.parse(SessionStorage.get('subscriptionId'));
+            if (SessionStorage.get("notiHistory") != null) {
+           		console.log("1deamaxwu ---> NOT NULL!");
+                SessionStorage.removeElement("notiHistory");
+				$scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
+            }
             if (subscriptionList != null) {
+
                 for (var i = 0; i < subscriptionList.length; i++) {
                     item = subscriptionList[i].split("::");
                     channelName = item[2];

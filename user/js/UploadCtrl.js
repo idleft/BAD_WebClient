@@ -100,7 +100,18 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
         }
 
     }
-
+	
+	function PlaySound(name){
+		console.log("1deamaxwu ---> play sound: " + name)
+		if (name == "Loki"){
+			var path = "res/"
+        	var snd = new Audio(path + name + ".mp3");
+        	snd.play();
+		} else{
+			console.log("1deamaxwu ---> NO sound named: " + name)
+		}
+	}
+	
     //get formatted date
     function getFDate() {
         date = new Date();
@@ -138,11 +149,13 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
     }
 
     $scope.publishBtn = function() {
+    	
         if ($scope.typeselection == "" || $scope.locselection == "") {
             $scope.alertmsg = "Please Select a TYPE a LOC!";
             $("#alertmodal").modal('show');
             $scope.alertjump = "";
         } else {
+        	PlaySound('Loki');
             console.log("1deamaxwu ---> TYPE and LOC: " + $scope.typeselection + " and " + $scope.locselection)
 
             var portNo = 10001;
