@@ -33,11 +33,12 @@ More info can be accessed from [ACM publication](dl.acm.org/ft_gateway.cfm?id=29
 * HomePage - register user and log in
 * Notification - recieve notifications
 * Subscription - subscribe channels
-* Preference - set preferences
+* Profile - profile settings
 
 ### For Publisher
 
-* Currently, manually publish by DemoScripts
+* Publish - publish emergency reports by Loki
+* Profile - profile settings
 
 ### For Manager
 
