@@ -65,7 +65,7 @@
                         <form class="form-horizontal" role="form">
                            <h3>Publish Options</h3>
                            <hr/>
-                           <div class="form-group">
+                           <div class="form-group" style="margin-top:50px">
                               <label class="control-label col-sm-4">Type:</label>
                               <div class="col-sm-4">
                                  <select class="form-control" ng-model="typeselection" ng-change="typeChange()">
@@ -88,7 +88,29 @@
                               <button type="submit" class="btn btn-primary" ng-click="publishBtn()">Publish
                               </button>
                            </div>
-                           <h3 style="margin-top:100px">Publish History</h3>
+                           
+                        </form>
+                     </div>
+                     <div class="col-md-6">
+                        <h3>Publish Map</h3>
+                        <hr/>
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="map_canvas_loc" >
+                                 <ui-gmap-google-map  center="map.center" zoom='map.zoom' control='control' events="map.events">
+                                    <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id"> </ui-gmap-marker>
+                                 </ui-gmap-google-map>
+                              </div>
+                           </div>
+                           <div class="col-md-12" ng-hide="!(locselection=='onmap')">
+                              <div class="form-group">
+                                 <label style="margin-top:30px">Location: {{marker.coords}}</label>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-12">
+                     <h3>Publish History</h3>
                            <hr/>
                            <table class="table table-hover">
                               <thead>
@@ -106,25 +128,6 @@
                                  </tr>
                               </tbody>
                            </table>
-                        </form>
-                     </div>
-                     <div class="col-md-6">
-                        <h3>Publish Map</h3>
-                        <hr/>
-                        <div class="row">
-                           <div class="col-md-12 ">
-                              <div class="map_canvas_loc" >
-                                 <ui-gmap-google-map  center="map.center" zoom='map.zoom' control='control' events="map.events">
-                                    <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id"> </ui-gmap-marker>
-                                 </ui-gmap-google-map>
-                              </div>
-                           </div>
-                           <div class="col-md-12" ng-hide="!(locselection=='onmap')">
-                              <div class="form-group">
-                                 <label style="margin-top:30px">Location: {{marker.coords}}</label>
-                              </div>
-                           </div>
-                        </div>
                      </div>
                   </div>
                </div>

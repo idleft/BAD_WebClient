@@ -17,19 +17,6 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
         this.push.apply(this, array); //push all elements except the one we want to delete
     } //countries.results.removeValue('name', 'Albania');
 
-    $scope.map = {
-        center: {
-            latitude: 39.7642548,
-            longitude: -104.9951939
-        },
-        zoom: 7
-    };
-    $scope.options = {
-        scrollwheel: false
-    };
-
-    $scope.control = {};
-
     var bounds = new google.maps.LatLngBounds();
 
     var searchAddressInput = document.getElementById('pac-input');
@@ -219,6 +206,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                 $scope.sublist = []
             }
             if (data['data']['subscriptions'] != null) {
+            	console.log(data['data']['subscriptions']);
                 for (var i = 0; i < data['data']['subscriptions'].length; i++) {
                     SessionStorage.set('subscriptionId', data['data']['subscriptions'][i]["userSubscriptionId"]);
                     paras = data['data']['subscriptions'][i]["parameters"].split(",");
@@ -227,25 +215,30 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                         if (paras.length == 1) {
                             sub = {
                                 'id': data['data']['subscriptions'][i]["userSubscriptionId"],
-                                'name': paras[0]
+                                'name': paras[0],
+                                'desc': 'Channel: ' + data['data']['subscriptions'][i]["channelName"] + '\n\nFunction: create function recentEmergenciesOfType($emergencyType){...} \n\nParameters: ' + data['data']['subscriptions'][i]["parameters"] + '\n\nTimestamp: ' + data['data']['subscriptions'][i]["timestamp"]
                             };
                             $scope.sublist.push(sub);
                         } else if (paras.length == 2) {
                             sub = {
                                 'id': data['data']['subscriptions'][i]["userSubscriptionId"],
-                                'name': paras[0] + ' NearMe'
+                                'name': paras[0] + ' NearMe',
+                                'desc': 'Channel: ' + data['data']['subscriptions'][i]["channelName"] + '\n\nFunction: create function recentEmergenciesOfTypeNearUser($emergencyType, $uuid){...} \n\nParameters: ' + data['data']['subscriptions'][i]["parameters"] + '\n\nTimestamp: ' + data['data']['subscriptions'][i]["timestamp"]
                             };
                             if (data['data']['subscriptions'][i]["channelName"].includes("Shelter")) {
                                 sub.name += " with Shelter";
+                                sub.desc = 'Channel: ' + data['data']['subscriptions'][i]["channelName"] + '\n\nFunction: create function recentEmergenciesOfTypeWithShelterNearUser{...} \n\nParameters: ' + data['data']['subscriptions'][i]["parameters"] + '\n\nTimestamp: ' + data['data']['subscriptions'][i]["timestamp"];
                             }
                             $scope.sublist.push(sub);
                         } else if (paras.length == 3) {
                             sub = {
                                 'id': data['data']['subscriptions'][i]["userSubscriptionId"],
-                                'name': paras[0] + ' @(' + parseFloat(paras[1]).toFixed(6) + ',' + parseFloat(paras[2]).toFixed(6) + ')'
+                                'name': paras[0] + ' @(' + parseFloat(paras[1]).toFixed(6) + ',' + parseFloat(paras[2]).toFixed(6) + ')',
+                                'desc': 'Channel: ' + data['data']['subscriptions'][i]["channelName"] + '\n\nFunction: create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $longitude){...} \n\nParameters: ' + data['data']['subscriptions'][i]["parameters"] + '\n\nTimestamp: ' + data['data']['subscriptions'][i]["timestamp"]
                             };
                             if (data['data']['subscriptions'][i]["channelName"].includes("Shelter")) {
                                 sub.name += " with Shelter";
+                                sub.desc = 'Channel: ' + data['data']['subscriptions'][i]["channelName"] + '\n\nFunction: create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType, $lattitude, $longitude){...} \n\nParameters: ' + data['data']['subscriptions'][i]["parameters"] + '\n\nTimestamp: ' + data['data']['subscriptions'][i]["timestamp"];
                             }
                             $scope.sublist.push(sub);
                         } else {
@@ -477,26 +470,26 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
 
     function UserPosition() {
 
-        var baselat = 33.6869803;
-        var baselng = -117.8442917;
+        var baselat = $scope.cities[2].loc.lat;
+        var baselng = $scope.cities[2].loc.lng;
 
 
         var uname = SessionStorage.get('userName')
         if (uname == "Rose") {
-            baselat = 33.9459957;
-            baselng = -117.4695675;
+            baselat = $scope.cities[3].loc.lat;
+            baselng = $scope.cities[3].loc.lng;
         } else if (uname == "Adam") {
-            baselat = 30.3076863;
-            baselng = -97.8934839;
+            baselat = $scope.cities[4].loc.lat;
+            baselng = $scope.cities[4].loc.lng;
         } else if (uname == "Walt") {
-            baselat = 38.8993277;
-            baselng = -77.0846059;
+            baselat = $scope.cities[2].loc.lat;
+            baselng = $scope.cities[2].loc.lng;
         } else if (uname == "Will") {
-            baselat = 38.8993277;
-            baselng = -77.0846059;
+            baselat = $scope.cities[2].loc.lat;
+            baselng = $scope.cities[2].loc.lng;
         } else if (uname == "Mary") {
-            baselat = 48.1548895;
-            baselng = 11.4717964;
+            baselat = $scope.cities[5].loc.lat;
+            baselng = $scope.cities[5].loc.lng;
         } else {
             console.log("1deamaxwu ---> undefault location.")
         }
@@ -622,7 +615,8 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
         $scope.alertmsg = "";
         $scope.alertjump = "";
         $scope.chkbxs = EmergenciesGetter.emergencytpye;
-        $scope.sublist = []
+        $scope.sublist = [];
+        $scope.cities = EmergenciesGetter.citylist;
         $scope.mylocation = '';
         $scope.locselection = "";
         $scope.shelterInfo = false;
@@ -637,6 +631,23 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
         $scope.circles = JSON.parse(SessionStorage.get('circles')) == null ? [] : JSON.parse(SessionStorage.get('circles'));;
         $scope.numNoti = SessionStorage.get('numNoti') == null ? 0 : SessionStorage.get('numNoti');
 
+        $scope.map = {
+            center: {
+                latitude: $scope.cities[2].loc.lat,
+                longitude: $scope.cities[2].loc.lng
+            },
+            zoom: 12
+        };
+        $scope.options = {
+            scrollwheel: false
+        };
+
+        $scope.control = {};
+
+		$(document).ready(function(){
+    		$('[data-toggle="tooltip"]').tooltip();   
+		});
+		
         SubscriptionGetter.getSubscriptions($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'),
             subscribeSuccessFunction, errorFunction);
     }

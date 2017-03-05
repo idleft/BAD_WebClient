@@ -1,19 +1,6 @@
-app.controller('NotificationController', ['$scope', '$interval', '$websocket', '$window', '$location', 'NotificationGetter',
+app.controller('NotificationController', ['$scope', '$interval', '$websocket', '$window', '$location', 'NotificationGetter', 'EmergenciesGetter',
     'SessionStorage', 'geolocationService',
-    function($scope, $interval, $websocket, $window, $location, NotificationGetter, SessionStorage, geolocationService) {
-
-        $scope.map = {
-            center: {
-                latitude: 33.6869803,
-                longitude: -117.8442917
-            },
-            zoom: 7
-        };
-        $scope.options = {
-            scrollwheel: false
-        };
-
-        $scope.control = {};
+    function($scope, $interval, $websocket, $window, $location, NotificationGetter, EmergenciesGetter, SessionStorage, geolocationService) {
 
         var bounds = new google.maps.LatLngBounds();
 
@@ -144,19 +131,19 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     }
                     SessionStorage.set('notiHistory', message);
                     $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
-                    
+
                 }
-           
+
             }
         }
         var successFunction = function(data) {
             console.log("1deamaxwu ---> all is well with new results");
-			
+
             NotificationGetter.ackResults($scope.userId, $scope.accessToken, $scope.ackUserSubscriptionId,
                 $scope.latestTimeStamp, $scope.ackChannelName, SessionStorage.get('brokerUrl'), acksuccessFunction, errorFunction);
 
             if (data['data']['results'] != null) {
-                
+
                 for (i = 0; i < data['data']['results'].length; i++) {
                     //local client side duplicate verification
                     if (hasValue($scope.messages, 'reportId', data['data']['results'][i]['result']['reports']['reportId'])) {
@@ -273,17 +260,17 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                         },
                         visible: true
                     };
-					
+
                     SessionStorage.set('notiHistory', message);
                     SessionStorage.set('messages', message);
                     SessionStorage.set('markers', marker);
                     SessionStorage.set('circles', circle);
-					
+
                     $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
                     $scope.messages = JSON.parse(SessionStorage.get('messages'));
                     $scope.markers = JSON.parse(SessionStorage.get('markers'));
                     $scope.circles = JSON.parse(SessionStorage.get('circles'));
-                    
+
                     $scope.numNoti = $scope.markers.length;
                     SessionStorage.set('numNoti', $scope.numNoti);
 
@@ -335,7 +322,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     latitude: $scope.mylocation.coords.latitude,
                     longitude: $scope.mylocation.coords.longitude
                 },
-                zoom: 7
+                zoom: 12
             };
 
         }
@@ -347,42 +334,43 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     latitude: $scope.mylocation.coords.latitude,
                     longitude: $scope.mylocation.coords.longitude
                 },
-                zoom: 7
+                zoom: 12
             };
 
         }
 
         function initBaseLoc() {
-            $scope.baselat = 33.6869803;
-            $scope.baselng = -117.8442917;
+            $scope.baselat = $scope.cities[2].loc.lat;
+            $scope.baselng = $scope.cities[2].loc.lng;
 
             var uname = SessionStorage.get('userName')
             if (uname == "Rose") {
-                $scope.baselat = 33.9459957;
-                $scope.baselng = -117.4695675;
+                baselat = $scope.cities[3].loc.lat;
+                baselng = $scope.cities[3].loc.lng;
             } else if (uname == "Adam") {
-                $scope.baselat = 30.3076863;
-                $scope.baselng = -97.8934839;
+                baselat = $scope.cities[4].loc.lat;
+                baselng = $scope.cities[4].loc.lng;
             } else if (uname == "Walt") {
-                $scope.baselat = 38.8993277;
-                $scope.baselng = -77.0846059;
+                baselat = $scope.cities[2].loc.lat;
+                baselng = $scope.cities[2].loc.lng;
             } else if (uname == "Will") {
-                $scope.baselat = 38.8993277;
-                $scope.baselng = -77.0846059;
+                baselat = $scope.cities[2].loc.lat;
+                baselng = $scope.cities[2].loc.lng;
             } else if (uname == "Mary") {
-            	$scope.baselat = 48.1548895;
-            	$scope.baselng = 11.4717964;
-        	} else {
+                baselat = $scope.cities[5].loc.lat;
+                baselng = $scope.cities[5].loc.lng;
+            } else {
                 console.log("1deamaxwu ---> undefault location.")
             }
             console.log("1deamaxwu ---> location: (" + $scope.baselat + ',' + $scope.baselng + ')')
 
         }
+
         function UserPosition() {
             console.log("1deamaxwu ---> interval as UserPosition")
 
-            var lat = $scope.baselat + Math.random() * 0.2;
-            var lng = $scope.baselng + Math.random() * 0.2;
+            var lat = $scope.baselat + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.1;
+            var lng = $scope.baselng + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.1;
 
             var portNo = 10003;
             Date.now = function() {
@@ -417,7 +405,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     }
                 }
             };
-            
+
             updateInterSect($scope.mylocation.coords);
 
             off = 10.0
@@ -425,9 +413,9 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
 
 
             NotificationGetter.feedRecords($scope.userId, $scope.accessToken, portNo, record, SessionStorage.get('brokerUrl'), userSuccessFunction, errorFunction);
-            
+
         }
-        
+
         $interval(function() {
             UserPosition();
         }, 10000);
@@ -536,7 +524,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         $scope.parseMessage = function(message) {
             console.log('1deamaxwu ---> received websocket message from the server');
             var data = JSON.parse(message.data);
-			
+
             if ($scope.userId == data['userId']) {
                 $scope.latestTimeStamp = data['channelExecutionTime'];
                 //$scope.latestTimeStamp = "2017-02-24T20:53:58.410Z";
@@ -559,9 +547,9 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         function GetHistory() {
             var subscriptionList = JSON.parse(SessionStorage.get('subscriptionId'));
             if (SessionStorage.get("notiHistory") != null) {
-           		console.log("1deamaxwu ---> NOT NULL!");
+                console.log("1deamaxwu ---> NOT NULL!");
                 SessionStorage.removeElement("notiHistory");
-				$scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
+                $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
             }
             if (subscriptionList != null) {
 
@@ -591,8 +579,8 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             $scope.subscriptionId = SessionStorage.get('subscriptionId');
             $scope.latestTimeStamp = SessionStorage.get('timestamp');
             console.log("1deamaxwu ---> current userId: " + $scope.userId);
+            $scope.cities = EmergenciesGetter.citylist;
 
-            
             SessionStorage.conf();
 
             $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
@@ -601,11 +589,24 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             $scope.markers = JSON.parse(SessionStorage.get('markers')) == null ? [] : JSON.parse(SessionStorage.get('markers'));
             $scope.shelters = JSON.parse(SessionStorage.get('shelters')) == null ? [] : JSON.parse(SessionStorage.get('shelters'));
             $scope.circles = JSON.parse(SessionStorage.get('circles')) == null ? [] : JSON.parse(SessionStorage.get('circles'));
-			
-			initBaseLoc();
+
+            $scope.map = {
+                center: {
+                    latitude: $scope.cities[2].loc.lat,
+                    longitude: $scope.cities[2].loc.lng
+                },
+                zoom: 12
+            };
+            $scope.options = {
+                scrollwheel: false
+            };
+
+            $scope.control = {};
+
+            initBaseLoc();
             UserPosition();
             MyLoc();
-            
+
             NotificationGetter.getSubscriptions($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'),
                 subscribeSuccessFunction, errorFunction);
         }

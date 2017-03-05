@@ -73,15 +73,24 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
     };
 
     $scope.registerUser = function(newUserName, newUserPassword, newUserEmail) {
-        $scope.alertmsg = "Only Loki can publish!";
-        $("#alertmodal").modal('show');
+        //$scope.alertmsg = "Only Loki can publish!";
+        //$("#alertmodal").modal('show');
+        $scope.newUserName = newUserName;
+        $scope.newUserPassword = newUserPassword;
+        $scope.newUserEmail = newUserEmail;
+        if ($scope.newUserName != null && $scope.newUserPassword != null && $scope.newUserEmail != null) {
+            PublishGetter.postRegisterUser($scope.newUserName, $scope.newUserPassword, $scope.newUserEmail, SessionStorage.get('brokerUrl'), registerSuccessFunction, errorFunction);
+        } else {
+            $scope.alertmsg = "Invalid Inputs!";
+            $("#alertmodal").modal('show');
+        }
     }
     
     $scope.init = function(){
     	SessionStorage.conf();
     
     	$scope.alertmsg = "";
-    	$("#rolechoice").modal('show');
+    	//$("#rolechoice").modal('show');
     }
     
 }]);

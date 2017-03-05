@@ -70,7 +70,7 @@
                         <hr/>
                         <div ng-repeat="sub in sublist" style="word-wrap:break-word">
                            <ul>
-                              <li ng-model="sub">{{sub.name}} <button type="button" class="btn btn-danger btn-xs" ng-click="deleteSubs(sub.id, sub.name)">Delete</button></li>
+                              <li ng-model="sub" data-toggle="tooltip" title="{{sub.desc}}">{{sub.name}} <button type="button" class="btn btn-danger btn-xs" ng-click="deleteSubs(sub.id, sub.name)">Delete</button></li>
                            </ul>
                         </div>
                         <h3> You are Choosing</h3>
@@ -81,7 +81,7 @@
                            </ul>
                         </div>
                      </div>
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <form class="form-horizontal" role="form">
                            <h3>Subscriptions Options</h3>
                            <hr/>
@@ -98,7 +98,7 @@
                            </div>
                            <div class="form-group">
                               <label class="control-label col-sm-2">Location:</label>
-                              <div class="col-sm-4">
+                              <div class="col-sm-6">
                                  <select class="form-control" ng-model="locselection" ng-change="locChange()">
                                     <option value="">---Please Select---</option>
                                     <option value="NearMe">NearMe</option>
@@ -118,7 +118,7 @@
                            </div>
                         </form>
                      </div>
-                     <div class="col-md-3">
+                     <div class="col-md-5">
                         <h3>Subscription Map</h3>
                         <hr/>
                         <div class="row">
