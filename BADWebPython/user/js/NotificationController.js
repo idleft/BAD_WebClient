@@ -73,13 +73,15 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         $scope.renderMap = function() {
             console.log("1deamaxwu ---> rendering map");
             console.log("1deamxwu ---> marker numbers on MAP: " + $scope.circles.length);
+            if($scope.circles.length == 0){
+            	return;
+            }
             for (var i = 0, length = $scope.circles.length; i < length; i++) {
                 var marker = $scope.circles[i].center;
                 bounds.extend(new google.maps.LatLng(marker.latitude, marker.longitude));
             }
             bounds.extend(new google.maps.LatLng($scope.mylocation.coords.latitude, $scope.mylocation.coords.longitude));
             $scope.control.getGMap().fitBounds(bounds);
-
         }
         var acksuccessFunction = function(data) {
             console.log("1deamxwu ---> ackresults respond success");
@@ -176,7 +178,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                             var shelter = {
                                 id: Date.now(),
                                 sid: data['data']['results'][i]['result']['reports']['reportId'],
-                                sname: data['data']['results'][i]['result']['shelters'][j]['name'],
+                                sname: data['data']['results'][i]['result']['shelters']['name'],
                                 coords: {
                                     latitude: data['data']['results'][i]['result']['shelters']['location'][0],
                                     longitude: data['data']['results'][i]['result']['shelters']['location'][1]
@@ -317,26 +319,14 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         //
         $scope.MyLoc = function() {
 
-            $scope.map = {
-                center: {
-                    latitude: $scope.mylocation.coords.latitude,
-                    longitude: $scope.mylocation.coords.longitude
-                },
-                zoom: 12
-            };
-
+            $scope.map.center.latitude = $scope.mylocation.coords.latitude;
+            $scope.map.center.longitude = $scope.mylocation.coords.longitude;
         }
 
         function MyLoc() {
 
-            $scope.map = {
-                center: {
-                    latitude: $scope.mylocation.coords.latitude,
-                    longitude: $scope.mylocation.coords.longitude
-                },
-                zoom: 12
-            };
-
+            $scope.map.center.latitude = $scope.mylocation.coords.latitude;
+            $scope.map.center.longitude = $scope.mylocation.coords.longitude;
         }
 
         function initBaseLoc() {
@@ -369,8 +359,8 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         function UserPosition() {
             console.log("1deamaxwu ---> interval as UserPosition")
 
-            var lat = $scope.baselat + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.1;
-            var lng = $scope.baselng + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.1;
+            var lat = $scope.baselat + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.05;
+            var lng = $scope.baselng + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.05;
 
             var portNo = 10003;
             Date.now = function() {
@@ -383,7 +373,10 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     longitude: lng
                 },
                 options: {
-                    draggable: true
+                    draggable: true,
+                	options: {
+                		icon: 'res/gopher.png',
+            		}
                 },
                 message: "Your location: ",
                 events: {
@@ -394,6 +387,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
 
                         $scope.mylocation.options = {
                             draggable: true,
+                            icon: 'res/gopher.png',
                             labelContent: "(" + $scope.mylocation.coords.latitude.toFixed(6) + ', ' + $scope.mylocation.coords.longitude.toFixed(6) + ')',
                             labelAnchor: "100 0",
                             labelClass: "marker-labels"
@@ -556,9 +550,15 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                 for (var i = 0; i < subscriptionList.length; i++) {
                     item = subscriptionList[i].split("::");
                     channelName = item[2];
+                    
+                    //$scope.ackUserSubscriptionId = subscriptionList[i];
+                    //$scope.ackChannelName = channelName;
+                    
                     console.log("1deamxwu ---> SUB_name: " + channelName);
                     NotificationGetter.getHistory($scope.userId, $scope.accessToken, subscriptionList[i],
                         getFDate(), channelName, SessionStorage.get('brokerUrl'), historySuccessFunction, errorFunction);
+                    //NotificationGetter.getNewResults($scope.userId, $scope.accessToken, subscriptionList[i],
+                        //getFDate(), channelName, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
                 }
             }
         }
@@ -595,12 +595,31 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     latitude: $scope.cities[2].loc.lat,
                     longitude: $scope.cities[2].loc.lng
                 },
-                zoom: 12
+                zoom: 12,
+            events: {
+                click: function(mapModel, eventName, args) {
+                    console.log("1deamaxwu ---> marker click: " + args[0].latLng.lng());
+                    //if ($scope.locselection == "onmap") {
+                        cmlat = args[0].latLng.lat();
+                        cmlng = args[0].latLng.lng();
+
+                        $scope.mylocation.coords.latitude = cmlat;
+                        $scope.mylocation.coords.longitude = cmlng;
+                        
+                        $scope.baselat = cmlat;
+                        $scope.baselng = cmlng;
+                        
+                        $scope.$apply();
+                    //} else {
+                        //console.log("1deamaxwu ---> only marker click.");
+                    //}
+                }
+            }
             };
             $scope.options = {
                 scrollwheel: false
             };
-
+			
             $scope.control = {};
 
             initBaseLoc();

@@ -74,7 +74,7 @@
                         <div id="map" class="tab-pane in active">
                            <div class="col-md-8 col-md-offset-2">
                               <div class="map_canvas_big" >
-                                 <ui-gmap-google-map center="map.center" zoom="map.zoom" control='control'>
+                                 <ui-gmap-google-map center="map.center" zoom="map.zoom" control='control' events="map.events">
                                     <ui-gmap-marker ng-repeat='s in shelters' coords="s.coords" idkey="s.id" options="s.options">
                                        <ui-gmap-window show="show">
                                           <div>

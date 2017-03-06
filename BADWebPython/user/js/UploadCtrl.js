@@ -112,8 +112,8 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
                 }
             }
 
-            var lat = baselat + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.1;
-            var lng = baselng + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.1;
+            var lat = baselat + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.05;
+            var lng = baselng + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.05;
 
             if ($scope.locselection == "onmap") {
                 console.log("1deamaxwu ---> You are dragging....");

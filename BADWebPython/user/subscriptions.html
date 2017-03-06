@@ -102,7 +102,7 @@
                                  <select class="form-control" ng-model="locselection" ng-change="locChange()">
                                     <option value="">---Please Select---</option>
                                     <option value="NearMe">NearMe</option>
-                                    <option value="Location">Add Location</option>
+                                    <option value="onmap">Drag on Map</option>
                                  </select>
                               </div>
                            </div>
@@ -124,16 +124,19 @@
                         <div class="row">
                            <div class="col-md-12 ">
                               <div class="map_canvas_loc" >
-                                 <ui-gmap-google-map  center="map.center" zoom='map.zoom' control='control'>
-                                    <ui-gmap-marker ng-repeat='m in addmarkers' coords="m.coords" idkey="m.id">
+                                 <ui-gmap-google-map  center="map.center" zoom='map.zoom' control='control' events="map.events">
+                                    <ui-gmap-marker coords="mymarker.coords" options="mymarker.options" events="mymarker.events" idkey="mymarker.id">
+                                       <!--
                                        <ui-gmap-window show="show">
                                           <div>{{m.title}}</div>
                                        </ui-gmap-window>
+                                       -->
                                     </ui-gmap-marker>
                                  </ui-gmap-google-map>
                               </div>
                            </div>
-                           <div class="col-md-12" ng-hide="!(locselection=='Location')">
+                           <div class="col-md-12" ng-hide="!(locselection=='onmap')">
+                              <!--
                               <div class="form-group">
                                  <label style="margin-top:30px">Add A Location:</label>
                                  <li ng-repeat='addr in addresses'>{{addr}}</li>
@@ -141,6 +144,10 @@
                               <div class="form-group">
                                  <input type='text' id='pac-input' ng-model='address' >
                                  <input type="button" value="Add" ng-click="addLocation()">
+                              </div>
+                              -->
+                              <div class="form-group">
+                                 <label style="margin-top:30px">Location: {{mymarker.coords}}</label>
                               </div>
                            </div>
                         </div>

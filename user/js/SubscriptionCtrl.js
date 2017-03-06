@@ -17,10 +17,10 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
         this.push.apply(this, array); //push all elements except the one we want to delete
     } //countries.results.removeValue('name', 'Albania');
 
-    var bounds = new google.maps.LatLngBounds();
+    //var bounds = new google.maps.LatLngBounds();
 
-    var searchAddressInput = document.getElementById('pac-input');
-    var autocomplete = new google.maps.places.Autocomplete(searchAddressInput);
+    //var searchAddressInput = document.getElementById('pac-input');
+    //var autocomplete = new google.maps.places.Autocomplete(searchAddressInput);
 
     function hasValue(arr, key, val) {
         if (arr == null) {
@@ -39,7 +39,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
             $window.location.href = $scope.alertjump;
         }
     }
-
+	/*
     $scope.addLocation = function() {
 
         console.log("1deamaxwu ---> addding location: " + $scope.addmarker + ", name: " + $scope.address);
@@ -61,17 +61,19 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
         }
 
     }
-
+	*/
     $scope.locChange = function() {
         if ($scope.locselection == "NearMe") {
-            $scope.addresses = [];
-            $scope.addmarkers = [];
+        	$scope.mymarker.options.draggable = false;
+            //$scope.addresses = [];
+            //$scope.addmarkers = [];
 
             //$scope.$apply();
-            console.log("1deamaxwu ---> getting my location...");
+            //console.log("1deamaxwu ---> getting my location...");
             UserPosition();
-            console.log("1deamaxwu ---> my location:" + $scope.mylocation)
+            //console.log("1deamaxwu ---> my location:" + $scope.mylocation)
             console.log("1deamaxwu ---> lat:" + $scope.mylocation.latitude + ",lng:" + $scope.mylocation.longitude + ".");
+            /*
             var marker = {
                 id: Date.now(),
                 coords: {
@@ -80,15 +82,22 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                 },
                 title: "myloc"
             };
-            $scope.addmarkers.push(marker);
-            bounds.extend(new google.maps.LatLng(marker.coords.latitude, marker.coords.longitude));
-            $scope.control.getGMap().fitBounds(bounds);
+            */
+            $scope.mymarker.coords.latitude = $scope.mylocation.latitude;
+            $scope.mymarker.coords.longitude = $scope.mylocation.longitude;
+
+            $scope.map.center.latitude = $scope.mylocation.latitude;
+            $scope.map.center.longitude = $scope.mylocation.longitude;
+            //$scope.addmarkers.push(marker);
+            //bounds.extend(new google.maps.LatLng(marker.coords.latitude, marker.coords.longitude));
+            //$scope.control.getGMap().fitBounds(bounds);
             //$scope.$apply();
         }
-        if ($scope.locselection == "Location") {
-            $scope.addresses = [];
-            $scope.addmarkers = [];
-
+        if ($scope.locselection == "onmap") {
+        	$scope.mymarker.options.draggable = true;
+            //$scope.addresses = [];
+            //$scope.addmarkers = [];
+			/*
             autocomplete.addListener('place_changed', function() {
                 var place = autocomplete.getPlace();
                 if (!place.geometry) {
@@ -108,6 +117,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                     console.log("1deamaxwu ---> place: " + $scope.addmarker.coords + ', name: ' + $scope.address);
                 }
             });
+            */
         }
     }
 
@@ -539,18 +549,25 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                     }
 
                     //recentEmergenciesOfTypeAtLocationWithShelterchannel
-                } else if ($scope.locselection == "Location") {
+                } else if ($scope.locselection == "onmap") {
                     console.log("1deamxwu ---> SHELTER and LOCATION and TYPE.")
+                    /*
                     if ($scope.addmarkers.length == 0) {
                         $scope.alertmsg = "Please Add a Location!";
                         $("#alertmodal").modal('show');
                         $scope.alertjump = "";
                     }
+                    */
+                    /*
                     for (var j = 0, length = $scope.addmarkers.length; j < length; j++) {
                         var marker = $scope.addmarkers[j].coords;
                         for (i = 0; i < subscriptionList.length; i++) {
                             SubscriptionGetter.postEmergenciesLocationWithShelterSubscription($scope.userId, marker, $scope.accessToken, subscriptionList[i], SessionStorage.get('brokerUrl'), successFunction, errorFunction)
                         }
+                    }
+                    */
+                    for (i = 0; i < subscriptionList.length; i++) {
+                       SubscriptionGetter.postEmergenciesLocationWithShelterSubscription($scope.userId, $scope.mymarker.coords, $scope.accessToken, subscriptionList[i], SessionStorage.get('brokerUrl'), successFunction, errorFunction)
                     }
                 } else {
                     console.log("1deamxwu ---> some implicit error.")
@@ -575,8 +592,9 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                 }
 
                 //recentEmergenciesOfTypeAtLocationChannel
-            } else if ($scope.locselection == "Location") {
+            } else if ($scope.locselection == "onmap") {
                 console.log("1deamxwu ---> LOCATION and TYPE.")
+                /*
                 if ($scope.addmarkers.length == 0) {
                     $scope.alertmsg = "Please Add a Location!";
                     $("#alertmodal").modal('show');
@@ -587,6 +605,10 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                     for (i = 0; i < subscriptionList.length; i++) {
                         SubscriptionGetter.postEmergenciesAtLocationSubscription($scope.userId, marker, $scope.accessToken, subscriptionList[i], SessionStorage.get('brokerUrl'), successFunction, errorFunction)
                     }
+                }
+                */
+                for (i = 0; i < subscriptionList.length; i++) {
+                    SubscriptionGetter.postEmergenciesAtLocationSubscription($scope.userId, $scope.mymarker.coords, $scope.accessToken, subscriptionList[i], SessionStorage.get('brokerUrl'), successFunction, errorFunction)
                 }
             } else {
                 console.log("1deamxwu ---> some implicit error.")
@@ -609,9 +631,9 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
     $scope.init = function() {
         SessionStorage.conf();
 
-        $scope.address = '';
-        $scope.addresses = [];
-        $scope.addmarkers = [];
+        //$scope.address = '';
+        //$scope.addresses = [];
+        //$scope.addmarkers = [];
         $scope.alertmsg = "";
         $scope.alertjump = "";
         $scope.chkbxs = EmergenciesGetter.emergencytpye;
@@ -636,14 +658,57 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                 latitude: $scope.cities[2].loc.lat,
                 longitude: $scope.cities[2].loc.lng
             },
-            zoom: 12
+            zoom: 12,
+            events: {
+                click: function(mapModel, eventName, args) {
+                    console.log("1deamaxwu ---> mymarker click: " + args[0].latLng.lng());
+                    if ($scope.locselection == "onmap") {
+                        cmlat = args[0].latLng.lat();
+                        cmlng = args[0].latLng.lng();
+
+                        $scope.mymarker.coords.latitude = cmlat;
+                        $scope.mymarker.coords.longitude = cmlng;
+                        $scope.$apply();
+                    } else {
+                        console.log("1deamaxwu ---> only mymarker click.");
+                    }
+                }
+            }
         };
         $scope.options = {
             scrollwheel: false
         };
 
         $scope.control = {};
+		
+		$scope.mymarker = {
+            id: 0,
+            coords: {
+                latitude: $scope.cities[2].loc.lat,
+                longitude: $scope.cities[2].loc.lng
+            },
+            options: {
+                draggable: false,
+                icon: 'res/gopher.png',
+                visible: true
+            },
+            events: {
+                dragend: function(marker, eventName, args) {
+                    var lat = marker.getPosition().lat();
+                    var lon = marker.getPosition().lng();
+                    console.log("1deamaxwu ---> mymarker dragend: " + lat + ',' + lon);
 
+                    $scope.mymarker.options = {
+                        draggable: true,
+                        icon: 'res/gopher.png',
+                        labelContent: "(" + $scope.mymarker.coords.latitude.toFixed(6) + ', ' + $scope.mymarker.coords.longitude.toFixed(6) + ')',
+                        labelAnchor: "100 0",
+                        labelClass: "marker-labels"
+                    };
+                }
+            }
+        };
+		
 		$(document).ready(function(){
     		$('[data-toggle="tooltip"]').tooltip();   
 		});
