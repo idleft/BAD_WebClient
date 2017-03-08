@@ -609,7 +609,10 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                         $scope.baselat = cmlat;
                         $scope.baselng = cmlng;
                         
+                        updateInterSect($scope.mylocation.coords);
+                        
                         $scope.$apply();
+                                          
                     //} else {
                         //console.log("1deamaxwu ---> only marker click.");
                     //}

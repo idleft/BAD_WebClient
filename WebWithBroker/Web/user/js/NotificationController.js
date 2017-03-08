@@ -276,7 +276,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     $scope.numNoti = $scope.markers.length;
                     SessionStorage.set('numNoti', $scope.numNoti);
 
-                    updateInterSect($scope.mylocation.coords);
+                    //updateInterSect($scope.mylocation.coords);
                 }
             }
             $scope.renderMap();
@@ -394,13 +394,13 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                         };
                         $scope.baselat = lti;
                         $scope.baselng = lon;
-                        updateInterSect($scope.mylocation.coords);
+                        //updateInterSect($scope.mylocation.coords);
 
                     }
                 }
             };
 
-            updateInterSect($scope.mylocation.coords);
+            //updateInterSect($scope.mylocation.coords);
 
             off = 10.0
             var record = '{\"recordId\": uuid(\"' + guid() + '\"),\"user-id\":\"' + SessionStorage.get('userId') + '\",\"latitude\":' + lat + ',\"longitude\":' + lng + ',\"timeoffset\":' + off + ',\"timestamp\":datetime(\"' + getFDate() + '\")}';
