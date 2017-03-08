@@ -38,7 +38,7 @@ create dataset EmergencyShelters(EmergencyShelter) primary key name;
 //1) "All emergencies of type T"
 create function recentEmergenciesOfType($emergencyType){
 	for $report in dataset EmergencyReports
-	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT10S")
 	where $report.timestamp >= $tenMinutesAgo
 	and $report.emergencyType = $emergencyType
 	return {
@@ -48,7 +48,7 @@ create function recentEmergenciesOfType($emergencyType){
 //2) "All emergencies of type T at location L"
 create function recentEmergenciesOfTypeAtLocation($emergencyType, $lattitude, $longitude){
 	for $report in dataset EmergencyReports
-	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT10S")
 	where $report.timestamp >= $tenMinutesAgo
 	and $report.emergencyType = $emergencyType
 	and spatial-intersect($report.impactZone,create-circle(create-point($lattitude,$longitude),0.1))
@@ -63,20 +63,21 @@ create function recentEmergenciesOfTypeAtLocationWithShelter($emergencyType, $la
 	  for $shelter in dataset EmergencyShelters
 	  where spatial-intersect($report.impactZone,create-circle($shelter.location,0.1))
 	  return $shelter  
-	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT10S")
 	where $report.timestamp >= $tenMinutesAgo
 	and $report.emergencyType = $emergencyType
 	and spatial-intersect($report.impactZone,create-circle(create-point($lattitude,$longitude),0.1))
 	return {
 		"reports":$report,
-		"shelters":$shelters
+		"shelters":$shelters,
+		"reportsiz":$report.impactZone
 	}
 }
 //4) "The impactZone and message for all emergencies of type T intersecting user U"
 create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	for $report in dataset EmergencyReports
 	for $user in dataset UserLocations
-	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT10S")// commnent out for continuous channels
 	where $user.user-id = $uuid
  	  and $report.timestamp >= $tenMinutesAgo// commnent out for continuous channels
 	  and $user.timestamp >= $tenMinutesAgo// commnent out for continuous channels
@@ -98,7 +99,7 @@ create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType
 	  for $shelter in dataset EmergencyShelters
 	  where spatial-intersect($report.impactZone,create-circle($shelter.location,0.1))
 	  return $shelter
-	let $tenMinutesAgo := current-datetime() - day-time-duration("PT20S")// commnent out for continuous channels
+	let $tenMinutesAgo := current-datetime() - day-time-duration("PT10S")// commnent out for continuous channels
 	where $user.user-id = $uuid 
 	  and $report.timestamp >= $tenMinutesAgo// commnent out for continuous channels
 	  and $user.timestamp >= $tenMinutesAgo// commnent out for continuous channels
@@ -114,11 +115,11 @@ create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType
 }
 
 // create channels
-create repetitive channel recentEmergenciesOfTypeChannel using recentEmergenciesOfType@1 period duration("PT20S");
-create repetitive channel recentEmergenciesOfTypeAtLocationChannel using recentEmergenciesOfTypeAtLocation@3 period duration("PT20S");
-create repetitive channel recentEmergenciesOfTypeAtLocationWithShelterChannel using recentEmergenciesOfTypeAtLocationWithShelter@3 period duration("PT20S");
-create repetitive channel recentIptMsgofEmergenciesOfTypeIntUserChannel using recentIptMsgofEmergenciesOfTypeIntUser@2 period duration("PT20S");
-create repetitive channel recentIptMsgofEmergenciesOfTypeWithShelterIntUserChannel using recentIptMsgofEmergenciesOfTypeWithShelterIntUser@2 period duration("PT20S");
+create repetitive channel recentEmergenciesOfTypeChannel using recentEmergenciesOfType@1 period duration("PT10S");
+create repetitive channel recentEmergenciesOfTypeAtLocationChannel using recentEmergenciesOfTypeAtLocation@3 period duration("PT10S");
+create repetitive channel recentEmergenciesOfTypeAtLocationWithShelterChannel using recentEmergenciesOfTypeAtLocationWithShelter@3 period duration("PT10S");
+create repetitive channel recentIptMsgofEmergenciesOfTypeIntUserChannel using recentIptMsgofEmergenciesOfTypeIntUser@2 period duration("PT10S");
+create repetitive channel recentIptMsgofEmergenciesOfTypeWithShelterIntUserChannel using recentIptMsgofEmergenciesOfTypeWithShelterIntUser@2 period duration("PT10S");
 
 /****** Feed Management ******/
 

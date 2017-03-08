@@ -41,7 +41,7 @@ app.factory('SubscriptionGetter', ['$http', '$window', "$q", function($http, $wi
                 'dataverseName': "channels",
                 'userId': userId,
                 'accessToken': accessToken,
-                'channelName': 'recentEmergenciesOfTypeAtLocationWithShelterChannel',
+                'channelName': 'recentEmergenciesOfTypeAtLocationWithShelterChannel19',
                 'parameters': [parameters, userLocation.latitude, userLocation.longitude]
             };
             $http({
