@@ -1,7 +1,7 @@
 app.factory('SessionStorage', function($window) {
 	function set(key, data) {
 
-		if(key == 'subscriptionId' || key == 'timestamp' || key == 'notiHistory' || key == 'messages' || key == 'markers' || key == 'circles' || key == 'shelters') {
+		if(key == 'subscriptionId' || key == 'timestamp') {
 			if($window.sessionStorage.getItem(key)) {
 				var keyList = JSON.parse($window.sessionStorage.getItem(key));
 				//console.log(keyList);
@@ -37,8 +37,8 @@ app.factory('SessionStorage', function($window) {
 		}
 	}
 	function conf(){
-		$window.sessionStorage.setItem('brokerUrl','128.195.52.128:8989')
-		//$window.sessionStorage.setItem('brokerUrl','cert24.ics.uci.edu:8989')
+		//$window.sessionStorage.setItem('brokerUrl','128.195.52.128:8989')
+		$window.sessionStorage.setItem('brokerUrl','cert24.ics.uci.edu:8989')
 	}
 	return {
 		set : set,
