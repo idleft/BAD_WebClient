@@ -107,7 +107,7 @@ app.controller('RegisterAppController', ['$scope', '$window', 'RegisterAppGetter
 		RegisterAppGetter.postRegisterUser("Mary", "trump", "mary@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
 		
 		//one publisher user
-		RegisterAppGetter.postRegisterUser("Loki", "clinton", "luke@bad.com", SessionStorage.get('brokerUrl'), registerPubUserSuccessFunction, errorFunction);
+		RegisterAppGetter.postRegisterUser("Loki", "clinton", "loki@bad.com", SessionStorage.get('brokerUrl'), registerPubUserSuccessFunction, errorFunction);
 		//five shelters
 		//shelters populate after Loki login
 	

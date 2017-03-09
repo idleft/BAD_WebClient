@@ -1,12 +1,13 @@
 app.factory('PublishGetter', ['$http', function($http) {
     return {
-        postUserData: function(userId, userPassword, url, successFunction, errorFunction) {
+        postUserData: function(userId, userPassword, url, stay, successFunction, errorFunction) {
             console.log('1deamxwu ---> logging in as UserId: ' + userId + ' Pwd: ' + userPassword)
             var message = {
                 'dataverseName': "channels",
                 'userName': userId,
                 'password': userPassword,
-                'platform': 'web'
+                'platform': 'web',
+                'stay': stay
             };
             $http({
                 url: 'http://' + url + '/login',

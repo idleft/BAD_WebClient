@@ -10,9 +10,14 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
             SessionStorage.set('userName', $scope.userName);
             $window.location.href = 'notifications.html';
         } else {
-            console.log("1deamaxwu ---> login user ERROR: " + data['data']['error'])
-            $scope.alertmsg = data['data']['error'];
-            $("#alertmodal").modal('show');
+        	if(data['data']['error'].includes('already logged in')){
+            	$scope.alertmsg = data['data']['error'];
+            	$("#staychoice").modal('show');
+            } else {
+            	console.log("1deamaxwu ---> login user ERROR: " + data['data']['error'])
+            	$scope.alertmsg = data['data']['error'];
+            	$("#alertmodal").modal('show');
+            }
         }
     }
 
@@ -29,7 +34,7 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
         console.log("1deamxwu ---> register user respond success");
         if (data['data']['status'] == 'success') {
             console.log("1deamaxwu ---> registered user success as " + data['data']['userId']);
-            $scope.loginUser($scope.newUserName, $scope.newUserPassword, false);
+            $scope.loginUser($scope.newUserName, $scope.newUserPassword, false, true);
         } else {
             console.log("1deamaxwu ---> register user ERROR: " + data['data']['error'])
             $scope.alertmsg = data['data']['error'];
@@ -43,9 +48,15 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
         $scope.alertmsg = "Error Connection! " + data['data'];
         $("#alertmodal").modal('show');
     }
+    
+    $scope.staybtn = function(){
+		$scope.loginUser($scope.userName, $scope.userPassword, false, false);
+	}
+	
     $scope.tryrole = function() {
         $("#rolechoice").modal('show');
     }
+    
     $scope.rolebtn = function(myrole) {
         if (myrole == null) {
             console.log("1deamxwu ---> NO role choice");
@@ -58,14 +69,14 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
             IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
         }
     }
-    $scope.loginUser = function(userName, userPassword, fromHtml) {
+    $scope.loginUser = function(userName, userPassword, fromHtml, stay) {
         $scope.userName = userName;
         $scope.userPassword = userPassword;
         if ($scope.userName != null && $scope.userPassword != null) {
             if (fromHtml) {
-                IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
+                IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), stay, successFunction, errorFunction);
             } else {
-                IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), altSuccessFunction, errorFunction);
+                IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), stay, altSuccessFunction, errorFunction);
             }
         } else {
             $scope.alertmsg = "Invalid Inputs!";

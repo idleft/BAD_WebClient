@@ -286,8 +286,9 @@ class LoginHandler (BaseHandler):
             userName = post_data['userName']
             password = post_data['password']
             platform = 'desktop' if 'platform' not in post_data else post_data['platform']
+            stay = post_data['stay']
 
-            response = yield self.broker.login(dataverseName, userName, password, platform)
+            response = yield self.broker.login(dataverseName, userName, password, platform, stay)
 
         except KeyError as e:
             response = {'status': 'failed', 'error': 'Bad formatted request missing field ' + str(e)}
@@ -738,9 +739,6 @@ class ListSubscriptionsHandler(BaseHandler):
 def start_server():
     broker = BADBroker.getInstance()
     broker.SessionInterval()
-    settings = {
-        "static_path": os.path.join(os.path.dirname(__file__), "static")
-    }
 
     application = tornado.web.Application([
         (r'/(favicon.ico)', tornado.web.StaticFileHandler, {'path': "Web"}),
@@ -771,7 +769,7 @@ def start_server():
         (r'/insertrecords', InsertRecordsHandler, dict(broker=broker)),
         (r'/feedrecords', FeedRecordsHandler, dict(broker=broker)),
         (r'/heartbeat', HeartBeatHandler)
-    ], **settings)
+    ])
 
     application.listen(9110)
     tornado.ioloop.IOLoop.current().start()

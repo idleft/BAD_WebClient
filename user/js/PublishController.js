@@ -12,8 +12,13 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
             $window.location.href = 'upload.html';
         } else {
             console.log("1deamaxwu ---> login user ERROR: " + data['data']['error'])
-            $scope.alertmsg = data['data']['error'];
-            $("#alertmodal").modal('show');
+            if(data['data']['error'].includes('already logged in')){
+            	$scope.alertmsg = data['data']['error'];
+            	$("#staychoice").modal('show');
+            } else {
+            	$scope.alertmsg = data['data']['error'];
+            	$("#alertmodal").modal('show');
+            }
         }
     }
 
@@ -30,7 +35,7 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
         console.log("1deamxwu ---> register user respond success");
         if (data['data']['status'] == 'success') {
             console.log("1deamaxwu ---> registered user success as " + data['data']['userId']);
-            $scope.loginUser($scope.newUserName, $scope.newUserPassword, false);
+            $scope.loginUser($scope.newUserName, $scope.newUserPassword, false, true);
         } else {
             console.log("1deamaxwu ---> register user ERROR: " + data['data']['error'])
             $scope.alertmsg = data['data']['error'];
@@ -45,6 +50,10 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
         $("#alertmodal").modal('show');
     }
 
+	$scope.staybtn = function(){
+		$scope.loginUser($scope.userName, $scope.userPassword, false, false);
+	}
+	
     $scope.rolebtn = function() {
         console.log("1deamxwu ---> Welcome Loki!");
         $scope.userName = "Loki";
@@ -56,14 +65,14 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
         $("#rolechoice").modal('show');
     }
     
-    $scope.loginUser = function(userName, userPassword, fromHtml) {
+    $scope.loginUser = function(userName, userPassword, fromHtml, stay) {
         $scope.userName = userName;
         $scope.userPassword = userPassword;
         if ($scope.userName != null && $scope.userPassword != null) {
             if (fromHtml) {
-                PublishGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
+                PublishGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), stay, successFunction, errorFunction);
             } else {
-                PublishGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), altSuccessFunction, errorFunction);
+                PublishGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), stay, altSuccessFunction, errorFunction);
             }
         } else {
             $scope.alertmsg = "Invalid Inputs!";
