@@ -58,7 +58,7 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
         console.log("1deamxwu ---> Welcome Loki!");
         $scope.userName = "Loki";
         $scope.userPassword = "clinton";
-        PublishGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
+        PublishGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), true, successFunction, errorFunction);
     }
 
 	$scope.tryrole = function() {

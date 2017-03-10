@@ -66,7 +66,7 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
             console.log("1deamxwu ---> Role choice: " + myrole);
             $scope.userName = myrole;
             $scope.userPassword = "trump";
-            IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
+            IndexGetter.postUserData($scope.userName, $scope.userPassword, SessionStorage.get('brokerUrl'), true, successFunction, errorFunction);
         }
     }
     $scope.loginUser = function(userName, userPassword, fromHtml, stay) {
