@@ -120,11 +120,11 @@
                                     <tr>
                                        <th>Type</th>
                                        <th>Severity</th>
-                                       <th>Mesaage</th>
+                                       <th>Message</th>
                                        <th>Coordinates</th>
                                        <th>Radius</th>
                                        <th>Duration</th>
-                                       <th>TimeStamp</th>
+                                       <th>Timestamp</th>
                                     </tr>
                                  </thead>
                                  <tbody ng-repeat='message in messages' ng-hide='!message.visibl'>
@@ -149,11 +149,11 @@
                                     <tr>
                                        <th><a href="#" ng-click="orderByField='emergencytype'; reverseSort = !reverseSort">Type<span ng-show="orderByField == 'emergencytype'"><span ng-show="!reverseSort"> <img src="res/up.png"></span><span ng-show="reverseSort"> <img src="res/down.png"></span></span></a></th>
                                        <th><a href="#" ng-click="orderByField='severity'; reverseSort = !reverseSort">Severity<span ng-show="orderByField == 'severity'"><span ng-show="!reverseSort"> <img src="res/up.png"></span><span ng-show="reverseSort"> <img src="res/down.png"></span></span></a></th>
-                                       <th>Mesaage</th>
+                                       <th>Message</th>
                                        <th>Coordinates</th>
                                        <th>Radius</th>
                                        <th>Duration</th>
-                                       <th><a href="#" ng-click="orderByField='timestamp'; reverseSort = !reverseSort">TimeStamp<span ng-show="orderByField == 'timestamp'"><span ng-show="!reverseSort"> <img src="res/up.png"></span><span ng-show="reverseSort"> <img src="res/down.png"></span></span></a></th>
+                                       <th><a href="#" ng-click="orderByField='timestamp'; reverseSort = !reverseSort">Timestamp<span ng-show="orderByField == 'timestamp'"><span ng-show="!reverseSort"> <img src="res/up.png"></span><span ng-show="reverseSort"> <img src="res/down.png"></span></span></a></th>
                                     </tr>
                                  </thead>
                                  <tbody ng-repeat='message in notiHistory | orderBy:orderByField:reverseSort'>

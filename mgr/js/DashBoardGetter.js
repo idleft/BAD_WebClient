@@ -1,5 +1,19 @@
 app.factory('DashBoardGetter', ['$http', function($http) {
     return {
+    	postAdminQueryLS: function(appName, apiKey, query, channelName, url, successFunction, errorFunction) {
+            console.log("1deamxwu ---> query LS application: ");
+            var message = {
+                'appName': appName,
+                'apiKey': apiKey,
+                'query': query,
+                'channelName': channelName
+            };
+            $http({
+                url: 'http://' + url + '/adminquery',
+                method: 'POST',
+                data: message,
+            }).then(successFunction, errorFunction);
+        },
         postAdminQueryLC: function(appName, apiKey, query, url, successFunction, errorFunction) {
             console.log("1deamxwu ---> query LC application: ");
             var message = {

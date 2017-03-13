@@ -56,39 +56,45 @@
                <h2>Manager DashBoard</h2>
             </center>
             </br>
-            <div class="card-deck-wrapper">
-               <div class="card-deck">
-                  <div class="card tab-content" ng-repeat="channel in channels">
-                     <div class="card-header">Channel No.{{channel.no}}</div>
-                     <div class="card-block tab-pane in active" id="dcrp">
-                        <h4 class="card-title">Description</h4>
-                        <p class="card-text">Name: {{channel.name}}</p>
-                        <p class="card-text">Duration: {{channel.duration}}</p>
-                     </div>
-                     <div class="card-block tab-pane fade" id="mg">
-                        <h4 class="card-title">Manage</h4>
-                        <p class="card-text">This content is a little bit longer.</p>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit">Edit</button>
-                        <a href="#delete" class="btn btn-primary">Delete</a>
-                     </div>
-                     <div class="modal fade" id="edit" role="dialog">
-                        <div class="modal-dialog">
-                           <div class="modal-content">
-                              <div class="modal-header">
-                                 <h4 class="modal-title">Channel Edit</h4>
-                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                              </div>
-                              <div class="modal-body">
-                                 <p>Editing Channel...</p>
-                              </div>
-                              <div class="modal-footer">
-                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-                              </div>
+            <div class="card-group">
+               <div class="card tab-content" ng-repeat="channel in channels" style="width: 33%;">
+                  <div class="card-header">Channel No.{{channel.no}}</div>
+                  <div class="card-block tab-pane in active" id="dcrp">
+                     <h4 class="card-title">Description</h4>
+                     <ul style="word-wrap:break-word">
+                        <li class="card-text">Channel Name: {{channel.name}}</li>
+                        <li class="card-text">Dataverse Name: {{channel.dataverseName}}</li>
+                        <li class="card-text">Function: {{channel.function}}</li>
+                        <li class="card-text">ResultDataset Name: {{channel.resultsDatasetName}}</li>
+                        <li class="card-text">Sublist: {{channel.sublist.length}} users as {{channel.sublist}}</li>
+                     </ul>
+                  </div>
+                  <div class="card-block tab-pane fade" id="mg">
+                     <h4 class="card-title">Manage</h4>
+                     <p class="card-text">This content is a little bit longer.</p>
+                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit">Edit</button>
+                     <a href="#delete" class="btn btn-primary">Delete</a>
+                  </div>
+                  <div class="modal fade" id="edit" role="dialog">
+                     <div class="modal-dialog">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <h4 class="modal-title">Channel Edit</h4>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                           </div>
+                           <div class="modal-body">
+                              <p>Editing Channel...</p>
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
                            </div>
                         </div>
                      </div>
-                     <div class="card-footer">
+                  </div>
+                  <div class="card-footer">
+                     <small class="text-muted">Duration: {{channel.duration}}</small>
+                     <!--
                         <ul class="nav nav-pills card-footer-pills">
                            <li class="nav-item">
                               <a class="nav-link active" data-toggle="tab" href="#dcrp">Description</a>
@@ -97,18 +103,17 @@
                               <a class="nav-link" data-toggle="tab" href="#mg">Manage</a>
                            </li>
                         </ul>
-                     </div>
-                  </div>  
-                                      
-                  <div class="card">
-                     <div class="card-header">New Channel</div>
-                     <div class="card-block">
-                        <h4 class="card-title">Create New Channel</h4>
-                        <img class="card-img-top" src="/utils/res/addcnl.png" alt="Card image cap">
-                     </div>
-                     <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
-                     </div>
+                        -->
+                  </div>
+               </div>
+               <div class="card">
+                  <div class="card-header">New Channel</div>
+                  <div class="card-block">
+                     <h4 class="card-title">Create New Channel</h4>
+                     <img class="card-img-top" src="/utils/res/addcnl.png" alt="Card image cap">
+                  </div>
+                  <div class="card-footer">
+                     <small class="text-muted">On the Way</small>
                   </div>
                </div>
             </div>
