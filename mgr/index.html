@@ -13,7 +13,15 @@
         <div ng-controller="IndexController">
             <nav class="navbar navbar-light navbar-static-top"  style="background-color: #00ffcc;">
                 <div class="container">
-                    <a class="navbar-brand" href="#">BAD_Manager</a>
+                    <!--<a class="navbar-brand" href="#">BAD_Manager</a>-->
+                    <div class="dropdown">
+  <button class="dropbtn">BAD_Manager</button>
+  <div class="dropdown-content">
+    <a href="/">BAD_Home</a>
+    <a href="/user/publish.html">BAD_Publisher</a>
+    <a href="/user/index.html">BAD_Subscriber</a>
+  </div>
+</div>
                     <form class="navbar-form navbar-right">
                   <div class="form-group">
                      <label for="userName" style="color:#778899;">User</label>
