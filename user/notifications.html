@@ -44,11 +44,19 @@
                   </ul>
                </div>
             </nav>
+            <div class="col-md-2 col-md-offset-2">
+               <select class="form-control" ng-model="showtype" ng-change="typeChange()">
+                  <option value="incoming">Incoming</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="history">History</option>
+               </select>
+            </div>
+            <!-- tabs title -->
             <div class="col-md-8 col-md-offset-2">
                <ul class="nav nav-tabs right">
-                  <li class="active"><a data-toggle="tab" href="#map"">Map View</a></li>
+                  <li class="active"><a data-toggle="tab" href="#map">Map View</a></li>
                   <li><a data-toggle="tab" href="#list">List View</a></li>
-                  <li><a data-toggle="tab" href="#history">History</a></li>
+                  <!--<li><a data-toggle="tab" href="#history">History</a></li>-->
                </ul>
             </div>
             <div class="row">
@@ -71,11 +79,12 @@
                   </div>
                   <div ng-init="init()">
                      <div class="tab-content">
+                        <!-- map tab -->
                         <div id="map" class="tab-pane in active">
                            <div class="col-md-8 col-md-offset-2">
                               <div class="map_canvas_big" >
                                  <ui-gmap-google-map center="map.center" zoom="map.zoom" control='control' events="map.events">
-                                    <ui-gmap-marker ng-repeat='s in shelters' coords="s.coords" idkey="s.id" options="s.options">
+                                    <ui-gmap-marker ng-repeat="s in shelters | filter:showtype=='incoming'" coords="s.coords" idkey="s.id" options="s.options">
                                        <ui-gmap-window show="show">
                                           <div>
                                              <p>Name: {{s.message.name}}</p>
@@ -90,7 +99,7 @@
                                           </div>
                                        </ui-gmap-window>
                                     </ui-gmap-marker>
-                                    <ui-gmap-marker ng-repeat='m in markers' coords="m.coords" idkey="m.id" options="m.options">
+                                    <ui-gmap-marker ng-repeat="m in showmkr[showtype] | filter:myFilter()" coords="m.coords" idkey="m.id" options="m.options">
                                        <ui-gmap-window show="show">
                                           <div>
                                              <p>Emergency: {{m.message.emergencytype| uppercase}}</p>
@@ -103,7 +112,7 @@
                                           </div>
                                        </ui-gmap-window>
                                     </ui-gmap-marker>
-                                    <ui-gmap-circle ng-repeat="c in circles" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius" coords="c.center" visible="c.visible">
+                                    <ui-gmap-circle ng-repeat="c in showclc[showtype] | filter:myFilter()" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius" coords="c.center" visible="c.visible">
                                     </ui-gmap-circle>
                                  </ui-gmap-google-map>
                               </div>
@@ -113,35 +122,39 @@
                               </button>
                            </div>
                         </div>
-                        <div id="list" class="tab-pane fade">
-                           <div class="col-md-8 col-md-offset-2">
-                              <table class="table table-hover">
-                                 <thead>
-                                    <tr>
-                                       <th>Type</th>
-                                       <th>Severity</th>
-                                       <th>Message</th>
-                                       <th>Coordinates</th>
-                                       <th>Radius</th>
-                                       <th>Duration</th>
-                                       <th>Timestamp</th>
-                                    </tr>
-                                 </thead>
-                                 <tbody ng-repeat='message in messages' ng-hide='!message.visibl'>
-                                    <tr>
-                                       <th>{{message.emergencytype| uppercase}}</th>
-                                       <th>{{message.severity}}</th>
-                                       <th>{{message.message}}</th>
-                                       <th>{{message.coordinates}}</th>
-                                       <th>{{message.radius}}m</th>
-                                       <th>{{message.duration}}s</th>
-                                       <th>{{message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</th>
-                                    </tr>
-                                 </tbody>
-                              </table>
+                        <!-- list tab -->
+                        <!--
+                           <div id="list" class="tab-pane fade">
+                              <div class="col-md-8 col-md-offset-2">
+                                 <table class="table table-hover">
+                                    <thead>
+                                       <tr>
+                                          <th>Type</th>
+                                          <th>Severity</th>
+                                          <th>Message</th>
+                                          <th>Coordinates</th>
+                                          <th>Radius</th>
+                                          <th>Duration</th>
+                                          <th>Timestamp</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody ng-repeat='message in showmsg[showtype]' ng-hide='!message.visibl'>
+                                       <tr>
+                                          <th>{{message.emergencytype| uppercase}}</th>
+                                          <th>{{message.severity}}</th>
+                                          <th>{{message.message}}</th>
+                                          <th>{{message.coordinates}}</th>
+                                          <th>{{message.radius}}m</th>
+                                          <th>{{message.duration}}s</th>
+                                          <th>{{message.timestamp | date:"MM/dd/yyyy 'at' h:mm:ssa"}}</th>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
                            </div>
-                        </div>
-                        <div id="history" class="tab-pane fade">
+                           -->
+                        <!-- sorted list tab -->
+                        <div id="list" class="tab-pane fade">
                            <div class="col-md-8 col-md-offset-2">
                               <!-- <p>Ordered By: {{orderByField}}, Reverse Sort: {{reverseSort}}</p> -->
                               <table class="table table-hover">
@@ -156,7 +169,7 @@
                                        <th><a href="#" ng-click="orderByField='timestamp'; reverseSort = !reverseSort">Timestamp<span ng-show="orderByField == 'timestamp'"><span ng-show="!reverseSort"> <img src="res/up.png"></span><span ng-show="reverseSort"> <img src="res/down.png"></span></span></a></th>
                                     </tr>
                                  </thead>
-                                 <tbody ng-repeat='message in notiHistory | orderBy:orderByField:reverseSort'>
+                                 <tbody ng-repeat="message in showmsg[showtype] | orderBy:orderByField:reverseSort | filter:myFilter()" ng-hide="!message.visibl">
                                     <tr>
                                        <th>{{message.emergencytype| uppercase}}</th>
                                        <th>{{message.severity}}</th>
