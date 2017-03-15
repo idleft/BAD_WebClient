@@ -38,11 +38,11 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
         var path = "res/"
         var mp3file = path + name + ".mp3";
         if (name != "Loki") {
-        	var snd = new Audio(mp3file);
+            var snd = new Audio(mp3file);
             snd.play();
         } else {
-        	mp3file = path + "Loki" + ".mp3";
-        	snd = new Audio(mp3file);
+            mp3file = path + "Loki" + ".mp3";
+            snd = new Audio(mp3file);
             snd.play();
             console.log("1deamaxwu ---> NO sound named: " + name)
         }
@@ -91,7 +91,7 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
             $("#alertmodal").modal('show');
             $scope.alertjump = "";
         } else {
-        	//PlaySound("Loki");
+            //PlaySound("Loki");
             PlaySound($scope.typeselection);
             console.log("1deamaxwu ---> TYPE and LOC: " + $scope.typeselection + " and " + $scope.locselection)
 
@@ -127,7 +127,23 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
 
             $scope.desc = "{\"message\": \"" + $scope.typeselection + " alert!\", \"duration\": " + dur.toFixed(4) + "s, \"severity\": " + sever + ", \"impactZone\": circle(\"" + lat.toFixed(4) + ", " + lng.toFixed(4) + " " + Math.round(rad.toFixed(4) * 100000) + "m\"), \"timestamp\": \"" + time + "\"}";
 
-            var record = "{\"emergencyType\":\"" + $scope.typeselection + "\",\"message\":\"" + $scope.typeselection + " alert!\",\"timeoffset\":" + offset + ",\"duration\":" + dur + ",\"severity\":" + sever + ",\"impactZone\":circle(\"" + lat + "," + lng + " " + rad + "\"),\"timestamp\":datetime(\"" + time + "\"),\"reportId\":uuid(\"" + guid() + "\")}";
+            var uuid = guid();
+
+            $scope.pbmsg = {
+                'id': uuid,
+                'emergencytype': $scope.typeselection,
+                'severity': sever,
+                'message': $scope.typeselection + " alert!",
+                'coordinates': {
+                    latitude: lat.toFixed(4),
+                    longitude: lng.toFixed(4)
+                },
+                'radius': Math.round(rad.toFixed(4) * 100000),
+                'duration': dur.toFixed(4),
+                'timestamp': time
+            }
+
+            var record = "{\"emergencyType\":\"" + $scope.typeselection + "\",\"message\":\"" + $scope.typeselection + " alert!\",\"timeoffset\":" + offset + ",\"duration\":" + dur + ",\"severity\":" + sever + ",\"impactZone\":circle(\"" + lat + "," + lng + " " + rad + "\"),\"timestamp\":datetime(\"" + time + "\"),\"reportId\":uuid(\"" + uuid + "\")}";
             UploadGetter.feedRecords($scope.userId, $scope.accessToken, portNo, record, SessionStorage.get('brokerUrl'), uploadSuccessFunction, errorFunction);
 
         }
@@ -143,6 +159,37 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
                 city: $scope.locselection,
                 desc: $scope.desc,
             };
+
+            pbmkr = {
+                id: $scope.pbmsg.id,
+                coordinates: $scope.pbmsg.coordinates,
+                options: {
+                    icon: 'res/hit.png',
+                    visible: true
+                },
+                message: $scope.pbmsg,
+            };
+
+            pbclc = {
+                id: $scope.pbmsg.id,
+                center: $scope.pbmsg.coordinates,
+                radius: $scope.pbmsg.radius,
+                stroke: {
+                    color: '#5D5B5B',
+                    weight: 2,
+                    opacity: 1
+                },
+                fill: {
+                    color: '#5D5B5B',
+                    opacity: 0.5
+                },
+                visible: true
+            };
+
+            $scope.pbmkrs.push(pbmkr);
+            $scope.pbclcs.push(pbclc);
+
+            console.log($scope.pbmkrs);
             $scope.reports.reverse();
             $scope.reports.push(report);
             $scope.reports.reverse();
@@ -210,6 +257,8 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
         $scope.alertjump = "";
 
         $scope.reports = [];
+        $scope.pbmkrs = [];
+        $scope.pbclcs = [];
         $scope.desc = "";
 
         $scope.accessToken = SessionStorage.get('pubaccessToken');
@@ -221,8 +270,8 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
         $scope.locs = EmergenciesGetter.loclist;
         $scope.locselection = "";
         $scope.cities = EmergenciesGetter.citylist;
-        console.log("1deamaxwu ---> CITIES: ");
-        console.log($scope.cities);
+        //console.log("1deamaxwu ---> CITIES: ");
+        //console.log($scope.cities);
 
         $scope.map = {
             center: {
