@@ -678,7 +678,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
 
             SessionStorage.conf();
 
-            $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
+            $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
             $scope.messages = JSON.parse(SessionStorage.get('messages')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
             $scope.numNoti = SessionStorage.get('numNoti') == null ? 0 : SessionStorage.get('numNoti');
             $scope.markers = JSON.parse(SessionStorage.get('markers')) == null ? [] : JSON.parse(SessionStorage.get('markers'));
