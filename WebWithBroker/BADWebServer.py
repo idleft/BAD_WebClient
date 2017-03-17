@@ -44,10 +44,6 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
     def check_origin(self, origin):
         return True
 
-class IndexPageHandler(BaseHandler):
-    def get(self):
-        self.render("Web/index.html")
-        
 class MainHandler(BaseHandler):
     def get(self):
         log.info("MAIN")
@@ -56,6 +52,9 @@ class MainHandler(BaseHandler):
 
 
 class HeartBeatHandler(BaseHandler):
+    def initialize(self, broker):
+        self.broker = broker
+
     def get(self):
         log.info(str(self.request.body, encoding='utf-8'))
         self.set_status(204)
@@ -236,7 +235,7 @@ class AdminQueryHandler(BaseHandler):
             log.info(e.with_traceback())
             response = {'status': 'failed', 'error': 'Bad formatted request missing field ' + str(e)}
 
-        self.write(json.dumps(response))
+        self.write(json.dumps(response, for_json=True))
         self.flush()
         self.finish()
 
@@ -768,10 +767,10 @@ def start_server():
 		(r'/websocketlistener', BrowserWebSocketHandler),
         (r'/insertrecords', InsertRecordsHandler, dict(broker=broker)),
         (r'/feedrecords', FeedRecordsHandler, dict(broker=broker)),
-        (r'/heartbeat', HeartBeatHandler)
+        (r'/heartbeat', HeartBeatHandler, dict(broker=broker))
     ])
 
-    application.listen(9110)
+    application.listen(8989)
     tornado.ioloop.IOLoop.current().start()
     
 if __name__ == '__main__':

@@ -8,12 +8,12 @@ insert into dataset EmergencyShelters({"name": "shelter-3-3", "location":point("
 
 insert into dataset EmergencyShelters({"name": "shelter-3-4", "location":point("38.8076797, -77.1165298"), "reportId":uuid("656dee4e-a949-4c51-a3a7-32b8f7980e61")})
 
-insert into dataset EmergencyShelters({"name": "shelter-3-5", "location":point("38.8576797, -77.0565298"), "reportId":uuid("b8a1f8a6-a704-4b5e-9615-0f8662f0810f")})
+insert into dataset EmergencyShelters({"name": "shelter-3-5", "location":point("38.7576797, -77.0565298"), "reportId":uuid("b8a1f8a6-a704-4b5e-9615-0f8662f0810f")})
 
 insert into dataset EmergencyShelters({"name": "shelter-3-6", "location":point("38.8976797, -77.0065298"), "reportId":uuid("f0a71a17-dea7-41b7-ba01-3878ec346547")})
 
 insert into dataset EmergencyShelters({"name": "shelter-3-7", "location":point("38.9976797, -77.1365298"), "reportId":uuid("87b31b7c-8415-4df4-b8d8-3a63b7c41d7d")})
 
-insert into dataset EmergencyShelters({"name": "shelter-3-8", "location":point("38.8076797, -77.0965298"), "reportId":uuid("a2028d20-b94b-433e-b931-0de463155cf6")})
+insert into dataset EmergencyShelters({"name": "shelter-3-8", "location":point("38.8076797, -77.1965298"), "reportId":uuid("a2028d20-b94b-433e-b931-0de463155cf6")})
 
 insert into dataset EmergencyShelters({"name": "shelter-3-9", "location":point("38.8776797, -77.03965298"), "reportId":uuid("c900b685-79c8-4d3c-a8bf-7a6940f2201d")})

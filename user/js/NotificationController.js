@@ -453,8 +453,8 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         function UserPosition() {
             console.log("1deamaxwu ---> interval as UserPosition")
 
-            var lat = $scope.baselat + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.05;
-            var lng = $scope.baselng + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.05;
+            var lat = $scope.baselat + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.025;
+            var lng = $scope.baselng + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.025;
 
             var portNo = 10003;
             Date.now = function() {
@@ -573,7 +573,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             console.log("1deamxwu ---> logout respond success");
             if (data['data']['status'] == 'success') {
                 console.log("1deamaxwu ---> logged out success as " + data['data']['userId']);
-                $scope.dataStream.close();
+                //$scope.dataStream.close();
                 SessionStorage.removeElement("accessToken");
                 SessionStorage.removeElement("userId");
                 SessionStorage.removeElement("userName");
@@ -637,7 +637,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             if (SessionStorage.get("notiHistory") != null) {
                 console.log("1deamaxwu ---> NOT NULL!");
                 SessionStorage.removeElement("notiHistory");
-                $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
+                $scope.notiHistory = [];
             }
             if (subscriptionList != null) {
 
@@ -678,7 +678,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
 
             SessionStorage.conf();
 
-            $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
+            $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory')) == null ? [] : JSON.parse(SessionStorage.get('notiHistory'));
             $scope.messages = JSON.parse(SessionStorage.get('messages')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
             $scope.numNoti = SessionStorage.get('numNoti') == null ? 0 : SessionStorage.get('numNoti');
             $scope.markers = JSON.parse(SessionStorage.get('markers')) == null ? [] : JSON.parse(SessionStorage.get('markers'));

@@ -98,13 +98,16 @@ app.controller('RegisterAppController', ['$scope', '$window', 'RegisterAppGetter
     };
 	$scope.populateData = function(){
 		console.log("1deamxwu ---> populate DEMO data.");
-		//four subscriber users
+		//five subscriber users
 		
 		RegisterAppGetter.postRegisterUser("Rose", "trump", "rose@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
 		RegisterAppGetter.postRegisterUser("Adam", "trump", "adam@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
 		RegisterAppGetter.postRegisterUser("Walt", "trump", "walt@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
 		RegisterAppGetter.postRegisterUser("Will", "trump", "will@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
 		RegisterAppGetter.postRegisterUser("Mary", "trump", "mary@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
+		
+		//one manager
+		RegisterAppGetter.postRegisterUser("ProfX", "mgr", "profx@bad.com", SessionStorage.get('brokerUrl'), registerUserSuccessFunction, errorFunction);
 		
 		//one publisher user
 		RegisterAppGetter.postRegisterUser("Loki", "clinton", "loki@bad.com", SessionStorage.get('brokerUrl'), registerPubUserSuccessFunction, errorFunction);
