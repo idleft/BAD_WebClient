@@ -44,6 +44,10 @@ class BaseWebSocketHandler(tornado.websocket.WebSocketHandler):
     def check_origin(self, origin):
         return True
 
+class IndexPageHandler(BaseHandler):
+    def get(self):
+        self.render("Web/index.html")
+        
 class MainHandler(BaseHandler):
     def get(self):
         log.info("MAIN")
@@ -770,7 +774,7 @@ def start_server():
         (r'/heartbeat', HeartBeatHandler, dict(broker=broker))
     ])
 
-    application.listen(8989)
+    application.listen(9110)
     tornado.ioloop.IOLoop.current().start()
     
 if __name__ == '__main__':

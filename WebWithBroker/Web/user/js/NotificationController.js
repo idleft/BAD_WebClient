@@ -10,6 +10,72 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             }
         }
 
+        function DataShowRender() {
+            $scope.showmsg = {
+                'incoming': $scope.messages,
+                'inactive': $scope.notiHistory,
+                'history': $scope.notiHistory
+            };
+
+            historymkrs = [];
+            historyclcs = [];
+            for (i = 0; i < $scope.notiHistory.length; i++) {
+                msg = $scope.notiHistory[i];
+                mkr = {
+                    id: msg['reportId'],
+                    coords: {
+                        latitude: msg['center']['latitude'],
+                        longitude: msg['center']['longitude']
+                    },
+                    options: {
+                        icon: 'res/emergency.png',
+                        visible: true
+                    },
+                    message: msg,
+                    timestamp: msg['timestamp'],
+                    duration: msg['duration']
+
+                };
+                clc = {
+                    id: msg['reportId'],
+                    center: {
+                        latitude: msg['center']['latitude'],
+                        longitude: msg['center']['longitude']
+                    },
+                    radius: msg['radius'],
+                    stroke: {
+                        color: '#C43314',
+                        weight: 2,
+                        opacity: 1
+                    },
+                    fill: {
+                        color: '#C43314',
+                        opacity: 0.5
+                    },
+                    visible: true,
+                    timestamp: msg['timestamp'],
+                    duration: msg['duration']
+                };
+                historymkrs.push(mkr);
+                historyclcs.push(clc);
+            };
+
+            $scope.historymkrs = historymkrs;
+            $scope.historyclcs = historyclcs;
+
+            $scope.showmkr = {
+                'incoming': $scope.markers,
+                'inactive': $scope.historymkrs,
+                'history': $scope.historymkrs
+            };
+
+            $scope.showclc = {
+                'incoming': $scope.circles,
+                'inactive': $scope.historyclcs,
+                'history': $scope.historyclcs
+            };
+        }
+
         function hasValue(arr, key, val) {
             if (arr == null) {
                 return false;
@@ -60,6 +126,18 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     }
                 }
             }
+            DataShowRender();
+        }
+        $scope.myFilter = function() {
+            return function(item) {
+                if ($scope.showtype == "inactive") {
+                    //console.log((Date.now() - Date.parse(item['timestamp']))/1000);
+                    return Date.now() - Date.parse(item['timestamp']) < item['duration'] * 1000;
+                } else {
+                    return true
+                }
+
+            }
         }
 
         $scope.AfterRead = function() {
@@ -70,11 +148,25 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             SessionStorage.removeElement("circles");
         }
 
+        $scope.typeChange = function() {
+            if ($scope.showtype == "incoming") {
+                console.log("1deamaxwu ---> SHOW incoming.");
+            } else if ($scope.showtype == "inactive") {
+                console.log("1deamaxwu ---> SHOW inactive.");
+
+            } else if ($scope.showtype == "history") {
+                console.log("1deamaxwu ---> SHOW hitsoty.");
+            } else {
+                console.log("1deamaxwu ---> unrecognized SHOW option.");
+
+            }
+        }
+
         $scope.renderMap = function() {
             console.log("1deamaxwu ---> rendering map");
             console.log("1deamxwu ---> marker numbers on MAP: " + $scope.circles.length);
-            if($scope.circles.length == 0){
-            	return;
+            if ($scope.circles.length == 0) {
+                return;
             }
             for (var i = 0, length = $scope.circles.length; i < length; i++) {
                 var marker = $scope.circles[i].center;
@@ -135,7 +227,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
 
                 }
-
+                DataShowRender();
             }
         }
         var successFunction = function(data) {
@@ -273,10 +365,12 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     $scope.markers = JSON.parse(SessionStorage.get('markers'));
                     $scope.circles = JSON.parse(SessionStorage.get('circles'));
 
+                    DataShowRender();
+
                     $scope.numNoti = $scope.markers.length;
                     SessionStorage.set('numNoti', $scope.numNoti);
 
-                    //updateInterSect($scope.mylocation.coords);
+                    updateInterSect($scope.mylocation.coords);
                 }
             }
             $scope.renderMap();
@@ -359,8 +453,8 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         function UserPosition() {
             console.log("1deamaxwu ---> interval as UserPosition")
 
-            var lat = $scope.baselat + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.05;
-            var lng = $scope.baselng + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.05;
+            var lat = $scope.baselat + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.025;
+            var lng = $scope.baselng + (Math.round(Math.random()) * 2 - 1) * Math.random() * 0.025;
 
             var portNo = 10003;
             Date.now = function() {
@@ -374,9 +468,9 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                 },
                 options: {
                     draggable: true,
-                	options: {
-                		icon: 'res/gopher.png',
-            		}
+                    options: {
+                        icon: 'res/gopher.png',
+                    }
                 },
                 message: "Your location: ",
                 events: {
@@ -394,13 +488,13 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                         };
                         $scope.baselat = lti;
                         $scope.baselng = lon;
-                        //updateInterSect($scope.mylocation.coords);
+                        updateInterSect($scope.mylocation.coords);
 
                     }
                 }
             };
 
-            //updateInterSect($scope.mylocation.coords);
+            updateInterSect($scope.mylocation.coords);
 
             off = 10.0
             var record = '{\"recordId\": uuid(\"' + guid() + '\"),\"user-id\":\"' + SessionStorage.get('userId') + '\",\"latitude\":' + lat + ',\"longitude\":' + lng + ',\"timeoffset\":' + off + ',\"timestamp\":datetime(\"' + getFDate() + '\")}';
@@ -479,7 +573,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             console.log("1deamxwu ---> logout respond success");
             if (data['data']['status'] == 'success') {
                 console.log("1deamaxwu ---> logged out success as " + data['data']['userId']);
-                $scope.dataStream.close();
+                //$scope.dataStream.close();
                 SessionStorage.removeElement("accessToken");
                 SessionStorage.removeElement("userId");
                 SessionStorage.removeElement("userName");
@@ -543,22 +637,22 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             if (SessionStorage.get("notiHistory") != null) {
                 console.log("1deamaxwu ---> NOT NULL!");
                 SessionStorage.removeElement("notiHistory");
-                $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
+                $scope.notiHistory = [];
             }
             if (subscriptionList != null) {
 
                 for (var i = 0; i < subscriptionList.length; i++) {
                     item = subscriptionList[i].split("::");
                     channelName = item[2];
-                    
+
                     //$scope.ackUserSubscriptionId = subscriptionList[i];
                     //$scope.ackChannelName = channelName;
-                    
+
                     console.log("1deamxwu ---> SUB_name: " + channelName);
                     NotificationGetter.getHistory($scope.userId, $scope.accessToken, subscriptionList[i],
                         getFDate(), channelName, SessionStorage.get('brokerUrl'), historySuccessFunction, errorFunction);
                     //NotificationGetter.getNewResults($scope.userId, $scope.accessToken, subscriptionList[i],
-                        //getFDate(), channelName, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
+                    //getFDate(), channelName, SessionStorage.get('brokerUrl'), successFunction, errorFunction);
                 }
             }
         }
@@ -573,6 +667,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             $scope.mylocation = '';
             $scope.orderByField = 'timestamp';
             $scope.reverseSort = true;
+            $scope.showtype = "incoming"
 
             $scope.userId = SessionStorage.get('userId');
             $scope.accessToken = SessionStorage.get('accessToken');
@@ -583,12 +678,14 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
 
             SessionStorage.conf();
 
-            $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory'));
+            $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory')) == null ? [] : JSON.parse(SessionStorage.get('notiHistory'));
             $scope.messages = JSON.parse(SessionStorage.get('messages')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
             $scope.numNoti = SessionStorage.get('numNoti') == null ? 0 : SessionStorage.get('numNoti');
             $scope.markers = JSON.parse(SessionStorage.get('markers')) == null ? [] : JSON.parse(SessionStorage.get('markers'));
             $scope.shelters = JSON.parse(SessionStorage.get('shelters')) == null ? [] : JSON.parse(SessionStorage.get('shelters'));
             $scope.circles = JSON.parse(SessionStorage.get('circles')) == null ? [] : JSON.parse(SessionStorage.get('circles'));
+
+            DataShowRender();
 
             $scope.map = {
                 center: {
@@ -596,30 +693,33 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     longitude: $scope.cities[2].loc.lng
                 },
                 zoom: 12,
-            events: {
-                click: function(mapModel, eventName, args) {
-                    console.log("1deamaxwu ---> marker click: " + args[0].latLng.lng());
-                    //if ($scope.locselection == "onmap") {
+                events: {
+                    click: function(mapModel, eventName, args) {
+                        console.log("1deamaxwu ---> marker click: " + args[0].latLng.lng());
+                        //if ($scope.locselection == "onmap") {
                         cmlat = args[0].latLng.lat();
                         cmlng = args[0].latLng.lng();
 
                         $scope.mylocation.coords.latitude = cmlat;
                         $scope.mylocation.coords.longitude = cmlng;
-                        
+
                         $scope.baselat = cmlat;
                         $scope.baselng = cmlng;
-                        
+
+                        updateInterSect($scope.mylocation.coords);
+
                         $scope.$apply();
-                    //} else {
+
+                        //} else {
                         //console.log("1deamaxwu ---> only marker click.");
-                    //}
+                        //}
+                    }
                 }
-            }
             };
             $scope.options = {
                 scrollwheel: false
             };
-			
+
             $scope.control = {};
 
             initBaseLoc();
