@@ -140,7 +140,7 @@ app.controller('DashBoardController', ['$scope', '$window', 'DashBoardGetter', '
         SessionStorage.conf();
 
         $scope.appName = "emapp"
-        $scope.apiKey = "e1f9875ae4986a2b33e84854433699c4869828191cf905ed1a0323a3"
+        $scope.apiKey = "e541c2b0e3ca7f38b9dc1ecf4f0f883d2635a59a6f2dbb36ee936c81"
 
         $scope.channels = [];
 
@@ -150,7 +150,7 @@ app.controller('DashBoardController', ['$scope', '$window', 'DashBoardGetter', '
         $scope.accessToken = SessionStorage.get('mgraccessToken');
         $scope.userId = SessionStorage.get('mgruserId');
         $scope.userName = SessionStorage.get('mgruserName');
-        console.log("1deamaxwu ---> accessToken: " + $scope.accessToken + " userId: " + SessionStorage.get('pubuserId'));
+        console.log("1deamaxwu ---> accessToken: " + $scope.accessToken + " userId: " + SessionStorage.get('mgruserId'));
 
         ListChannels();
     }

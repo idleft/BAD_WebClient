@@ -14,6 +14,7 @@ ip = 'promethium.ics.uci.edu'
 
 def feedRecord(filename,port):
     jsonfile = filename + '.json'
+    print(filename+':'+port)
     lastOffset = 0
     sock1 = socket()
     sock1.connect((ip, int(port)))

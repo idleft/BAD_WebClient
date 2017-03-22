@@ -117,7 +117,8 @@ app.factory('RegisterAppGetter', ['$http', function($http) {
           'dataverseName' : "channels",
           'userName' : userId,
           'password' : userPassword,
-          'platform' : 'web'
+          'platform' : 'web',
+          'stay': stay
         };
         $http({
 			url: 'http://'+url+'/login',
