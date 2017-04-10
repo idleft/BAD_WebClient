@@ -1,4 +1,4 @@
-app.controller('DashBoardController', ['$scope', '$window', 'DashBoardGetter', 'SessionStorage', function($scope, $window, DashBoardGetter, SessionStorage) {
+app.controller('DashBoardController', ['$scope', '$window', '$filter', 'DashBoardGetter', 'FuncGetter', 'SessionStorage', function($scope, $window, $filter, DashBoardGetter, FuncGetter, SessionStorage) {
 
     function setValue(id, val) {
         for (var i = 0; i < $scope.channels.length; i++) {
@@ -19,7 +19,7 @@ app.controller('DashBoardController', ['$scope', '$window', 'DashBoardGetter', '
         if (data['data']['status'] == 'success') {
             console.log("1deamaxwu ---> LS success as " + data['data']);
             if (data['data']['subscriptions'] != null) {
-                console.log(data['data']['subscriptions']);
+                //console.log(data['data']['subscriptions']);
                 sublist = [];
                 channelName = "";
                 for (i = 0; i < data['data']['subscriptions'].length; i++) {
@@ -66,6 +66,7 @@ app.controller('DashBoardController', ['$scope', '$window', 'DashBoardGetter', '
                         'function': data['data']['channels'][i]['Function'],
                         'resultsDatasetName': data['data']['channels'][i]['ResultsDatasetName'],
                         'subscriptionDatasetName': data['data']['channels'][i]['SubscriptionDatasetName'],
+                        'func': $filter('filter')($scope.funcs, {chname: data['data']['channels'][i]['ChannelName']})[0]['func'],
                         'sublist': []
                     }
                     //list subscription
@@ -146,7 +147,11 @@ app.controller('DashBoardController', ['$scope', '$window', 'DashBoardGetter', '
 
         $scope.alertmsg = "";
         $scope.alertjump = "";
-
+        
+        $scope.funcs = FuncGetter.funclist;
+		
+		//console.log("1deamaxwu ---> Funcs: " + $scope.funcs);
+		
         $scope.accessToken = SessionStorage.get('mgraccessToken');
         $scope.userId = SessionStorage.get('mgruserId');
         $scope.userName = SessionStorage.get('mgruserName');

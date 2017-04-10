@@ -101,8 +101,8 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
             var dur = 500 + Math.random() * 10;
             var sever = Math.floor((Math.random() * 10) + 1);
 
-            var baselat = $scope.cities[2].loc.lat;
-            var baselng = $scope.cities[2].loc.lng;
+            var baselat = $scope.cities[0].loc.lat;
+            var baselng = $scope.cities[0].loc.lng;
 
             for (var i = 0; i < $scope.cities.length; i++) {
                 if ($scope.locselection == $scope.cities[i].name) {
@@ -276,8 +276,8 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
         $scope.map = {
             center: {
                 //default washington
-                latitude: $scope.cities[2].loc.lat,
-                longitude: $scope.cities[2].loc.lng
+                latitude: $scope.cities[0].loc.lat,
+                longitude: $scope.cities[0].loc.lng
             },
             zoom: 12,
             events: {
@@ -303,8 +303,8 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
         $scope.marker = {
             id: 0,
             coords: {
-                latitude: $scope.cities[2].loc.lat,
-                longitude: $scope.cities[2].loc.lng
+                latitude: $scope.cities[0].loc.lat,
+                longitude: $scope.cities[0].loc.lng
             },
             options: {
                 draggable: false,

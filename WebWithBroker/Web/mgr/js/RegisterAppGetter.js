@@ -111,7 +111,7 @@ app.factory('RegisterAppGetter', ['$http', function($http) {
           data: message,
         }).then(successFunction, errorFunction);
       },
-      postUserData: function(userId, userPassword, url, successFunction, errorFunction){
+      postUserData: function(userId, userPassword, url, stay, successFunction, errorFunction){
 		console.log('1deamxwu ---> logging in as UserId: '+userId+' Pwd: '+userPassword)
         var message = {
           'dataverseName' : "channels",

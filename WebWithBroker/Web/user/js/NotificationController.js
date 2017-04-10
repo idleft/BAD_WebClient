@@ -424,8 +424,8 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         }
 
         function initBaseLoc() {
-            $scope.baselat = $scope.cities[2].loc.lat;
-            $scope.baselng = $scope.cities[2].loc.lng;
+            $scope.baselat = $scope.cities[0].loc.lat;
+            $scope.baselng = $scope.cities[0].loc.lng;
 
             var uname = SessionStorage.get('userName')
             if (uname == "Rose") {

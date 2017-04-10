@@ -89,7 +89,10 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
         $scope.newUserName = newUserName;
         $scope.newUserPassword = newUserPassword;
         $scope.newUserEmail = newUserEmail;
-        if ($scope.newUserName != null && $scope.newUserPassword != null && $scope.newUserEmail != null) {
+        if ($scope.newUserName != null && $scope.newUserPassword != null) {
+        	if ($scope.newUserEmail == null){
+        		$scope.newUserEmail = $scope.newUserName + "@bad.com";
+        	}
             IndexGetter.postRegisterUser($scope.newUserName, $scope.newUserPassword, $scope.newUserEmail, SessionStorage.get('brokerUrl'), registerSuccessFunction, errorFunction);
         } else {
             $scope.alertmsg = "Invalid Inputs!";
@@ -100,6 +103,7 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
     $scope.init = function() {
         SessionStorage.conf();
         $scope.alertmsg = "";
+        $scope.showemail = false;
         //$("#rolechoice").modal('show');
     }
 }]);
