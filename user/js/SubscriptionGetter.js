@@ -82,6 +82,22 @@ app.factory('SubscriptionGetter', ['$http', '$window', "$q", function($http, $wi
                 data: message
             }).then(successFunction, errorFunction);
         },
+        battleReport: function(userId, accessToken, batmsg, url, 
+            successFunction, errorFunction) {
+            console.log('1deamxwu ---> report battle as UserId: ' + userId)
+            var message = {
+                'dataverseName': "channels",
+                'userId': userId,
+                'accessToken': accessToken,
+                'batmsg': batmsg
+            };
+
+            $http({
+                url: 'http://' + url + '/battlereport',
+                method: "POST",
+                data: message,
+            }).then(successFunction, errorFunction);
+        },
         getSubscriptions: function(userId, accessToken, url, successFunction, errorFunction) {
             console.log('1deamaxwu ---> getting subscriptions as UserId: ' + userId);
 

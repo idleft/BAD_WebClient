@@ -5,6 +5,7 @@ app.factory('IndexGetter', ['$http', function($http) {
             var message = {
                 'dataverseName': "channels",
                 'userName': userId,
+                'userType': 'sbr',
                 'password': userPassword,
                 'platform': 'web',
                 'stay': stay

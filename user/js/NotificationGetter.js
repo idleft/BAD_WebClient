@@ -70,7 +70,22 @@ app.factory('NotificationGetter', ['$http', function($http) {
                 data: message,
             }).then(successFunction, errorFunction);
         },
+		battleReport: function(userId, accessToken, batmsg, url, 
+            successFunction, errorFunction) {
+            console.log('1deamxwu ---> report battle as UserId: ' + userId)
+            var message = {
+                'dataverseName': "channels",
+                'userId': userId,
+                'accessToken': accessToken,
+                'batmsg': batmsg
+            };
 
+            $http({
+                url: 'http://' + url + '/battlereport',
+                method: "POST",
+                data: message,
+            }).then(successFunction, errorFunction);
+        },
         feedRecords: function(userId, accessToken, portNo, records, url,
             successFunction, errorFunction) {
             console.log('1deamxwu ---> feeding records as UserId: ' + userId + ' records: ' + records)
