@@ -1,27 +1,30 @@
-app.factory('ProfileGetter', ['$http', function($http) {
+app.factory('GameGetter', ['$http', function($http) {
     return {
-        updateUserInfo: function(userId, accessToken, url, name, email, bio, successFunction, errorFunction) {
-            console.log('1deamaxwu ---> update user info as UserId: ' + userId);
+    	getGameStat: function(userId, accessToken, url, successFunction, errorFunction) {
+            console.log('1deamaxwu ---> get game as UserId: ' + userId);
 
             var message = {
                 'dataverseName': "channels",
                 'userId': userId,
                 'accessToken': accessToken
             }
-
+            $http({
+                url: 'http://' + url + '/getgamestat',
+                method: "POST",
+                data: message,
+            }).then(successFunction, errorFunction);
         },
-        battleReport: function(userId, accessToken, batmsg, url, 
-            successFunction, errorFunction) {
-            console.log('1deamxwu ---> report battle as UserId: ' + userId)
+        signalGame: function(userId, accessToken, signal, url, successFunction, errorFunction) {
+            console.log('1deamaxwu ---> signal game as UserId: ' + userId);
+
             var message = {
                 'dataverseName': "channels",
                 'userId': userId,
                 'accessToken': accessToken,
-                'batmsg': batmsg
-            };
-
+                'signal': signal
+            }
             $http({
-                url: 'http://' + url + '/battlereport',
+                url: 'http://' + url + '/signalgame',
                 method: "POST",
                 data: message,
             }).then(successFunction, errorFunction);
@@ -40,6 +43,5 @@ app.factory('ProfileGetter', ['$http', function($http) {
                 data: message,
             }).then(successFunction, errorFunction);
         }
-
     };
 }]);

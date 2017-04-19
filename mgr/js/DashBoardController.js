@@ -141,7 +141,7 @@ app.controller('DashBoardController', ['$scope', '$window', '$filter', 'DashBoar
         SessionStorage.conf();
 
         $scope.appName = "emapp"
-        $scope.apiKey = "e541c2b0e3ca7f38b9dc1ecf4f0f883d2635a59a6f2dbb36ee936c81"
+        $scope.apiKey = "961b031130f9b60be73fec2408f9a916449fafc90b01c9849d712091"
 
         $scope.channels = [];
 

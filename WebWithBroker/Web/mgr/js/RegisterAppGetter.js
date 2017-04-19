@@ -116,6 +116,7 @@ app.factory('RegisterAppGetter', ['$http', function($http) {
         var message = {
           'dataverseName' : "channels",
           'userName' : userId,
+          'userType': 'pbr',
           'password' : userPassword,
           'platform' : 'web',
           'stay': stay

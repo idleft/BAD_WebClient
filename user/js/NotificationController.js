@@ -269,6 +269,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     iz = data['data']['results'][i]['result']['reports']['impactZone']
                     var message = {
                         'reportId': data['data']['results'][i]['result']['reports']['reportId'],
+                        'userId': data['data']['results'][i]['result']['reports']['userId'],
                         'emergencytype': data['data']['results'][i]['result']['reports']['emergencyType'],
                         'severity': data['data']['results'][i]['result']['reports']['severity'],
                         'center': {
@@ -366,12 +367,12 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                         },
                         radius: iz[1].toFixed(4) * 100000,
                         stroke: {
-                            color: '#C43314',
+                            color: $scope.colors[message['emergencytype']],
                             weight: 2,
                             opacity: 1
                         },
                         fill: {
-                            color: '#C43314',
+                            color: $scope.colors[message['emergencytype']],
                             opacity: 0.5
                         },
                         visible: true
@@ -393,7 +394,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                     SessionStorage.set('numNoti', $scope.numNoti);
 					
 					// report battle if got hit
-					batmsg = message['reportId'] + ': ' + $scope.userId + ' got HIT by ' + message['emergencytype'] + ' in ' + message['coordinates'] + ' at ' + message['timestamp'];
+					batmsg = message['userId'] + ' HIT: ' + $scope.userId + ' got HIT by ' + message['emergencytype'] + ' in ' + message['coordinates'] + ' at ' + message['timestamp'];
 					NotificationGetter.battleReport($scope.userId, $scope.accessToken, batmsg, SessionStorage.get('brokerUrl'), batrptSuccessFunction, errorFunction);
                 
                     updateInterSect($scope.mylocation.coords);
@@ -701,7 +702,9 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             $scope.latestTimeStamp = SessionStorage.get('timestamp');
             console.log("1deamaxwu ---> current userId: " + $scope.userId);
             $scope.cities = EmergenciesGetter.citylist;
-
+			
+			$scope.colors = EmergenciesGetter.colorlist;
+			
             SessionStorage.conf();
 
             $scope.notiHistory = JSON.parse(SessionStorage.get('notiHistory')) == null ? [] : JSON.parse(SessionStorage.get('notiHistory'));

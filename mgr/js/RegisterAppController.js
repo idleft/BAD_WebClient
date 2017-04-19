@@ -81,7 +81,7 @@ app.controller('RegisterAppController', ['$scope', '$window', 'RegisterAppGetter
         console.log("1deamxwu ---> register user respond success");
 		if(data['data']['status']=='success'){ 
 			console.log("1deamaxwu ---> registered user success as "+data['data']['userId']);
-			RegisterAppGetter.postUserData("Loki", "clinton", SessionStorage.get('brokerUrl'), true, loginsuccessFunction, errorFunction);
+			RegisterAppGetter.postUserData("Loki", "clinton", SessionStorage.get('brokerUrl'), false, loginsuccessFunction, errorFunction);
 		}else{
 			console.log("1deamaxwu ---> register user ERROR: "+data['data']['error'])
 			$window.alert(data['data']['error']);		

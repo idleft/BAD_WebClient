@@ -345,6 +345,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                 iz = data['data']['results'][i]['result']['reports']['impactZone']
                 var message = {
                     'reportId': data['data']['results'][i]['result']['reports']['reportId'],
+                    'userId': data['data']['results'][i]['result']['reports']['userId'],
                     'emergencytype': data['data']['results'][i]['result']['reports']['emergencyType'],
                     'severity': data['data']['results'][i]['result']['reports']['severity'],
                     'center': {
@@ -442,12 +443,12 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                     },
                     radius: iz[1].toFixed(4) * 100000,
                     stroke: {
-                        color: '#C43314',
+                        color: $scope.colors[message['emergencytype']],
                         weight: 2,
                         opacity: 1
                     },
                     fill: {
-                        color: '#C43314',
+                        color: $scope.colors[message['emergencytype']],
                         opacity: 0.5
                     },
                     visible: true
@@ -468,7 +469,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                 SessionStorage.set('numNoti', $scope.numNoti);
                 
                 // report battle if got hit
-					batmsg = message['reportId'] + ': ' + $scope.userId + ' got HIT by ' + message['emergencytype'] + ' in ' + message['coordinates'] + ' at ' + message['timestamp'];
+					batmsg = message['userId'] + ' HIT: ' + $scope.userId + ' got HIT by ' + message['emergencytype'] + ' in ' + message['coordinates'] + ' at ' + message['timestamp'];
 					SubscriptionGetter.battleReport($scope.userId, $scope.accessToken, batmsg, SessionStorage.get('brokerUrl'), batrptSuccessFunction, errorFunction);
             }
         }
@@ -669,7 +670,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
         $scope.mylocation = '';
         $scope.locselection = "";
         $scope.shelterInfo = false;
-
+		$scope.colors = EmergenciesGetter.colorlist;
         $scope.accessToken = SessionStorage.get('accessToken');
         $scope.userId = SessionStorage.get('userId');
         console.log("1deamaxwu ---> accessToken: " + $scope.accessToken + " userId: " + SessionStorage.get('userId'))

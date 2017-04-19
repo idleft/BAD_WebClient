@@ -1,5 +1,5 @@
-app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket', 'ProfileGetter', 'SubscriptionGetter', 'SessionStorage',
-    function($scope, $window, $filter, $websocket, ProfileGetter, SubscriptionGetter, SessionStorage) {
+app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket', 'ProfileGetter', 'EmergenciesGetter', 'SubscriptionGetter', 'SessionStorage',
+    function($scope, $window, $filter, $websocket, ProfileGetter, EmergenciesGetter, SubscriptionGetter, SessionStorage) {
 
         var updateSuccessFunction = function(data) {
 
@@ -73,6 +73,27 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
             }
             return false;
         }
+        var batrptSuccessFunction = function(data) {
+            console.log("1deamxwu ---> battle report respond success");
+            if (data['data']['status'] == 'success') {
+                console.log("1deamaxwu ---> battle report results success as " + data['data']['status']);
+            } else {
+                console.log("1deamaxwu ---> ackresults ERROR: " + data['data']['error']);
+                if (data['data']['error'] == "Invalid access token") {
+                    $scope.alertmsg = "Invalid access token! Your account has been accessed at another device!";
+                    $("#alertmodal").modal('show');
+                    $scope.alertjump = 'index.html';
+                } else if (data['data']['error'] == "User is not authenticated") {
+                    $scope.alertmsg = "User is not authenticated! Please re-login!";
+                    $("#alertmodal").modal('show');
+                    $scope.alertjump = 'index.html';
+                } else {
+                    $scope.alertmsg = data['data']['error'];
+                    $("#alertmodal").modal('show');
+                    $scope.alertjump = "";
+                }
+            }
+        }
         var acksuccessFunction = function(data) {
             console.log("1deamxwu ---> ackresults respond success");
             if (data['data']['status'] == 'success') {
@@ -111,6 +132,7 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                     iz = data['data']['results'][i]['result']['reports']['impactZone']
                     var message = {
                         'reportId': data['data']['results'][i]['result']['reports']['reportId'],
+                        'userId': data['data']['results'][i]['result']['reports']['userId'],
                         'emergencytype': data['data']['results'][i]['result']['reports']['emergencyType'],
                         'severity': data['data']['results'][i]['result']['reports']['severity'],
                         'center': {
@@ -208,12 +230,12 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                         },
                         radius: iz[1].toFixed(4) * 100000,
                         stroke: {
-                            color: '#C43314',
+                            color: $scope.colors[message['emergencytype']],
                             weight: 2,
                             opacity: 1
                         },
                         fill: {
-                            color: '#C43314',
+                            color: $scope.colors[message['emergencytype']],
                             opacity: 0.5
                         },
                         visible: true
@@ -231,6 +253,10 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                   
                     $scope.numNoti = $scope.markers.length;
                     SessionStorage.set('numNoti', $scope.numNoti);
+                    
+                    // report battle if got hit
+					batmsg = message['userId'] + ' HIT: ' + $scope.userId + ' got HIT by ' + message['emergencytype'] + ' in ' + message['coordinates'] + ' at ' + message['timestamp'];
+					ProfileGetter.battleReport($scope.userId, $scope.accessToken, batmsg, SessionStorage.get('brokerUrl'), batrptSuccessFunction, errorFunction);
                 }
             }
         }
@@ -266,7 +292,9 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
             $scope.alertjump = "";
             $scope.accessToken = SessionStorage.get('accessToken');
             $scope.userId = SessionStorage.get('userId');
-
+			
+			$scope.colors = EmergenciesGetter.colorlist;
+			
             $scope.messages = JSON.parse(SessionStorage.get('messages')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
             $scope.markers = JSON.parse(SessionStorage.get('markers')) == null ? [] : JSON.parse(SessionStorage.get('markers'));
             $scope.shelters = JSON.parse(SessionStorage.get('shelters')) == null ? [] : JSON.parse(SessionStorage.get('shelters'));;

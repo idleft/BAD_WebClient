@@ -143,7 +143,7 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
                 'timestamp': time
             }
 
-            var record = "{\"emergencyType\":\"" + $scope.typeselection + "\",\"message\":\"" + $scope.typeselection + " alert!\",\"timeoffset\":" + offset + ",\"duration\":" + dur + ",\"severity\":" + sever + ",\"impactZone\":circle(\"" + lat + "," + lng + " " + rad + "\"),\"timestamp\":datetime(\"" + time + "\"),\"reportId\":uuid(\"" + uuid + "\")}";
+            var record = "{\"emergencyType\":\"" + $scope.typeselection + "\",\"userId\":\"" + $scope.userId + "\",\"message\":\"" + $scope.typeselection + " alert!\",\"timeoffset\":" + offset + ",\"duration\":" + dur + ",\"severity\":" + sever + ",\"impactZone\":circle(\"" + lat + "," + lng + " " + rad + "\"),\"timestamp\":datetime(\"" + time + "\"),\"reportId\":uuid(\"" + uuid + "\")}";
             UploadGetter.feedRecords($scope.userId, $scope.accessToken, portNo, record, SessionStorage.get('brokerUrl'), uploadSuccessFunction, errorFunction);
 
         }
@@ -175,12 +175,14 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
                 center: $scope.pbmsg.coordinates,
                 radius: $scope.pbmsg.radius,
                 stroke: {
-                    color: '#5D5B5B',
+                    //color: '#5D5B5B',
+                    color: $scope.colors[$scope.typeselection],
                     weight: 2,
                     opacity: 1
                 },
                 fill: {
-                    color: '#5D5B5B',
+                    //color: '#5D5B5B',
+                    color: $scope.colors[$scope.typeselection],
                     opacity: 0.5
                 },
                 visible: true
@@ -266,6 +268,9 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
         console.log("1deamaxwu ---> accessToken: " + $scope.accessToken + " userId: " + SessionStorage.get('pubuserId'));
 
         $scope.types = EmergenciesGetter.typelist;
+        
+        $scope.colors = EmergenciesGetter.colorlist;
+        
         $scope.typeselection = "";
         $scope.locs = EmergenciesGetter.loclist;
         $scope.locselection = "";

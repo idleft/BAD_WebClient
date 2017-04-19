@@ -25,7 +25,8 @@ create type EmergencyReport if not exists as open {
 	timestamp: datetime,
 	duration: float,
 	message: string,
-	emergencyType: string
+	emergencyType: string,
+	userId: string
 }
 
 //create datasets
@@ -84,7 +85,7 @@ create function recentIptMsgofEmergenciesOfTypeIntUser($emergencyType, $uuid){
 	  //and $user.timestamp >= $report.timestamp
 	  //and $report.timestamp - $user.timestamp <= $report.duration
 	  and $report.emergencyType = $emergencyType
-	  and spatial-intersect($report.impactZone,create-point($user.latitude,$user.longitude))
+	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.01))
 	  //distinct by $report.reportId
 	return {
 		"reports":$report
@@ -106,7 +107,7 @@ create function recentIptMsgofEmergenciesOfTypeWithShelterIntUser($emergencyType
 	  //and $user.timestamp >= $report.timestamp
 	  //and $report.timestamp - $user.timestamp <= $report.duration
 	  and $report.emergencyType = $emergencyType
-	  and spatial-intersect($report.impactZone,create-point($user.latitude,$user.longitude))
+	  and spatial-intersect($report.impactZone,create-circle(create-point($user.latitude,$user.longitude),0.01))
 	  //distinct by $report.reportId
 	return {
 		"reports":$report,
