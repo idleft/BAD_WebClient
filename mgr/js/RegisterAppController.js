@@ -27,12 +27,14 @@ app.controller('RegisterAppController', ['$scope', '$window', 'RegisterAppGetter
     };
     $scope.registerUser = function(newAppName, newAppDataverse, newAdminUser, newAdminPassword, newEmail, dropExisting, newSetupAQL) {
     	
+    	if(newAppName == null || newAppDataverse == null || newAdminUser == null || newAdminPassword == null || newEmail == null || dropExisting == null){
     	newAppName="emapp";
     	newAppDataverse="channels";
     	newAdminUser="appadmin"
     	newAdminPassword="appadmin"
     	newEmail="appadmin@bad.com"
     	dropExisting=true;
+    	}
     	//newSetupAQL
     	
         RegisterAppGetter.postRegisterAppData(newAppName, newAppDataverse, newAdminUser, newAdminPassword, newEmail, dropExisting, newSetupAQL, SessionStorage.get('brokerUrl'), successFunction, errorFunction);

@@ -11,7 +11,7 @@
       <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
    </head>
    <body ng-app="myApp">
-      <div ng-controller="GameController">
+      <div ng-controller="TopnController">
          <nav class="navbar navbar-toggleable-md navbar-light bg-faded" >
             <div class="container">
                <a class="navbar-brand" href="#">BAD_Manager</a>
@@ -58,51 +58,34 @@
                </div>
             </div>
             
-            <div class="modal fade" id="honor" role="dialog">
-               <div class="modal-dialog">
-                  <!-- Modal content-->
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <img src="res/winner.png" class="img-responsive" style="float:left">
-                     </div>
-                     <div class="modal-body">
-                        <p>SubWinners:
-                        	<div ng-repeat="subwinner in subwinners track by $index"> 
-                        	<ul>
-                              <li>[Rank {{$index + 1}}] {{subwinner.name}} got {{subwinner.times}} hits!</li>
-                           </ul>
-                           </div>
-                        </p>
-                        <p>PubWinners:
-                        	<div ng-repeat="pubwinner in pubwinners track by $index"> 
-                        	<ul>
-                              <li>[Rank {{$index + 1}}] {{pubwinner.name}} made {{pubwinner.times}} hits!</li>
-                           </ul>
-                           </div>
-                        </p>
-                     </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeAlert()">Close</button>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            
             </br>
             <center>
-               <h2>Manager Game!</h2>
+               <h2>TopN</h2>
             </center>
             </br>
             <div class="row">
-            	<div class="col-md-12" style="margin-bottom:50px" align="center">
-            		<a href="#" ng-click="switch = !switch; switchbtn();"><span><span ng-show="switch"> <img src="res/stop.jpg"></span><span ng-show="!switch"> <img src="res/start.jpg"></span></span></a>
-            	</div>
+            <div class="col-md-12" style="margin-bottom:50px" align="center"><img src="res/stage.png"></div>
+             <div class="col-md-2">
+               <select class="form-control" ng-model="timesel" ng-change="timeSelect()">
+                  <option value="24h">24H</option>
+                  <option value="all">All</option>
+               </select>
+            </div>
+            <div class="col-md-4">
+               <select class="form-control" ng-model="chlsel" ng-change="channelSelect()">
+                  <option value="recentEmergenciesOfTypeChannelResults">EmergenciesOfTypeChannel</option>
+                  <option value="recentEmergenciesOfTypeAtLocationChannelResults">EmergenciesOfTypeAtLocationChannel</option>
+                  <option value="recentIptMsgofEmergenciesOfTypeIntUserChannelResults">EmergenciesOfTypeIntUserChannel</option>
+               </select>
+            </div>
+            <div class="col-md-12" style="margin-bottom:50px">
+            </div>
                  <div class="col-md-6">
                  <h3> Publishers</h3>
                  <hr/>
-                 <div ng-repeat="pbr in pbrs" style="word-wrap:break-word">
+                 <div ng-repeat="pbr in pbrs track by $index" style="word-wrap:break-word">
                            <ul>
-                              <li>{{pbr.name}} made {{pbr.times}} hits!</li>
+                              <li>[Rank {{$index + 1}}] Name: {{pbr.user}}, Score: {{pbr.score}}</li>
                            </ul>
                         </div>
                  </div>
@@ -110,28 +93,17 @@
                  <div class="col-md-6">
                  <h3> Subscribers</h3>
                  <hr/>
-                 <div ng-repeat="sbr in sbrs" style="word-wrap:break-word">
+                 <div ng-repeat="sbr in sbrs track by $index" style="word-wrap:break-word">
                            <ul>
-                              <li>{{sbr.name}} [{{sbr.times>0?'Dead':'Alive'}}] got {{sbr.times}} hits!</li>
+                              <li>[Rank {{$index + 1}}] Name: {{sbr.user}}, Score: {{sbr.score}}</li>
                            </ul>
                         </div>
-                 </div>
-                 
-                 <div class="col-md-12">
-                 <h3> Battles</h3>
-                 <hr/>
-                 <div ng-repeat="bmsg in batmsg track by $index" style="word-wrap:break-word">
-                           <ul>
-                              <li>{{bmsg}}</li>
-                           </ul>
-                        </div>
-                 </div>
                  </div>
            </div>
       </div>
       <script type="text/javascript" src="/utils/js/app.js"></script>
-      <script type="text/javascript" src="js/GameController.js"></script>
-      <script type="text/javascript" src="js/GameGetter.js"></script>
+      <script type="text/javascript" src="js/TopnController.js"></script>
+      <script type="text/javascript" src="js/TopnGetter.js"></script>
       <script type="text/javascript" src="js/FuncGetter.js"></script>
       <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
       <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script> 

@@ -1,0 +1,35 @@
+create function topnTest(){
+	for $user in dataset UserDataset return {
+		"users": $user
+	}
+}
+
+create function topnTest3($llun){
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+}
+
+create function topnTest4($time, $channel, $userType, $orderBy){
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset $channel
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+}
