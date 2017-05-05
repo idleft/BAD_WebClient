@@ -455,21 +455,22 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             $scope.baselng = $scope.cities[0].loc.lng;
 
             var uname = SessionStorage.get('userName')
+            console.log("1deamaxwu ---> NAME: " + uname)
             if (uname == "Rose") {
-                baselat = $scope.cities[3].loc.lat;
-                baselng = $scope.cities[3].loc.lng;
+                $scope.baselat = $scope.cities[4].loc.lat;
+                $scope.baselng = $scope.cities[4].loc.lng;
             } else if (uname == "Adam") {
-                baselat = $scope.cities[4].loc.lat;
-                baselng = $scope.cities[4].loc.lng;
+                $scope.baselat = $scope.cities[5].loc.lat;
+                $scope.baselng = $scope.cities[5].loc.lng;
             } else if (uname == "Walt") {
-                baselat = $scope.cities[2].loc.lat;
-                baselng = $scope.cities[2].loc.lng;
+                $scope.baselat = $scope.cities[3].loc.lat;
+                $scope.baselng = $scope.cities[3].loc.lng;
             } else if (uname == "Will") {
-                baselat = $scope.cities[2].loc.lat;
-                baselng = $scope.cities[2].loc.lng;
+                $scope.baselat = $scope.cities[3].loc.lat;
+                $scope.baselng = $scope.cities[3].loc.lng;
             } else if (uname == "Mary") {
-                baselat = $scope.cities[5].loc.lat;
-                baselng = $scope.cities[5].loc.lng;
+                $scope.baselat = $scope.cities[6].loc.lat;
+                $scope.baselng = $scope.cities[6].loc.lng;
             } else {
                 console.log("1deamaxwu ---> undefault location.")
             }
