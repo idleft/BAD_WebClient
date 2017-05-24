@@ -19,6 +19,57 @@ create function topnTest3($llun){
 	}
 }
 
+create function topnTest3ForPub($llun){
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+}
+
+create function topnTest3ForPubSub24H($llun){
+let $T24H := current-datetime() - day-time-duration("P1D")
+let $pubs:= 
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	and $er.timestamp >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+let $subs:=
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	and $result.channelExecutionTime >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+	return {
+		"pubs":$pubs,
+		"subs":$subs
+	}
+}
+
 create function topnTest4($time, $channel, $userType, $orderBy){
 	for $sub in dataset UserSubscriptionDataset
 	for $user in dataset UserDataset
@@ -31,5 +82,291 @@ create function topnTest4($time, $channel, $userType, $orderBy){
 	return {
 		"user":$user,
 		"score":count($result)
+	}
+}
+
+
+//(2)Time and (3)Channel
+
+//EmergenciesOfType
+create function topnTest5EmergenciesOfType24H($llun){
+let $T24H := current-datetime() - day-time-duration("P1D")
+let $pubs:= 
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	and $er.timestamp >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+let $subs:=
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	and $result.channelExecutionTime >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+	return {
+		"pubs":$pubs,
+		"subs":$subs
+	}
+}
+
+create function topnTest5EmergenciesOfTypeHistory($llun){
+let $pubs:= 
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+let $subs:=
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+	return {
+		"pubs":$pubs,
+		"subs":$subs
+	}
+}
+
+//EmergenciesOfTypeAtLocation
+create function topnTest5EmergenciesOfTypeAtLocation24H($llun){
+let $T24H := current-datetime() - day-time-duration("P1D")
+let $pubs:= 
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeAtLocationChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	and $er.timestamp >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+let $subs:=
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeAtLocationChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	and $result.channelExecutionTime >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+	return {
+		"pubs":$pubs,
+		"subs":$subs
+	}
+}
+
+create function topnTest5EmergenciesOfTypeAtLocationHistory($llun){
+let $pubs:= 
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeAtLocationChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+let $subs:=
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentEmergenciesOfTypeAtLocationChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+	return {
+		"pubs":$pubs,
+		"subs":$subs
+	}
+}
+
+//IptMsgofEmergenciesOfTypeIntUser
+create function topnTest5IptMsgofEmergenciesOfTypeIntUser24H($llun){
+let $T24H := current-datetime() - day-time-duration("P1D")
+let $pubs:= 
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentIptMsgofEmergenciesOfTypeIntUserChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	and $er.timestamp >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+let $subs:=
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentIptMsgofEmergenciesOfTypeIntUserChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	and $result.channelExecutionTime >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+	return {
+		"pubs":$pubs,
+		"subs":$subs
+	}
+}
+
+create function topnTest5IptMsgofEmergenciesOfTypeIntUserHistory($llun){
+let $pubs:= 
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentIptMsgofEmergenciesOfTypeIntUserChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+let $subs:=
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentIptMsgofEmergenciesOfTypeIntUserChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+	return {
+		"pubs":$pubs,
+		"subs":$subs
+	}
+}
+
+// if else then
+
+create function topnTest6EmergenciesOfType($time, $utype){
+if ($time = "24H")
+then
+let $T24H := current-datetime() - day-time-duration("P1D")
+if ($utype = "pub") 
+then
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentIptMsgofEmergenciesOfTypeIntUserChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	and $er.timestamp >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+else
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentIptMsgofEmergenciesOfTypeIntUserChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	and $result.channelExecutionTime >= $T24H
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+	return {
+		"pubs":$pubs,
+		"subs":$subs
+	}
+else
+if ($utype = "pub") 
+then
+	for $er in dataset EmergencyReports
+	for $user in dataset UserDataset
+	for $result in dataset recentIptMsgofEmergenciesOfTypeIntUserChannelResults
+	where $er.reportId = $result.result.reports.reportId
+	and $er.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+else
+	for $sub in dataset UserSubscriptionDataset
+	for $user in dataset UserDataset
+	for $result in dataset recentIptMsgofEmergenciesOfTypeIntUserChannelResults
+	where uuid($sub.channelSubscriptionId) = $result.subscriptionId
+	and $sub.userId = $user.userId
+	group by $user := $user.userName with $result
+	order by count($result) desc
+	limit 10
+	return {
+		"user":$user,
+		"score":count($result)
+	}
+	return {
+		"pubs":$pubs,
+		"subs":$subs
 	}
 }

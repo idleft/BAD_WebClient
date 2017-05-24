@@ -48,8 +48,8 @@ app.controller('TopnController', ['$scope', '$interval', '$window', '$filter', '
         if (data['data']['status'] == 'success') {
             console.log("1deamaxwu ---> get topn success.");
             console.log(data['data']['results']);
-            $scope.pbrs = data['data']['results'];
-            $scope.sbrs = data['data']['results'];
+            $scope.pbrs = data['data']['results'][0]['pubs'];
+            $scope.sbrs = data['data']['results'][0]['subs'];
             
         } else {
             console.log("1deamaxwu ---> get topn ERROR: " + data['data']['error']);
@@ -70,40 +70,46 @@ app.controller('TopnController', ['$scope', '$interval', '$window', '$filter', '
     }
 	
 	$scope.timeSelect = function() {
-            if ($scope.timesel == "24h") {
+            if ($scope.timesel == "24H") {
                 console.log("1deamaxwu ---> 24h.");
-            } else if ($scope.timesel == "all") {
+            } else if ($scope.timesel == "History") {
                 console.log("1deamaxwu ---> all.");
             } else {
                 console.log("1deamaxwu ---> unrecognized TimeSelect option.");
 
             }
+            $scope.fname = "topnTest5" + $scope.chlsel + $scope.timesel;
+            GetTopn($scope.fname);
         }
 	
 	$scope.channelSelect = function() {
-            if ($scope.chlsel == "recentEmergenciesOfTypeChannelResults") {
+            if ($scope.chlsel == "EmergenciesOfType") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
-            } else if ($scope.chlsel == "recentEmergenciesOfTypeAtLocationChannelResults") {
+            } else if ($scope.chlsel == "EmergenciesOfTypeAtLocation") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
-            } else if ($scope.chlsel == "recentIptMsgofEmergenciesOfTypeIntUserChannelResults") {
+            } else if ($scope.chlsel == "IptMsgofEmergenciesOfTypeIntUser") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
             } else {
                 console.log("1deamaxwu ---> unrecognized TimeSelect option.");
 
             }
+            $scope.fname = "topnTest5" + $scope.chlsel + $scope.timesel;
+            GetTopn($scope.fname);
         }
         
-	GetTopn = function(){
+	GetTopn = function(fname){
 		console.log("1deamaxwu ---> GetTopn.");
-		fname = "topnTest3";
+		//fname = $scope.fname;
+		console.log("1deamaxwu ---> FName: " + fname);
 		paras = ['llun'];
 		TopnGetter.getTopn($scope.userId, $scope.accessToken, fname, paras, SessionStorage.get('brokerUrl'), topnSuccessFunction, errorFunction);
 	}
 	
     $scope.init = function() {
         SessionStorage.conf();
-		$scope.timesel = "24h"
-		$scope.chlsel = "recentEmergenciesOfTypeChannelResults"
+		$scope.timesel = "24H"
+		$scope.chlsel = "EmergenciesOfType"
+		$scope.fname = "topnTest5" + $scope.chlsel + $scope.timesel;
 		
 		$scope.pbrs = [];
 		$scope.sbrs = [];
@@ -116,7 +122,7 @@ app.controller('TopnController', ['$scope', '$interval', '$window', '$filter', '
         $scope.userName = SessionStorage.get('mgruserName');
         console.log("1deamaxwu ---> accessToken: " + $scope.accessToken + " userId: " + SessionStorage.get('mgruserId'));
         
-        GetTopn();
+        GetTopn($scope.fname);
         
     }
 
