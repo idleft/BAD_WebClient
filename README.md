@@ -1,6 +1,6 @@
 # BAD_WebClient
 
-This is the web client of BAD system. Learn more about Big Active Data(BAD) at [our site](http://asterix.ics.uci.edu/bigactivedata/). BADWeb can be found at [on server](http://radon.ics.uci.edu:9110/). It is recommended to read [Manual](https://docs.google.com/presentation/d/1V4Ev5TqW3gf2HxXuWA_9E9hIWUSpZviBjPgAKLxkCD4/edit?usp=sharing) before you have BAD FUN. BAD System architecture can be found at [ACM](http://dl.acm.org/citation.cfm?id=2933313) and a BAD Demonstration will appear on [VLDB2017](http://www.vldb.org/2017/accepted_papers_demo_track.php).
+This is the web client of BAD system. Learn more about Big Active Data(BAD) at [our site](http://asterix.ics.uci.edu/bigactivedata/). BADWeb can be found at [on server](http://radon.ics.uci.edu:9110/). It is recommended to read [Manual](https://docs.google.com/presentation/d/1V4Ev5TqW3gf2HxXuWA_9E9hIWUSpZviBjPgAKLxkCD4/edit?usp=sharing) before you have BAD FUN. BAD System architecture can be found at [ACM DEBS'16](http://dl.acm.org/citation.cfm?id=2933313) and a BAD Demonstration will appear on [VLDB2017](http://www.vldb.org/2017/accepted_papers_demo_track.php).
 
 ## BAD
 
