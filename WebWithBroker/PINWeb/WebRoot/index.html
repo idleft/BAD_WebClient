@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>PIN</title>
+    <head>
+		<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+        <!--<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
+        <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
+
+
+    </head>
+    <body ng-app="myApp">
+        <div ng-controller="IndexController">
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="main-content">
+                        <div class="col-md-4 col-md-offset-4">
+                            <img src="static/res/pin.png" width="50" height="50">
+							<center><p><strong><font color="red">PIN: Potential Wise Crowd From Million Grassroots</font></strong></p></center>
+                            <form>
+                                <div class="form-group">
+                                    <label for="query">Query</label>
+                                    <input type="text" class="form-control" placeholder="starbuck coffee" ng-model="query">
+                                </div>
+                                <div class="form-group">
+                                    <label for="topk">Top-k</label>
+                                    <input type="text" class="form-control" placeholder="5" ng-model="topk">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dataset">DataSet</label>
+                                    <input type="text" class="form-control" placeholder="teew" ng-model="dataset">
+                                </div>
+                                <div class="form-group">
+                                    <label for="opt">OPT</label>
+                                    <input type="text" class="form-control" placeholder="False" ng-model="opt">
+                                </div>
+								<div class="form-group">
+                                    <label for="divfree">DivFree</label>
+                                    <input type="text" class="form-control" placeholder="False" ng-model="divfree">
+                                </div>
+                                <button type="submit" class="btn btn-primary" ng-model="submitClicked"
+                                        ng-init="submitClicked=false"
+                                        ng-click="submitQuery(query,topk,dataset,opt,divfree); submitClicked=true">
+                                    PIN it!
+                                </button>
+                            </form>
+							<form>
+								<div class="form-group">
+                                    </br>
+									<label ng-bind='titletag'></label>
+									<p ng-bind="title"></p>
+									<label ng-bind='resultsliststag'></label>
+									<p ng-bind="resultslists"></p>
+									<label ng-bind='resultsstatag'></label>
+									<p ng-bind="resultstitle"></p>
+									<p ng-bind="resultsstat"></p>
+								</div>
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+        <script type="text/javascript" src="/static/js/app.js"></script>
+        <script type="text/javascript" src="/static/js/IndexController.js"></script>
+        <script type="text/javascript" src="/static/js/IndexGetter.js"></script>
+        <script type="text/javascript" src="/static/js/ng-infinite-scroll.min.js"></script> 
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    </body>
+</html>

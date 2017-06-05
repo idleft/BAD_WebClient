@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+   <title>Game - BAD Manager</title>
+   <head>
+      <script type="text/javascript" src="/utils/js/jquery-1.12.4.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+      <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>        
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+      <script type="text/javascript" src="https://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
+      <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
+   </head>
+   <body ng-app="myApp">
+      <div ng-controller="OutputController">
+         <nav class="navbar navbar-toggleable-md navbar-light bg-faded" >
+            <div class="container">
+               <a class="navbar-brand" href="#">BAD_Manager</a>
+               <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                  <ul class="navbar-nav">
+                     <li class="nav-item active">
+                        <a class="nav-link" href="dashboard.html">Dashboard<span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item active">
+                        <a class="nav-link" href="game.html">Game<span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item active">
+                        <a class="nav-link" href="topn.html">TopN<span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Settings
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                           <!--<a class="dropdown-item" target="_blank" href="registerapp.html">Manage App</a>-->
+                           <!--<a class="dropdown-item" href="#">Manage App</a>-->
+                           <a class="dropdown-item" href="#" ng-click="logoutUser()">Log Out</a>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </nav>
+         <div class="container"  ng-init="init()">
+            <div class="modal fade" id="alertmodal" role="dialog">
+               <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <img src="res/alert.png" class="img-responsive" style="float:left">
+                     </div>
+                     <div class="modal-body">
+                        <p>Alert: {{alertmsg}}</p>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeAlert()">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+            </br>
+            <center>
+               <h2>Data Store</h2>
+            </center>
+            </br>
+            <div class="row">
+            <div class="col-md-12" style="margin-bottom:50px" align="center"><img src="res/datastore.png"></div>
+             <div class="col-md-2">
+               <h5>Time</h5>
+               <select class="form-control" ng-model="timesel" ng-change="timeSelect()">
+                  <option value="24H">24H</option>
+                  <option value="History">All</option>
+               </select>
+            </div>
+            <div class="col-md-4">
+               <h5>Dataset</h5>
+               <select class="form-control" ng-model="chlsel" ng-change="channelSelect()">
+                  <option value="EmergenciesOfType">EmergenciesOfTypeChannel</option>
+                  <option value="EmergenciesOfTypeAtLocation">EmergenciesOfTypeAtLocationChannel</option>
+                  <option value="IptMsgofEmergenciesOfTypeIntUser">EmergenciesOfTypeIntUserChannel</option>
+               </select>
+            </div>
+            <div class="col-md-4">
+               <h5>Action</h5>
+               <button type="button" class="btn btn-default">View</button>
+               <button type="button" class="btn btn-default">Download</button>
+            </div>
+      </div>
+      <script type="text/javascript" src="/utils/js/app.js"></script>
+      <script type="text/javascript" src="js/OutputController.js"></script>
+      <script type="text/javascript" src="js/OutputGetter.js"></script>
+      <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
+      <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script> 
+      <link rel="stylesheet" type="text/css" href="/utils/css/style.css">
+   </body>
+</html>

@@ -9,6 +9,7 @@ import tornado.httpclient
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
+import PINEWcode
 
 import brokerutils
 from BADBroker import BADBroker, set_live_web_sockets
@@ -822,6 +823,42 @@ class ListSubscriptionsHandler(BaseHandler):
         self.flush()
         self.finish()
 
+class PinHandler(BaseHandler):
+    def get(self):
+        self.render("PINWeb/WebRoot/index.html")
+        
+class SubmitHandler(BaseHandler):
+    @tornado.gen.coroutine
+    def post(self):
+        post_data = json.loads(str(self.request.body, encoding='utf-8'))
+        try:
+            query = post_data['query']
+            topk = post_data['topk']
+            dataset = post_data['dataset']
+            opt = post_data['opt']
+            divfree = post_data['divfree']
+
+            if not PINEWcode.isint(topk):
+                response={'status':'failed','error':'Top-k must be an INTEGER!'}
+            elif dataset not in ['dblp','stof','tckn','teew']:
+                response={'status':'failed','error':'DataSet must be IN [dblp, stof, tckn, teew]!'}
+            elif opt not in ['True','False']:
+                response={'status':'failed','error':'OPT must be BOOLEAN and it is case-sensitive!'}
+            elif divfree not in ['True','False']:
+                response={'status':'failed','error':'DivFree must be BOOLEAN and it is case-sensitive!'}
+            else:
+
+                qitems,reslist,title,stat=PINEWcode.finder(query.split(),int(topk),dataset,PINEWcode.boolval(opt),PINEWcode.boolval(divfree))
+            
+                response={'status':'success','query':qitems,'reslist':reslist,'title':title,'stat':stat}
+        
+        except Exception as e:
+            response={'status':'failed','error':str(e)}
+            
+        self.write(json.dumps(response))
+        self.flush()
+        self.finish()
+
 def start_server():
     broker = BADBroker.getInstance()
     broker.SessionInterval()
@@ -832,6 +869,7 @@ def start_server():
     	(r'/admin/(.*)', tornado.web.StaticFileHandler, {'path': "Web/admin"}),
     	(r'/mgr/(.*)', tornado.web.StaticFileHandler, {'path': "Web/mgr"}),
     	(r'/user/(.*)', tornado.web.StaticFileHandler, {'path': "Web/user"}),
+    	(r'/static/(.*)', tornado.web.StaticFileHandler, {'path': "PINWeb/WebRoot/static"}),
         (r'/', IndexPageHandler),
         (r'/registerapplication', RegisterApplicationHandler, dict(broker=broker)),
         (r'/setupapplication', SetupApplicationHandler, dict(broker=broker)),
@@ -857,7 +895,9 @@ def start_server():
 		(r'/websocketlistener', BrowserWebSocketHandler),
         (r'/insertrecords', InsertRecordsHandler, dict(broker=broker)),
         (r'/feedrecords', FeedRecordsHandler, dict(broker=broker)),
-        (r'/heartbeat', HeartBeatHandler, dict(broker=broker))
+        (r'/heartbeat', HeartBeatHandler, dict(broker=broker)),
+        (r"/pin", PinHandler),
+        (r"/submit", SubmitHandler)
     ])
 
     application.listen(9110)
