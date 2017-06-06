@@ -1,0 +1,144 @@
+/****** Three Datasets ******/
+
+//create datatypes
+create type UserLocation if not exists as open{
+	recordId: uuid,
+	latitude: double,
+	longitude: double,
+	user_id: string,
+	timeoffset: float,
+	timestamp: datetime
+}
+
+create type EmergencyShelter if not exists as open {
+	name: string,
+	location: point
+}
+
+create type EmergencyReport if not exists as open {
+	reportId: uuid,
+	severity: int,
+	impactZone: circle,
+	timeoffset: float,
+	timestamp: datetime,
+	duration: float,
+	message: string,
+	emergencyType: string,
+	userId: string
+}
+
+//create datasets
+create dataset EmergencyReports(EmergencyReport) primary key reportId;
+create dataset UserLocations(UserLocation) primary key recordId;
+create dataset EmergencyShelters(EmergencyShelter) primary key name;
+
+
+/****** Five Channels ******/
+
+//create functions
+//1) "All emergencies of type T"
+create function recentEmergenciesOfType(emergencyType){
+	(with tenMinutesAgo as current_datetime() - day_time_duration("PT10S")
+	select report as reports
+	from EmergencyReports report
+	where report.timestamp >= tenMinutesAgo
+	and report.emergencyType = emergencyType)
+}
+//2) "All emergencies of type T at location L"
+create function recentEmergenciesOfTypeAtLocation(emergencyType, lattitude, longitude){
+	(with tenMinutesAgo as current_datetime() - day_time_duration("PT10S")
+	select report as reports 
+	from EmergencyReports report
+	where report.timestamp >= tenMinutesAgo
+	and report.emergencyType = emergencyType
+	and spatial_intersect(report.impactZone,create_circle(create_point(lattitude,longitude),0.01)))
+}
+//3) "All emergencies of type T at location L with shelters S"
+create function recentEmergenciesOfTypeAtLocationWithShelter(emergencyType, lattitude, longitude){
+	(with tenMinutesAgo as current_datetime() - day_time_duration("PT10S")
+	select report as reports, shelter as shelters
+	from EmergencyReports report
+	let shelter = (select * from EmergencyShelters shelter
+	  where spatial_intersect(report.impactZone,create_circle(shelter.location,0.01)))
+	where report.timestamp >= tenMinutesAgo
+	and report.emergencyType = emergencyType
+	and spatial_intersect(report.impactZone,create_circle(create_point(lattitude,longitude),0.01)))
+}
+//4) "The impactZone and message for all emergencies of type T intersecting user U"
+create function recentEmergenciesOfTypeNearMe(emergencyType, uuid){
+	(with tenMinutesAgo as current_datetime() - day_time_duration("PT10S")
+	select report as reports 
+	from EmergencyReports report, UserLocations user
+	where user.user_id = uuid
+ 	  and report.timestamp >= tenMinutesAgo
+	  and user.timestamp >= tenMinutesAgo
+	  and report.emergencyType = emergencyType
+	  and spatial_intersect(report.impactZone,create_circle(create_point(user.latitude,user.longitude),0.01)))
+	  //distinct by report.reportId
+}
+//5) "The impactZone, message, and a list of Shelters for all emergencies of type T intersecting user U" 
+create function recentEmergenciesOfTypeWithShelterNearMe(emergencyType, uuid){
+	(with tenMinutesAgo as current_datetime() - day_time_duration("PT10S")
+	select report as reports, shelter as shelters
+	from EmergencyReports report, UserLocations user
+	let shelter = (select * from EmergencyShelters shelter
+	  where spatial_intersect(report.impactZone,create_circle(shelter.location,0.01)))
+	where user.user_id = uuid 
+	  and report.timestamp >= tenMinutesAgo
+	  and user.timestamp >= tenMinutesAgo
+	  and report.emergencyType = emergencyType
+	  and spatial_intersect(report.impactZone,create_circle(create_point(user.latitude,user.longitude),0.01)))
+	  //distinct by report.reportId
+}
+
+//create channels
+create repetitive channel recentEmergenciesOfTypeChannel using recentEmergenciesOfType@1 period duration("PT10S");
+create repetitive channel recentEmergenciesOfTypeAtLocationChannel using recentEmergenciesOfTypeAtLocation@3 period duration("PT10S");
+create repetitive channel recentEmergenciesOfTypeAtLocationWithShelterChannel using recentEmergenciesOfTypeAtLocationWithShelter@3 period duration("PT10S");
+create repetitive channel recentEmergenciesOfTypeNearMeChannel using recentEmergenciesOfTypeNearMe@2 period duration("PT10S");
+create repetitive channel recentEmergenciesOfTypeWithShelterNearMeChannel using recentEmergenciesOfTypeWithShelterNearMe@2 period duration("PT10S");
+
+/****** Three Feeds ******/
+
+//create feeds
+create feed ReportFeed using socket_adapter
+(
+	("sockets"="promethium.ics.uci.edu:10001"),
+	("address-type"="IP"),
+	("type-name"="EmergencyReport"),
+	("format"="adm")
+);
+
+create feed ShelterFeed using socket_adapter
+(
+	("sockets"="promethium.ics.uci.edu:10002"),
+	("address-type"="IP"),
+	("type-name"="EmergencyShelter"),
+	("format"="adm")
+);
+create feed UserLocationFeed using socket_adapter
+(
+	("sockets"="promethium.ics.uci.edu:10003"),
+	("address-type"="IP"),
+	("type-name"="UserLocation"),
+	("format"="adm")
+);
+
+//connect feeds
+connect feed ReportFeed to dataset EmergencyReports
+connect feed ShelterFeed to dataset EmergencyShelters
+connect feed UserLocationFeed to dataset UserLocations
+
+//start feeds
+start feed ReportFeed
+start feed ShelterFeed
+start feed UserLocationFeed
+
+/****** Data Population ******/
+
+//five subscriber users
+//one publisher user
+//one manager user
+//five shelters
+
+//Above four populations are via webclient

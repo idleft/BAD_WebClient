@@ -14,8 +14,8 @@ var funcs=[
             {chname: "recentEmergenciesOfTypeChannel", func: func1},
             {chname: "recentEmergenciesOfTypeAtLocationChannel", func: func2},
             {chname: "recentEmergenciesOfTypeAtLocationWithShelterChannel", func: func3},
-            {chname: "recentIptMsgofEmergenciesOfTypeIntUserChannel", func: func4},
-            {chname: "recentIptMsgofEmergenciesOfTypeWithShelterIntUserChannel", func: func5}
+            {chname: "recentEmergenciesOfTypeNearMeChannel", func: func4},
+            {chname: "recentEmergenciesOfTypeWithShelterNearMeChannel", func: func5}
         ];
 
 return {

@@ -57,7 +57,7 @@ app.factory('SubscriptionGetter', ['$http', '$window', "$q", function($http, $wi
                 'dataverseName': "channels",
                 'userId': userId,
                 'accessToken': accessToken,
-                'channelName': 'recentIptMsgofEmergenciesOfTypeIntUserChannel',
+                'channelName': 'recentEmergenciesOfTypeNearMeChannel',
                 'parameters': [parameters, userId]
             };
             $http({
@@ -73,7 +73,7 @@ app.factory('SubscriptionGetter', ['$http', '$window', "$q", function($http, $wi
                 'dataverseName': "channels",
                 'userId': userId,
                 'accessToken': accessToken,
-                'channelName': 'recentIptMsgofEmergenciesOfTypeWithShelterIntUserChannel',
+                'channelName': 'recentEmergenciesOfTypeWithShelterNearMeChannel',
                 'parameters': [parameters, userId]
             };
             $http({
