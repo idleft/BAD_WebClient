@@ -149,13 +149,13 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                     }
                     if (data['data']['results'][i]['result']['shelters'] != null) {
                         if (data['data']['results'][i]['result']['shelters'].length == undefined) {
-                            //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['name'])){
+                            //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['shelter']['name'])){
                             //	console.log("1deamaxwu ---> Shelter DUPLICATE!");
                             //} else {
                             var shelter = {
                                 id: Date.now(),
                                 sid: data['data']['results'][i]['result']['reports']['reportId'],
-                                sname: data['data']['results'][i]['result']['shelters'][j]['name'],
+                                sname: data['data']['results'][i]['result']['shelters']['name'],
                                 coords: {
                                     latitude: data['data']['results'][i]['result']['shelters']['location'][0],
                                     longitude: data['data']['results'][i]['result']['shelters']['location'][1]
@@ -178,26 +178,26 @@ app.controller('ProfileController', ['$scope', '$window', '$filter', '$websocket
                             //}
                         } else {
                             for (j = 0; j < data['data']['results'][i]['result']['shelters'].length; j++) {
-                                //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['name'])){
+                                //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['shelter']['name'])){
                                 //	console.log("1deamaxwu ---> Shelter DUPLICATE!");
                                 //} else {
                                 var shelter = {
                                     id: Date.now(),
                                     sid: data['data']['results'][i]['result']['reports']['reportId'],
-                                    sname: data['data']['results'][i]['result']['shelters'][j]['name'],
+                                    sname: data['data']['results'][i]['result']['shelters'][j]['shelter']['name'],
                                     coords: {
-                                        latitude: data['data']['results'][i]['result']['shelters'][j]['location'][0],
-                                        longitude: data['data']['results'][i]['result']['shelters'][j]['location'][1]
+                                        latitude: data['data']['results'][i]['result']['shelters'][j]['shelter']['location'][0],
+                                        longitude: data['data']['results'][i]['result']['shelters'][j]['shelter']['location'][1]
                                     },
                                     options: {
                                         icon: 'res/shelter.png',
                                         visible: true
                                     },
                                     message: {
-                                        'name': data['data']['results'][i]['result']['shelters'][j]['name'],
+                                        'name': data['data']['results'][i]['result']['shelters'][j]['shelter']['name'],
                                         'coords': {
-                                            latitude: data['data']['results'][i]['result']['shelters'][j]['location'][0].toFixed(6),
-                                            longitude: data['data']['results'][i]['result']['shelters'][j]['location'][1].toFixed(6)
+                                            latitude: data['data']['results'][i]['result']['shelters'][j]['shelter']['location'][0].toFixed(6),
+                                            longitude: data['data']['results'][i]['result']['shelters'][j]['shelter']['location'][1].toFixed(6)
                                         },
                                     }
                                 }

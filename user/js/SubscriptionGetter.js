@@ -113,21 +113,6 @@ app.factory('SubscriptionGetter', ['$http', '$window', "$q", function($http, $wi
                 data: message,
             }).then(successFunction, errorFunction);
         },
-        getSubscriptions: function(userId, accessToken, url, successFunction, errorFunction) {
-            console.log('1deamaxwu ---> getting subscriptions as UserId: ' + userId);
-
-            var message = {
-                'dataverseName': "channels",
-                'userId': userId,
-                'accessToken': accessToken
-            }
-
-            $http({
-                url: 'http://' + url + '/listsubscriptions',
-                method: "POST",
-                data: message,
-            }).then(successFunction, errorFunction);
-        },
         logout: function(userId, accessToken, url, successFunction, errorFunction) {
             console.log('1deamaxwu ---> logging out as UserId: ' + userId);
 

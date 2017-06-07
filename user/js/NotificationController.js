@@ -259,7 +259,6 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                 $scope.latestTimeStamp, $scope.ackChannelName, SessionStorage.get('brokerUrl'), acksuccessFunction, errorFunction);
 
             if (data['data']['results'] != null) {
-
                 for (i = 0; i < data['data']['results'].length; i++) {
                     //local client side duplicate verification
                     if (hasValue($scope.messages, 'reportId', data['data']['results'][i]['result']['reports']['reportId'])) {
@@ -287,7 +286,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
 
                     if (data['data']['results'][i]['result']['shelters'] != null) {
                         if (data['data']['results'][i]['result']['shelters'].length == undefined) {
-                            //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['name'])){
+                            //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['shelter']['name'])){
                             //	console.log("1deamaxwu ---> Shelter DUPLICATE!");
                             //} else {
                             var shelter = {
@@ -316,26 +315,26 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
                             //}
                         } else {
                             for (j = 0; j < data['data']['results'][i]['result']['shelters'].length; j++) {
-                                //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['name'])){
+                                //if (hasValue($scope.shelters, 'sname', data['data']['results'][i]['result']['shelters'][j]['shelter']['name'])){
                                 //	console.log("1deamaxwu ---> Shelter DUPLICATE!");
                                 //} else {
                                 var shelter = {
                                     id: Date.now(),
                                     sid: data['data']['results'][i]['result']['reports']['reportId'],
-                                    sname: data['data']['results'][i]['result']['shelters'][j]['name'],
+                                    sname: data['data']['results'][i]['result']['shelters'][j]['shelter']['name'],
                                     coords: {
-                                        latitude: data['data']['results'][i]['result']['shelters'][j]['location'][0],
-                                        longitude: data['data']['results'][i]['result']['shelters'][j]['location'][1]
+                                        latitude: data['data']['results'][i]['result']['shelters'][j]['shelter']['location'][0],
+                                        longitude: data['data']['results'][i]['result']['shelters'][j]['shelter']['location'][1]
                                     },
                                     options: {
                                         icon: 'res/shelter.png',
                                         visible: true
                                     },
                                     message: {
-                                        'name': data['data']['results'][i]['result']['shelters'][j]['name'],
+                                        'name': data['data']['results'][i]['result']['shelters'][j]['shelter']['name'],
                                         'coords': {
-                                            latitude: data['data']['results'][i]['result']['shelters'][j]['location'][0].toFixed(6),
-                                            longitude: data['data']['results'][i]['result']['shelters'][j]['location'][1].toFixed(6)
+                                            latitude: data['data']['results'][i]['result']['shelters'][j]['shelter']['location'][0].toFixed(6),
+                                            longitude: data['data']['results'][i]['result']['shelters'][j]['shelter']['location'][1].toFixed(6)
                                         },
                                     }
                                 }
@@ -525,7 +524,7 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
             updateInterSect($scope.mylocation.coords);
 
             off = 10.0
-            var record = '{\"recordId\": uuid(\"' + guid() + '\"),\"user-id\":\"' + SessionStorage.get('userId') + '\",\"latitude\":' + lat + ',\"longitude\":' + lng + ',\"timeoffset\":' + off + ',\"timestamp\":datetime(\"' + getFDate() + '\")}';
+            var record = '{\"recordId\": uuid(\"' + guid() + '\"),\"user_id\":\"' + SessionStorage.get('userId') + '\",\"latitude\":' + lat + ',\"longitude\":' + lng + ',\"timeoffset\":' + off + ',\"timestamp\":datetime(\"' + getFDate() + '\")}';
 
 
             NotificationGetter.feedRecords($scope.userId, $scope.accessToken, portNo, record, SessionStorage.get('brokerUrl'), userSuccessFunction, errorFunction);
