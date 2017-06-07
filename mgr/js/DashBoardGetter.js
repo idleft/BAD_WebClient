@@ -27,6 +27,22 @@ app.factory('DashBoardGetter', ['$http', function($http) {
                 data: message,
             }).then(successFunction, errorFunction);
         },
+        getKey: function(userId, accessToken, fname, paras, url, successFunction, errorFunction) {
+            console.log('1deamaxwu ---> get apiKey as UserId: ' + userId);
+
+            var message = {
+                'dataverseName': "channels",
+                'userId': userId,
+                'accessToken': accessToken,
+                'functionName': fname,
+                'parameters': paras
+            }
+            $http({
+                url: 'http://' + url + '/callfunction',
+                method: "POST",
+                data: message,
+            }).then(successFunction, errorFunction);
+        },
         logout: function(userId, accessToken, url, successFunction, errorFunction) {
             console.log('1deamaxwu ---> logging out as UserId: ' + userId);
 

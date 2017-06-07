@@ -94,7 +94,33 @@ app.controller('DashBoardController', ['$scope', '$window', '$filter', 'DashBoar
             }
         }
     }
-
+	
+	var getKeySuccessFunction = function(data) {
+        console.log("1deamxwu ---> get apikey respond success");
+        if (data['data']['status'] == 'success') {
+            console.log("1deamaxwu ---> get apikey success.");
+            //console.log(data['data']['results']);
+            $scope.apiKey = data['data']['results'][0]['apiKey'];
+            
+            ListChannels();
+        } else {
+            console.log("1deamaxwu ---> get apikey ERROR: " + data['data']['error']);
+            if (data['data']['error'] == "Invalid access token") {
+                $scope.alertmsg = "Invalid access token! Your account has been accessed at another device!";
+                $("#alertmodal").modal('show');
+                $scope.alertjump = 'index.html';
+            } else if (data['data']['error'] == "User is not authenticated") {
+                $scope.alertmsg = "User is not authenticated! Please re-login!";
+                $("#alertmodal").modal('show');
+                $scope.alertjump = 'index.html';
+            } else {
+                $scope.alertmsg = data['data']['error'];
+                $("#alertmodal").modal('show');
+                $scope.alertjump = "";
+            }
+        }
+    }
+    
     var logoutSuccessFunction = function(data) {
         console.log("1deamxwu ---> logout respond success");
         if (data['data']['status'] == 'success') {
@@ -136,13 +162,19 @@ app.controller('DashBoardController', ['$scope', '$window', '$filter', 'DashBoar
     $scope.logoutUser = function() {
         DashBoardGetter.logout($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'), logoutSuccessFunction, errorFunction);
     }
+    
+    GetKey = function(){
+    	fname = 'getApiKey';
+    	paras = [$scope.appName];
+    	DashBoardGetter.getKey($scope.userId, $scope.accessToken, fname, paras, SessionStorage.get('brokerUrl'), getKeySuccessFunction, errorFunction);
+    }
 
     $scope.init = function() {
         SessionStorage.conf();
 
-        $scope.appName = "emapp"
-        $scope.apiKey = "8ac10e92f165365b6bd49eeec36b496fb3b794fcb254ba4f5aa5a60d"
-
+        $scope.appName = 'emapp'
+        //$scope.apiKey = "2fdefc0ee5f8f7160e7b62a7f57ce28bea1445058fda5982f5ee3fb2"
+		
         $scope.channels = [];
 
         $scope.alertmsg = "";
@@ -156,8 +188,8 @@ app.controller('DashBoardController', ['$scope', '$window', '$filter', 'DashBoar
         $scope.userId = SessionStorage.get('mgruserId');
         $scope.userName = SessionStorage.get('mgruserName');
         console.log("1deamaxwu ---> accessToken: " + $scope.accessToken + " userId: " + SessionStorage.get('mgruserId'));
-
-        ListChannels();
+		
+		GetKey();
     }
 
 }]);

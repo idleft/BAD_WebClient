@@ -96,7 +96,7 @@ app.controller('TopnController', ['$scope', '$interval', '$window', '$filter', '
                 console.log("1deamaxwu ---> " + $scope.chlsel);
             } else if ($scope.chlsel == "EmergenciesOfTypeAtLocation") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
-            } else if ($scope.chlsel == "IptMsgofEmergenciesOfTypeIntUser") {
+            } else if ($scope.chlsel == "EmergenciesOfTypeNearMe") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
             } else {
                 console.log("1deamaxwu ---> unrecognized TimeSelect option.");
