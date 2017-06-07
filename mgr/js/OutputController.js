@@ -48,8 +48,8 @@ app.controller('OutputController', ['$scope', '$interval', '$window', '$filter',
         if (data['data']['status'] == 'success') {
             console.log("1deamaxwu ---> get topn success.");
             console.log(data['data']['results']);
-            $scope.pbrs = data['data']['results'][0]['pubs'];
-            $scope.sbrs = data['data']['results'][0]['subs'];
+            //$scope.pbrs = data['data']['results'][0]['pubs'];
+            //$scope.sbrs = data['data']['results'][0]['subs'];
             
         } else {
             console.log("1deamaxwu ---> get topn ERROR: " + data['data']['error']);
@@ -78,7 +78,7 @@ app.controller('OutputController', ['$scope', '$interval', '$window', '$filter',
                 console.log("1deamaxwu ---> unrecognized TimeSelect option.");
 
             }
-            $scope.fname = "topnTest5" + $scope.chlsel + $scope.timesel;
+            $scope.fname = "topnTest6" + $scope.chlsel + $scope.timesel;
             GetTopn($scope.fname);
         }
 	
@@ -87,13 +87,13 @@ app.controller('OutputController', ['$scope', '$interval', '$window', '$filter',
                 console.log("1deamaxwu ---> " + $scope.chlsel);
             } else if ($scope.chlsel == "EmergenciesOfTypeAtLocation") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
-            } else if ($scope.chlsel == "IptMsgofEmergenciesOfTypeIntUser") {
+            } else if ($scope.chlsel == "EmergenciesOfTypeNearMe") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
             } else {
                 console.log("1deamaxwu ---> unrecognized TimeSelect option.");
 
             }
-            $scope.fname = "topnTest5" + $scope.chlsel + $scope.timesel;
+            $scope.fname = "topnTest6" + $scope.chlsel + $scope.timesel;
             GetTopn($scope.fname);
         }
         
@@ -102,14 +102,14 @@ app.controller('OutputController', ['$scope', '$interval', '$window', '$filter',
 		//fname = $scope.fname;
 		console.log("1deamaxwu ---> FName: " + fname);
 		paras = ['llun'];
-		OutputGetter.getTopn($scope.userId, $scope.accessToken, fname, paras, SessionStorage.get('brokerUrl'), topnSuccessFunction, errorFunction);
+		OutputGetter.getTopn($scope.userId, $scope.accessToken, fname+'Pubs', paras, SessionStorage.get('brokerUrl'), topnSuccessFunction, errorFunction);
 	}
 	
     $scope.init = function() {
         SessionStorage.conf();
 		$scope.timesel = "History"
 		$scope.chlsel = "EmergenciesOfType"
-		$scope.fname = "topnTest5" + $scope.chlsel + $scope.timesel;
+		$scope.fname = "topnTest6" + $scope.chlsel + $scope.timesel;
 		
 		$scope.pbrs = [];
 		$scope.sbrs = [];
