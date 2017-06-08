@@ -43,16 +43,14 @@ app.controller('OutputController', ['$scope', '$interval', '$window', '$filter',
         OutputGetter.logout($scope.userId, $scope.accessToken, SessionStorage.get('brokerUrl'), logoutSuccessFunction, errorFunction);
     }
 
-	var topnSuccessFunction = function(data) {
-        console.log("1deamxwu ---> get topn respond success");
+	var execSqlppSuccessFunction = function(data) {
+        console.log("1deamxwu ---> exec sqlpp respond success");
         if (data['data']['status'] == 'success') {
             console.log("1deamaxwu ---> get topn success.");
             console.log(data['data']['results']);
-            //$scope.pbrs = data['data']['results'][0]['pubs'];
-            //$scope.sbrs = data['data']['results'][0]['subs'];
-            
+            $scope.datalists = data['data']['results'];
         } else {
-            console.log("1deamaxwu ---> get topn ERROR: " + data['data']['error']);
+            console.log("1deamaxwu ---> exec sqlpp ERROR: " + data['data']['error']);
             if (data['data']['error'] == "Invalid access token") {
                 $scope.alertmsg = "Invalid access token! Your account has been accessed at another device!";
                 $("#alertmodal").modal('show');
@@ -60,7 +58,7 @@ app.controller('OutputController', ['$scope', '$interval', '$window', '$filter',
             } else if (data['data']['error'] == "User is not authenticated") {
                 $scope.alertmsg = "User is not authenticated! Please re-login!";
                 $("#alertmodal").modal('show');
-                //$scope.alertjump = 'index.html';
+                $scope.alertjump = 'index.html';
             } else {
                 $scope.alertmsg = data['data']['error'];
                 $("#alertmodal").modal('show');
@@ -78,41 +76,42 @@ app.controller('OutputController', ['$scope', '$interval', '$window', '$filter',
                 console.log("1deamaxwu ---> unrecognized TimeSelect option.");
 
             }
-            $scope.fname = "topnTest6" + $scope.chlsel + $scope.timesel;
-            GetTopn($scope.fname);
+            $scope.sqlpp = "select * from " + $scope.chlsel +" as record limit 10;";
+            ExecSqlpp($scope.sqlpp);
         }
 	
 	$scope.channelSelect = function() {
-            if ($scope.chlsel == "EmergenciesOfType") {
+            if ($scope.chlsel == "EmergencyReports") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
-            } else if ($scope.chlsel == "EmergenciesOfTypeAtLocation") {
+            } else if ($scope.chlsel == "EmergencyShelters") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
-            } else if ($scope.chlsel == "EmergenciesOfTypeNearMe") {
+            } else if ($scope.chlsel == "UserLocations") {
                 console.log("1deamaxwu ---> " + $scope.chlsel);
             } else {
                 console.log("1deamaxwu ---> unrecognized TimeSelect option.");
 
             }
-            $scope.fname = "topnTest6" + $scope.chlsel + $scope.timesel;
-            GetTopn($scope.fname);
+            $scope.sqlpp = "select * from " + $scope.chlsel +" as record limit 10;";
+            ExecSqlpp($scope.sqlpp);
         }
-        
-	GetTopn = function(fname){
-		console.log("1deamaxwu ---> GetTopn.");
-		//fname = $scope.fname;
-		console.log("1deamaxwu ---> FName: " + fname);
-		paras = ['llun'];
-		OutputGetter.getTopn($scope.userId, $scope.accessToken, fname+'Pubs', paras, SessionStorage.get('brokerUrl'), topnSuccessFunction, errorFunction);
+    
+    $scope.download = function() {
+    	console.log("1deamaxwu ---> download: " + $scope.timesel + " for " + $scope.chlsel);
+    	resource = "/mgr/res/data/data";
+    	window.open(resource);
+    }    
+	ExecSqlpp = function(sqlpp){
+		console.log("1deamaxwu ---> ExecSqlpp.");
+		console.log("1deamaxwu ---> sqlpp: " + sqlpp);
+		OutputGetter.execSqlpp($scope.userId, $scope.accessToken, sqlpp, SessionStorage.get('brokerUrl'), execSqlppSuccessFunction, errorFunction);
 	}
 	
     $scope.init = function() {
         SessionStorage.conf();
 		$scope.timesel = "History"
-		$scope.chlsel = "EmergenciesOfType"
-		$scope.fname = "topnTest6" + $scope.chlsel + $scope.timesel;
-		
-		$scope.pbrs = [];
-		$scope.sbrs = [];
+		$scope.chlsel = "EmergencyReports"
+		$scope.sqlpp = "select * from " + $scope.chlsel +" as record limit 10;";
+		$scope.datalists = [];
 		
         $scope.alertmsg = "";
         $scope.alertjump = "";
@@ -122,7 +121,7 @@ app.controller('OutputController', ['$scope', '$interval', '$window', '$filter',
         $scope.userName = SessionStorage.get('mgruserName');
         console.log("1deamaxwu ---> accessToken: " + $scope.accessToken + " userId: " + SessionStorage.get('mgruserId'));
         
-        GetTopn($scope.fname);
+        ExecSqlpp($scope.sqlpp);
         
     }
 

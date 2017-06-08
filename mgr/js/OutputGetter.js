@@ -1,17 +1,16 @@
 app.factory('OutputGetter', ['$http', function($http) {
     return {
-    	getTopn: function(userId, accessToken, fname, paras, url, successFunction, errorFunction) {
-            console.log('1deamaxwu ---> get topn as UserId: ' + userId);
+    	execSqlpp: function(userId, accessToken, sqlpp, url, successFunction, errorFunction) {
+            console.log('1deamaxwu ---> get sqlpp as UserId: ' + userId);
 
             var message = {
                 'dataverseName': "channels",
                 'userId': userId,
                 'accessToken': accessToken,
-                'functionName': fname,
-                'parameters': paras
+                'sqlpp': sqlpp
             }
             $http({
-                url: 'http://' + url + '/callfunction',
+                url: 'http://' + url + '/execsqlpp',
                 method: "POST",
                 data: message,
             }).then(successFunction, errorFunction);

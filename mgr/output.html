@@ -75,15 +75,23 @@
             <div class="col-md-4">
                <h5>Dataset</h5>
                <select class="form-control" ng-model="chlsel" ng-change="channelSelect()">
-                  <option value="EmergenciesOfType">EmergenciesOfTypeChannel</option>
-                  <option value="EmergenciesOfTypeAtLocation">EmergenciesOfTypeAtLocationChannel</option>
-                  <option value="EmergenciesOfTypeNearMe">EmergenciesOfTypeNearMeChannel</option>
+                  <option value="EmergencyReports">EmergencyReports</option>
+                  <option value="EmergencyShelters">EmergencyShelters</option>
+                  <option value="UserLocations">UserLocations</option>
                </select>
             </div>
             <div class="col-md-4">
                <h5>Action</h5>
-               <button type="button" class="btn btn-default">View</button>
-               <button type="button" class="btn btn-default">Download</button>
+               <button type="button" class="btn btn-default" ng-click="download()">Download</button>
+            </div>
+            <div class="col-md-12" style="margin-top:50px">
+               <h5>Data Sample</h5>
+               <div ng-repeat="dataitem in datalists" style="word-wrap:break-word">
+                           <ul>
+                              <li>{{dataitem.record}}</li>
+                           </ul>
+                        </div>
+                 </div>
             </div>
       </div>
       <script type="text/javascript" src="/utils/js/app.js"></script>
