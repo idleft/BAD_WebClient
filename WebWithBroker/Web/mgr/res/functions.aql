@@ -370,3 +370,162 @@ else
 		"subs":$subs
 	}
 }
+
+//SQL++
+
+//EmergenciesOfType
+create function topnTest6EmergenciesOfType24HPubs(llun){
+(with T24H as current_datetime() - day_time_duration("P1D")
+	select u as puber, count(result) as score
+	from EmergencyReports er, UserDataset user, recentEmergenciesOfTypeChannelResults result
+	where er.reportId = result.result.reports.reportId
+	and er.userId = user.userId
+	and er.timestamp >= T24H
+	group by user.userName as u 
+	order by count(result) desc
+	limit 10
+	)
+}
+
+create function topnTest6EmergenciesOfType24HSubs(llun){
+(with T24H as current_datetime() - day_time_duration("P1D")
+	select u as suber, count(result) as score
+	from UserSubscriptionDataset sub, UserDataset user, recentEmergenciesOfTypeChannelResults result
+	where uuid(sub.channelSubscriptionId) = result.subscriptionId
+	and sub.userId = user.userId
+	and result.channelExecutionTime >= T24H
+	group by user.userName as u
+	order by count(result) desc
+	limit 10
+	)
+}
+
+create function topnTest6EmergenciesOfTypeHistoryPubs(llun){
+(	select u as puber, count(result) as score
+	from EmergencyReports er, UserDataset user, recentEmergenciesOfTypeChannelResults result
+	where er.reportId = result.result.reports.reportId
+	and er.userId = user.userId
+	group by user.userName as u 
+	order by count(result) desc
+	limit 10
+	)
+}
+
+create function topnTest6EmergenciesOfTypeHistorySubs(llun){
+(	select u as suber, count(result) as score
+	from UserSubscriptionDataset sub, UserDataset user, recentEmergenciesOfTypeChannelResults result
+	where uuid(sub.channelSubscriptionId) = result.subscriptionId
+	and sub.userId = user.userId
+	group by user.userName as u
+	order by count(result) desc
+	limit 10
+	)
+}
+
+//EmergenciesOfTypeAtLocation
+create function topnTest6EmergenciesOfTypeAtLocation24HPubs(llun){
+(with T24H as current_datetime() - day_time_duration("P1D")
+	select u as puber, count(result) as score
+	from EmergencyReports er, UserDataset user, recentEmergenciesOfTypeAtLocationChannelResults result
+	where er.reportId = result.result.reports.reportId
+	and er.userId = user.userId
+	and er.timestamp >= T24H
+	group by user.userName as u 
+	order by count(result) desc
+	limit 10
+	)
+}
+
+create function topnTest6EmergenciesOfTypeAtLocation24HSubs(llun){
+(with T24H as current_datetime() - day_time_duration("P1D")
+	select u as suber, count(result) as score
+	from UserSubscriptionDataset sub, UserDataset user, recentEmergenciesOfTypeAtLocationChannelResults result
+	where uuid(sub.channelSubscriptionId) = result.subscriptionId
+	and sub.userId = user.userId
+	and result.channelExecutionTime >= T24H
+	group by user.userName as u
+	order by count(result) desc
+	limit 10
+	)
+}
+
+create function topnTest6EmergenciesOfTypeAtLocationHistoryPubs(llun){
+(	select u as puber, count(result) as score
+	from EmergencyReports er, UserDataset user, recentEmergenciesOfTypeAtLocationChannelResults result
+	where er.reportId = result.result.reports.reportId
+	and er.userId = user.userId
+	group by user.userName as u 
+	order by count(result) desc
+	limit 10
+	)
+}
+
+create function topnTest6EmergenciesOfTypeAtLocationHistorySubs(llun){
+(	select u as suber, count(result) as score
+	from UserSubscriptionDataset sub, UserDataset user, recentEmergenciesOfTypeAtLocationChannelResults result
+	where uuid(sub.channelSubscriptionId) = result.subscriptionId
+	and sub.userId = user.userId
+	group by user.userName as u
+	order by count(result) desc
+	limit 10
+	)
+}
+
+//EmergenciesOfTypeNearMe
+create function topnTest6EmergenciesOfTypeNearMe24HPubs(llun){
+(with T24H as current_datetime() - day_time_duration("P1D")
+	select u as puber, count(result) as score
+	from EmergencyReports er, UserDataset user, recentEmergenciesOfTypeNearMeChannelResults result
+	where er.reportId = result.result.reports.reportId
+	and er.userId = user.userId
+	and er.timestamp >= T24H
+	group by user.userName as u 
+	order by count(result) desc
+	limit 10
+	)
+}
+
+create function topnTest6EmergenciesOfTypeNearMe24HSubs(llun){
+(with T24H as current_datetime() - day_time_duration("P1D")
+	select u as suber, count(result) as score
+	from UserSubscriptionDataset sub, UserDataset user, recentEmergenciesOfTypeNearMeChannelResults result
+	where uuid(sub.channelSubscriptionId) = result.subscriptionId
+	and sub.userId = user.userId
+	and result.channelExecutionTime >= T24H
+	group by user.userName as u
+	order by count(result) desc
+	limit 10
+	)
+}
+
+create function topnTest6EmergenciesOfTypeNearMeHistoryPubs(llun){
+(	select u as puber, count(result) as score
+	from EmergencyReports er, UserDataset user, recentEmergenciesOfTypeNearMeChannelResults result
+	where er.reportId = result.result.reports.reportId
+	and er.userId = user.userId
+	group by user.userName as u 
+	order by count(result) desc
+	limit 10
+	)
+}
+
+create function topnTest6EmergenciesOfTypeNearMeHistorySubs(llun){
+(	select u as suber, count(result) as score
+	from UserSubscriptionDataset sub, UserDataset user, recentEmergenciesOfTypeNearMeChannelResults result
+	where uuid(sub.channelSubscriptionId) = result.subscriptionId
+	and sub.userId = user.userId
+	group by user.userName as u
+	order by count(result) desc
+	limit 10
+	)
+}
+
+// APP apiKey
+//getApiKey("emapp");
+//use channels
+create function getApiKey(name){
+(select app.apiKey
+from BrokerMetadata.ApplicationDataset app
+where app.appName=name)
+}
+

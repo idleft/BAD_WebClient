@@ -11,7 +11,7 @@
       <script src="http://rawgit.com/angular-ui/angular-google-maps/2.0.X/dist/angular-google-maps.js"></script>
    </head>
    <body ng-app="myApp">
-      <div ng-controller="TopnController">
+      <div ng-controller="OutputController">
          <nav class="navbar navbar-toggleable-md navbar-light bg-faded" >
             <div class="container">
                <a class="navbar-brand" href="#">BAD_Manager</a>
@@ -25,9 +25,6 @@
                      </li>
                      <li class="nav-item active">
                         <a class="nav-link" href="topn.html">TopN<span class="sr-only">(current)</span></a>
-                     </li>
-                     <li class="nav-item active">
-                        <a class="nav-link" href="output.html">DataStore<span class="sr-only">(current)</span></a>
                      </li>
                      <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,51 +60,43 @@
             
             </br>
             <center>
-               <h2>TopN</h2>
+               <h2>Data Store</h2>
             </center>
             </br>
             <div class="row">
-            <div class="col-md-12" style="margin-bottom:50px" align="center"><img src="res/stage.png"></div>
+            <div class="col-md-12" style="margin-bottom:50px" align="center"><img src="res/datastore.png"></div>
              <div class="col-md-2">
+               <h5>Time</h5>
                <select class="form-control" ng-model="timesel" ng-change="timeSelect()">
                   <option value="24H">24H</option>
                   <option value="History">All</option>
                </select>
             </div>
             <div class="col-md-4">
+               <h5>Dataset</h5>
                <select class="form-control" ng-model="chlsel" ng-change="channelSelect()">
-                  <option value="EmergenciesOfType">EmergenciesOfTypeChannel</option>
-                  <option value="EmergenciesOfTypeAtLocation">EmergenciesOfTypeAtLocationChannel</option>
-                  <option value="EmergenciesOfTypeNearMe">EmergenciesOfTypeNearMeChannel</option>
+                  <option value="EmergencyReports">EmergencyReports</option>
+                  <option value="EmergencyShelters">EmergencyShelters</option>
+                  <option value="UserLocations">UserLocations</option>
                </select>
             </div>
-            <div class="col-md-12" style="margin-bottom:50px">
+            <div class="col-md-4">
+               <h5>Action</h5>
+               <button type="button" class="btn btn-default" ng-click="download()">Download</button>
             </div>
-                 <div class="col-md-6">
-                 <h3> Publishers</h3>
-                 <hr/>
-                 <div ng-repeat="pbr in pbrs track by $index" style="word-wrap:break-word">
+            <div class="col-md-12" style="margin-top:50px">
+               <h5>Data Sample</h5>
+               <div ng-repeat="dataitem in datalists" style="word-wrap:break-word">
                            <ul>
-                              <li>[Rank {{$index + 1}}] Name: {{pbr.puber}}, Score: {{pbr.score}}</li>
+                              <li>{{dataitem.record}}</li>
                            </ul>
                         </div>
                  </div>
-                 
-                 <div class="col-md-6">
-                 <h3> Subscribers</h3>
-                 <hr/>
-                 <div ng-repeat="sbr in sbrs track by $index" style="word-wrap:break-word">
-                           <ul>
-                              <li>[Rank {{$index + 1}}] Name: {{sbr.suber}}, Score: {{sbr.score}}</li>
-                           </ul>
-                        </div>
-                 </div>
-           </div>
+            </div>
       </div>
       <script type="text/javascript" src="/utils/js/app.js"></script>
-      <script type="text/javascript" src="js/TopnController.js"></script>
-      <script type="text/javascript" src="js/TopnGetter.js"></script>
-      <script type="text/javascript" src="js/FuncGetter.js"></script>
+      <script type="text/javascript" src="js/OutputController.js"></script>
+      <script type="text/javascript" src="js/OutputGetter.js"></script>
       <script type="text/javascript" src="/utils/js/SessionStorage.js"></script>
       <script type="text/javascript" src="/utils/js/ng-infinite-scroll.min.js"></script> 
       <link rel="stylesheet" type="text/css" href="/utils/css/style.css">

@@ -97,7 +97,7 @@ app.controller('OutputController', ['$scope', '$interval', '$window', '$filter',
     
     $scope.download = function() {
     	console.log("1deamaxwu ---> download: " + $scope.timesel + " for " + $scope.chlsel);
-    	resource = "/mgr/res/data/data?f=" + Date.now();
+    	resource = "/mgr/res/data/data?f=" + Date.now();;
     	window.open(resource);
     }    
 	ExecSqlpp = function(sqlpp){

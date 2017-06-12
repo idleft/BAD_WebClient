@@ -26,7 +26,7 @@ def service_call(URL, service_point, post_data):
     http_client.close()
 
 
-URL = "http://localhost:8989"
+URL = "http://localhost:9110"
 
 """
 response = service_call(URL, "register", {'username' : 'yusuf', 'email': 'rer@fdfd.com', 'password': 'pass'})

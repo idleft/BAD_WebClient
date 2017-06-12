@@ -57,7 +57,7 @@ app.factory('SubscriptionGetter', ['$http', '$window', "$q", function($http, $wi
                 'dataverseName': "channels",
                 'userId': userId,
                 'accessToken': accessToken,
-                'channelName': 'recentIptMsgofEmergenciesOfTypeIntUserChannel',
+                'channelName': 'recentEmergenciesOfTypeNearMeChannel',
                 'parameters': [parameters, userId]
             };
             $http({
@@ -73,7 +73,7 @@ app.factory('SubscriptionGetter', ['$http', '$window', "$q", function($http, $wi
                 'dataverseName': "channels",
                 'userId': userId,
                 'accessToken': accessToken,
-                'channelName': 'recentIptMsgofEmergenciesOfTypeWithShelterIntUserChannel',
+                'channelName': 'recentEmergenciesOfTypeWithShelterNearMeChannel',
                 'parameters': [parameters, userId]
             };
             $http({
@@ -94,21 +94,6 @@ app.factory('SubscriptionGetter', ['$http', '$window', "$q", function($http, $wi
 
             $http({
                 url: 'http://' + url + '/battlereport',
-                method: "POST",
-                data: message,
-            }).then(successFunction, errorFunction);
-        },
-        getSubscriptions: function(userId, accessToken, url, successFunction, errorFunction) {
-            console.log('1deamaxwu ---> getting subscriptions as UserId: ' + userId);
-
-            var message = {
-                'dataverseName': "channels",
-                'userId': userId,
-                'accessToken': accessToken
-            }
-
-            $http({
-                url: 'http://' + url + '/listsubscriptions',
                 method: "POST",
                 data: message,
             }).then(successFunction, errorFunction);
