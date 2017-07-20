@@ -253,7 +253,7 @@ app.controller('UploadCtrl', ['$scope', '$window', '$filter', 'SessionStorage', 
     }
 
     $scope.init = function() {
-        SessionStorage.conf();
+        //SessionStorage.conf();
 
         $scope.alertmsg = "";
         $scope.alertjump = "";

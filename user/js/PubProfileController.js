@@ -56,7 +56,7 @@ app.controller('PubProfileController', ['$scope', '$window', '$filter', 'PubProf
         };
 
         $scope.init = function() {
-            SessionStorage.conf();
+            //SessionStorage.conf();
             
             $scope.alertmsg = "";
             $scope.alertjump = "";

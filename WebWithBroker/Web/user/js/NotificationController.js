@@ -450,8 +450,8 @@ app.controller('NotificationController', ['$scope', '$interval', '$websocket', '
         }
 
         function initBaseLoc() {
-            $scope.baselat = $scope.cities[0].loc.lat;
-            $scope.baselng = $scope.cities[0].loc.lng;
+            $scope.baselat = $scope.cities[6].loc.lat;
+            $scope.baselng = $scope.cities[6].loc.lng;
 
             var uname = SessionStorage.get('userName')
             console.log("1deamaxwu ---> NAME: " + uname)

@@ -508,8 +508,8 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
 
     function UserPosition() {
 
-        var baselat = $scope.cities[0].loc.lat;
-        var baselng = $scope.cities[0].loc.lng;
+        var baselat = $scope.cities[6].loc.lat;
+        var baselng = $scope.cities[6].loc.lng;
 
 
         var uname = SessionStorage.get('userName')
@@ -683,8 +683,8 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
 
         $scope.map = {
             center: {
-                latitude: $scope.cities[0].loc.lat,
-                longitude: $scope.cities[0].loc.lng
+                latitude: $scope.cities[6].loc.lat,
+                longitude: $scope.cities[6].loc.lng
             },
             zoom: 12,
             events: {
@@ -712,8 +712,8 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
 		$scope.mymarker = {
             id: 0,
             coords: {
-                latitude: $scope.cities[0].loc.lat,
-                longitude: $scope.cities[0].loc.lng
+                latitude: $scope.cities[6].loc.lat,
+                longitude: $scope.cities[6].loc.lng
             },
             options: {
                 draggable: false,

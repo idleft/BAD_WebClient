@@ -1,5 +1,5 @@
-app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'SessionStorage', function($scope, $window,
-    PublishGetter, SessionStorage) {
+app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'BrokerDiscoveryGetter', 'SessionStorage', function($scope, $window,
+    PublishGetter, BrokerDiscoveryGetter, SessionStorage) {
     
     
     var successFunction = function(data) {
@@ -99,7 +99,8 @@ app.controller('PublishController', ['$scope', '$window', 'PublishGetter', 'Sess
     }
     
     $scope.init = function(){
-    	SessionStorage.conf();
+    	//SessionStorage.conf();
+    	BrokerDiscoveryGetter.getBroker();
     	$scope.alertmsg = "";
     	$scope.showemail = false;
     	//$("#rolechoice").modal('show');
