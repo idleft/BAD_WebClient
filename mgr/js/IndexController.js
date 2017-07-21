@@ -1,5 +1,5 @@
-app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionStorage', function($scope, $window,
-    IndexGetter, SessionStorage) {
+app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionStorage', 'BrokerDiscoveryGetter', function($scope, $window,
+    IndexGetter, SessionStorage, BrokerDiscoveryGetter) {
     
     var successFunction = function(data) {
         console.log("1deamxwu ---> login in user respond success");
@@ -96,7 +96,8 @@ app.controller('IndexController', ['$scope', '$window', 'IndexGetter', 'SessionS
     }
     
     $scope.init = function() {
-        SessionStorage.conf();
+        //SessionStorage.conf();
+        BrokerDiscoveryGetter.getBroker();
         $scope.alertmsg = "";
         $scope.showemail = false;
         //$("#rolechoice").modal('show');

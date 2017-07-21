@@ -24,6 +24,9 @@ app.factory('BrokerDiscoveryGetter', ['$window', '$http', function($window, $htt
 	
 	function getBrokerErrorFunction(data){
 		 console.log("1deamxwu ---> respond ERROR: " + data['data']);
+		 //$scope.alertmsg = "Error Connection! " + data['data'];
+		 $("#alertmodal p:first").text("Alert: Error Connection! " + data['data']);
+		 $("#alertmodal").modal('show');
 	}
 		
 	function getBroker(){
