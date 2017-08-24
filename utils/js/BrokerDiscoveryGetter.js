@@ -37,12 +37,12 @@ app.factory('BrokerDiscoveryGetter', ['$window', '$http', function($window, $htt
 			$window.sessionStorage.removeItem(key);
 			console.log("1deamxwu --->  Existing key is deleted");
 			console.log("1deamxwu --->  getting a new brokerUrl");
-			postGetBroker('128.195.52.128:5000', getBrokerSuccessFunction, getBrokerErrorFunction);
+			postGetBroker('128.195.4.50:5000', getBrokerSuccessFunction, getBrokerErrorFunction);
 		}
 		else {
 			console.log("1deamxwu --->  Key is not present in local storage: " + key);
 			console.log("1deamxwu --->  getting a new brokerUrl");
-			postGetBroker('128.195.52.128:5000', getBrokerSuccessFunction, getBrokerErrorFunction);
+			postGetBroker('128.195.4.50:5000', getBrokerSuccessFunction, getBrokerErrorFunction);
 		}		
 	}
 	

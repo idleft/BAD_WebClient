@@ -296,6 +296,8 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
                 $scope.alertjump = "";
             }
         }
+        
+    function setUpWS(){
         var socketAddress = "ws://" + SessionStorage.get('brokerUrl') + "/websocketlistener";
 
         console.log('1deamaxwu ---> Creating Web Socket as ' + socketAddress);
@@ -303,7 +305,19 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
         $scope.dataStream = $websocket(socketAddress);
         $scope.messages = JSON.parse(SessionStorage.get('messages')) == null ? [] : JSON.parse(SessionStorage.get('messages'));
         console.log($scope.dataStream);
+        var wsdata = {
+    		'userId': $scope.userId,
+   			'accessToken': $scope.accessToken,
+   			'dataverseName': 'channels'
+		};
+		$scope.dataStream.send(wsdata);
         $scope.dataStream.onMessage($scope.parseMessage);
+        $scope.dataStream.onClose = function(){
+        	console.log('1deamaxwu ---> Web Socket closed!!!');
+        	setUpWS();
+        }
+    }
+        setUpWS();
 
     };
     var acksuccessFunction = function(data) {
@@ -478,7 +492,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
     $scope.parseMessage = function(message) {
         console.log('1deamaxwu ---> received websocket message from the server');
         var data = JSON.parse(message.data);
-
+		console.log(data);
         if ($scope.userId == data['userId']) {
             $scope.latestTimeStamp = data['channelExecutionTime'];
             //$scope.latestTimeStamp = "2017-02-24T20:53:58.410Z";
