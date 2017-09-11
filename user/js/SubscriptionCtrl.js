@@ -312,6 +312,7 @@ app.controller('SubscriptionCtrl', ['$scope', '$window', '$filter', '$websocket'
 		};
 		$scope.dataStream.send(wsdata);
         $scope.dataStream.onMessage($scope.parseMessage);
+        //$scope.dataStream.close()
         $scope.dataStream.onClose = function(){
         	console.log('1deamaxwu ---> Web Socket closed!!!');
         	setUpWS();
