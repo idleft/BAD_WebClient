@@ -75,7 +75,7 @@ class BADBroker:
             port = config.getint('BCS', 'port')
             self.bcsUrl = 'http://' + server + ':' + str(port)
         else:
-            self.bcsUrl = 'http://radon.ics.uci.edu:5000'
+            self.bcsUrl = 'http://localhost:5000'
 
         self.brokerIPAddr = self._myNetAddress()
         self.brokerName = 'Broker' + self.brokerIPAddr.replace('.', '') + 'P' +self.brokerPort
@@ -107,9 +107,10 @@ class BADBroker:
             exit(0)
 
     def _myNetAddress(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(('8.8.8.8', 0))
-        mylocaladdr = str(s.getsockname()[0])
+        # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # s.connect(('4.4.4.4', 0))
+        # mylocaladdr = str(s.getsockname()[0])
+        mylocaladdr = '127.0.0.1'
         return mylocaladdr
 
     def initializeBroker(self):
@@ -312,8 +313,8 @@ class BADBroker:
         log.info(channel['Function'])
         log.info(channel['ChannelName'])
 
-        function_name = channel['Function']
-        arity = int(function_name.split('@')[1])
+        # function_name = channel['Function']
+        # arity = int(function_name.split('@')[1])
 
         '''
         if arity != len(parameters):
@@ -551,14 +552,14 @@ class BADBroker:
                                                                                 latestDeliveredResultTime,
                                                                                 channelExecutionTime)
         if historyTime:
-            whereClause = '$t.subscriptionId = uuid(\"{0}\") ' \
-                          'and $t.channelExecutionTime <= datetime(\"{1}\")'.format(channelSubscriptionId,
+            whereClause = 't.subscriptionId = uuid(\"{0}\") ' \
+                          'and t.channelExecutionTime <= datetime(\"{1}\")'.format(channelSubscriptionId,
                                                                                     channelExecutionTime)
         orderbyClause = 'channelExecutionTime asc'
-        aql_stmt = 'SELECT distinct value channelExecutionTime FROM %s ' \
+        aql_stmt = 'SELECT distinct value channelExecutionTime FROM %s t ' \
                    'WHERE %s ' \
                    'ORDER BY %s ' \
-                   '%s' \
+                   '%s;' \
                    % ((channelName + 'Results'), whereClause, orderbyClause,
                       'LIMIT {}'.format(resultSize) if resultSize and resultSize > 0 else '')
 

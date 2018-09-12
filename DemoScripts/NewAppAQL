@@ -36,5 +36,5 @@ create dataset UserSubscriptionDataset(UserSubscriptionType) primary key recordI
 create dataset ChannelSubscriptionDataset(ChannelSubscriptionType) primary key recordId;
 
 //create broker
-create broker brokerF at "http://radon.ics.uci.edu:8989/notifybroker";
+create broker brokerF at "http://localhost:8989/notifybroker";
 

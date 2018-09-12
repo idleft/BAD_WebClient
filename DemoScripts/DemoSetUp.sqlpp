@@ -1,6 +1,7 @@
 /****** Three Datasets ******/
 
 //create datatypes
+use channels;
 create type UserLocation if not exists as open{
 	recordId: uuid,
 	latitude: double,
@@ -8,12 +9,12 @@ create type UserLocation if not exists as open{
 	user_id: string,
 	timeoffset: float,
 	timestamp: datetime
-}
+};
 
 create type EmergencyShelter if not exists as open {
 	name: string,
 	location: point
-}
+};
 
 create type EmergencyReport if not exists as open {
 	reportId: uuid,
@@ -25,7 +26,7 @@ create type EmergencyReport if not exists as open {
 	message: string,
 	emergencyType: string,
 	userId: string
-}
+};
 
 //create datasets
 create dataset EmergencyReports(EmergencyReport) primary key reportId;

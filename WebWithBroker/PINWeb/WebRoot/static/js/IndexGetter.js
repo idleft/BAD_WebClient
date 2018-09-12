@@ -2,7 +2,7 @@ app.factory('IndexGetter', ['$http', function($http){
 	return {
       postQuery: function(query,topk,dataset,opt,divfree, successFunction, errorFunction) {
 		console.log('1deamxwu ---> querying as: '+query)
-		url='radon.ics.uci.edu:9110'
+		url='localhost:9110'
         var message = {
           'query' : query,
           'topk' : topk,

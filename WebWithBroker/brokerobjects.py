@@ -38,7 +38,7 @@ class BrokerObject:
 
             dataitems = (dataitems + (',\n' + item)) if dataitems else ('\n' + item)
 
-        statement += dataitems + '\n}\n'
+        statement += dataitems + '\n};\n'
         statement += 'CREATE DATASET %sDataset (%sType) PRIMARY KEY recordId;\n' % (cls.__name__, cls.__name__);
         log.debug(statement)
         return statement
