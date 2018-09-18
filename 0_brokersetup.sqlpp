@@ -1,7 +1,7 @@
-// drop dataverse BrokerMetadata if exists;
+drop dataverse BrokerMetadata if exists;
 create dataverse BrokerMetadata;
 
-use dataverse BrokerMetadata;
+use BrokerMetadata;
 
 create type ApplicationType as closed {
     dataverseName: string,
@@ -12,7 +12,7 @@ create type ApplicationType as closed {
     adminPassword: string,
     email: string,
     apiKey: string
-}
+};
 
 create dataset ApplicationDataset (ApplicationType)
 primary key recordId;

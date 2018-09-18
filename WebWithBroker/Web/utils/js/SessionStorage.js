@@ -37,7 +37,7 @@ app.factory('SessionStorage', function($window) {
 		}
 	}
 	function conf(){
-		$window.sessionStorage.setItem('brokerUrl','localhost:9110')
+		$window.sessionStorage.setItem('brokerUrl','128.195.52.198:9110')
 		//$window.sessionStorage.setItem('brokerUrl','128.195.52.128:8989')
 		//$window.sessionStorage.setItem('brokerUrl','cert24.ics.uci.edu:8989')
 	}

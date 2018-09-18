@@ -51,7 +51,7 @@ class BADBroker:
             self.brokerPort = config.get('Broker', 'port')
         else:
             self.brokerName = 'brokerF'  # self._myNetAddress()  # str(hashlib.sha224(self._myNetAddress()).hexdigest())
-            self.brokerIPAddr = 'localhost'
+            self.brokerIPAddr = '128.195.52.198'
             self.brokerPort = 9110
 
         if config.has_section('RabbitMQ'):
@@ -77,8 +77,8 @@ class BADBroker:
         else:
             self.bcsUrl = 'http://localhost:5000'
 
-        self.brokerIPAddr = self._myNetAddress()
-        self.brokerName = 'Broker' + self.brokerIPAddr.replace('.', '') + 'P' +self.brokerPort
+        # self.brokerIPAddr = self._myNetAddress()
+        # self.brokerName = 'Broker' + self.brokerIPAddr.replace('.', '') + 'P' +self.brokerPort
 
         #tornado.ioloop.IOLoop.current().add_callback(self._registerBrokerWithBCS)
         #tornado.ioloop.IOLoop.current().call_later(60, self.scheduleDropResultsFromChannels)
